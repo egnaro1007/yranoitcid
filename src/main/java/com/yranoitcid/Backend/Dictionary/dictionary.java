@@ -1,7 +1,6 @@
 package com.yranoitcid.Backend.Dictionary;
 
 import com.yranoitcid.Backend.Database.databaseQuery;
-import com.yranoitcid.Backend.Dictionary.word;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -10,48 +9,80 @@ import javafx.util.Pair;
 
 public class dictionary {
 
-    private String dbPath;
-    private HashMap<Pair<String, String>, String> tableList = new HashMap<Pair<String, String>, String>();
-
+    private String databaseFilePath;
+    private HashMap<Pair<String, String>, String> tableList = new HashMap<>();
     private databaseQuery database = new databaseQuery();
 
     public dictionary(String dbPath) {
         try {
             database.setDatabaseFilePath(dbPath);
-            this.dbPath = dbPath;
+            this.databaseFilePath = dbPath;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    public String getDatabaseFilePath() {
+        return databaseFilePath;
+    }
+
     /**
      * Each translation in the database is stored in a table.
      *
-     * @param srcLang The source language.
-     * @param destLang The destination language.
+     * @param srcLang   The source language.
+     * @param destLang  The destination language.
      * @param tableName The name of the table.
      */
     public void initTable(String srcLang, String destLang, String tableName) {
-        tableList.put(new Pair<String, String>(srcLang, destLang), tableName);
+        tableList.put(new Pair<>(srcLang, destLang), tableName);
     }
 
+    /**
+     * Search for words that contain the term.
+     *
+     * @param srcLang    Source language.
+     * @param destLang   Destination language.
+     * @param searchTerm The term to search for.
+     * @return An ArrayList of Word object that contain the result. The result is ordered by the
+     * position of the term in the word.
+     * @throws Exception If the word is not found.
+     */
+    public ArrayList<word> searchContains(String srcLang, String destLang, String searchTerm)
+            throws Exception {
+        ArrayList<word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
+        if (result.isEmpty()) {
+            throw new Exception("Word not found");
+        }
+        return result;
+    }
 
     /**
+     * Search for words that exactly match the term.
      *
-     * @param srcLang
-     * @param destLang
-     * @param searchTerm
-     * @param mode The mode to query.
-     *             'f' for full word match.
-     *             'c' for contains.
-     * @return
+     * @param srcLang    Source language.
+     * @param destLang   Destination language.
+     * @param searchTerm The term to search for.
+     * @return A Word object.
+     * @throws Exception If the word is not found.
      */
-    public ArrayList<word> search(String srcLang, String destLang, String searchTerm, Character mode) {
-        String tableName = tableList.get(new Pair<String, String>(srcLang, destLang));
+    public word searchExact(String srcLang, String destLang, String searchTerm) throws Exception {
+        ArrayList<word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
+        word w = result.get(0);
+        if (w.getWord().equals(searchTerm)) {
+            return w;
+        } else {
+            throw new Exception("Word not found");
+        }
+    }
+
+    private ArrayList<word> searchTermInDatabase(
+            String srcLang,
+            String destLang,
+            String searchTerm) {
+        String tableName = tableList.get(new Pair<>(srcLang, destLang));
         ArrayList<word> result = new ArrayList<>();
 
-        try {
-            ResultSet resultSet = database.query(tableName, "word", searchTerm);
+        try (ResultSet resultSet = database.query(tableName, "word", searchTerm)) {
             while (resultSet.next()) {
                 String word = resultSet.getString("word");
                 String html = resultSet.getString("html");
