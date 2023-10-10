@@ -1,14 +1,14 @@
 package com.yranoitcid.Backend.Dictionary;
 
 public class word {
+
     private String word;
     private String html;
     private String description;
     private String pronounce;
 
     public word(String word, String html) {
-        this.word = word;
-        this.html = html;
+        this(word, html, "", "");
     }
 
     public word(String word, String html, String description, String pronounce) {
@@ -36,6 +36,9 @@ public class word {
 
     @Override
     public String toString() {
-        return String.format("%-20s\t%-20s%s", word, pronounce.isEmpty() ? "" : "\\" + pronounce + "\\", description);
+        return String.format("%-20s\t%-20s%s",
+                word,
+                ((pronounce == null) || pronounce.isEmpty()) ? "" : "\\" + pronounce + "\\",
+                description);
     }
 }
