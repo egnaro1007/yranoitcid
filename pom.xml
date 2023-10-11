@@ -12,6 +12,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.9.2</junit.version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -73,7 +75,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.yranoitcid.yranoitcid/com.yranoitcid.yranoitcid.HelloApplication
+              <mainClass>com.yranoitcid.Frontend/com.yranoitcid.Frontend.application
               </mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>

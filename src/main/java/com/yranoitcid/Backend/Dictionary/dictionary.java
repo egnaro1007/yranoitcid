@@ -123,6 +123,6 @@ public class dictionary {
     }
 
     public word getRandomWord(String srcLang, String destLang) {
-        return getRandomWords(srcLang, destLang, 1).getFirst();
+        return getRandomWords(srcLang, destLang, 1).get(0);
     }
 }
