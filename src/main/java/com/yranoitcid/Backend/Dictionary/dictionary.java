@@ -97,4 +97,32 @@ public class dictionary {
 
         return result;
     }
+
+
+    public ArrayList<word> getRandomWords(String srcLang, String destLang, Integer numberOfRandom) {
+        String tableName = tableList.get(new Pair<>(srcLang, destLang));
+        if(tableName == null) {
+            throw new RuntimeException("Table not found");
+        }
+
+        ArrayList<word> result = new ArrayList<>();
+
+        try (ResultSet resultSet = database.randomQuery(tableName, numberOfRandom)) {
+            while (resultSet.next()) {
+                String word = resultSet.getString("word");
+                String html = resultSet.getString("html");
+                String pronounce = resultSet.getString("pronounce");
+                String description = resultSet.getString("description");
+
+                result.add(new word(word, html, description, pronounce));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+    public word getRandomWord(String srcLang, String destLang) {
+        return getRandomWords(srcLang, destLang, 1).getFirst();
+    }
 }
