@@ -77,6 +77,26 @@ public class databaseQuery {
 
     }
 
+    public ResultSet randomQuery(String table, Integer magicNumber) {
+        String sql = "SELECT *"
+                + " FROM " + table
+                + " ORDER BY RANDOM()"
+                + " LIMIT " + magicNumber;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+            // Process the result set if the word is found
+            if (!resultSet.isBeforeFirst()) {
+                throw new RuntimeException("Not found");
+            }
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ResultSet backup(String table, String column, String term) {
         String sql = "SELECT * "
                 + "FROM " + table
