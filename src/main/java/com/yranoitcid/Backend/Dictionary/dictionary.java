@@ -51,7 +51,7 @@ public class dictionary {
             throws Exception {
         ArrayList<word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
         if (result.isEmpty()) {
-            throw new Exception("Word not found");
+            // throw new Exception("Word not found");
         }
         return result;
     }
