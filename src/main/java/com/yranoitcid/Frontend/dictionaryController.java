@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -56,6 +57,9 @@ public class dictionaryController implements Initializable{
 
     dictionary workingDictionary = new dictionary("dict.db");
 
+    private Long lastTime = System.currentTimeMillis();
+    private final Long cd = 1000L;
+
     /** Initialize the window. This will include the dictionary and search option choice box.
      *  Called every time the app starts.
      */
@@ -80,6 +84,25 @@ public class dictionaryController implements Initializable{
             }
             
         });
+
+        searchInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
+            String characterTyped = event.getCharacter();
+
+            // Check if the typed character is a valid character
+            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]") || event.getCode() == javafx.scene.input.KeyCode.BACK_SPACE) {
+                // Trigger your method here
+                try {
+                    // getKeyword();
+                    System.out.println("Key typed: " + characterTyped);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                // Ignore invalid keys
+                event.consume();
+            }
+        });
+
         System.out.println("Dictionary window created successfully!");
     }
     
@@ -106,14 +129,14 @@ public class dictionaryController implements Initializable{
     public void getKeyword() throws Exception {
         keyword = searchInput.getText();
         fetchResult(searchModeChoice);
-        System.out.println(keyword);
+        System.out.println("Text: " + keyword);
     }
 
     public void fetchResult(int searchModeChoice) throws Exception {
-        putDataHere.clear();
-        resultListDisplay.clear();
         switch (searchModeChoice) {
             case 0:
+                putDataHere.clear();
+                resultListDisplay.clear();
                 putDataHere = workingDictionary.searchContains("en", "vi", keyword);
                 for (int i = 0; i < (putDataHere.size() < 30 ? putDataHere.size() : 30); i++) {
                     resultListDisplay.add(putDataHere.get(i).getWord());
@@ -133,6 +156,7 @@ public class dictionaryController implements Initializable{
                 break;
             case 1:
                 putDataHere.clear();
+                resultListDisplay.clear();
                 putDataHere.add(workingDictionary.searchExact("en", "vi", keyword));
                 resultWord.setText(putDataHere.get(0).getWord());
                 resultPronun.setText(putDataHere.get(0).getPronounce());

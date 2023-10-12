@@ -36,6 +36,7 @@
         </items>
       </SplitPane>
       <TextField fx:id="searchInput" layoutX="14.0" layoutY="11.0" onAction="#getKeyword" onKeyTyped="#getKeyword" prefHeight="25.0" prefWidth="220.0" />
+<!--      <TextField fx:id="searchInput" layoutX="14.0" layoutY="11.0" prefHeight="25.0" prefWidth="220.0" />-->
       <ChoiceBox fx:id="searchModeChoiceBox" layoutX="310.0" layoutY="11.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
