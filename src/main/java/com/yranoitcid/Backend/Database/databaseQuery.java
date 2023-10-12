@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 /**
  * Database query class for SQLite database. Database file path can only be set once and can't be
@@ -14,7 +15,7 @@ public class databaseQuery {
 
     private String dbFilePath = "";
     private Connection connection = null;
-
+    private Integer limitQuery = 15;
     private boolean isInit = false;
 
     public databaseQuery() {
@@ -58,7 +59,8 @@ public class databaseQuery {
                 + "FROM " + table
                 + " WHERE " + column
                 + " LIKE ?"
-                + "ORDER BY CHARINDEX(?, " + column + ")";
+                + "ORDER BY CHARINDEX(?, " + column + ")"
+                + " LIMIT " + limitQuery.toString();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             // Set the parameters
@@ -119,6 +121,94 @@ public class databaseQuery {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void delete(String table, String column, String term) {
+        String sql = "DELETE"
+                + " FROM " + table
+                + " WHERE " + column + " = "
+                + "\"" + term + "\"";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            System.out.println(preparedStatement.executeUpdate());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insert(String table, HashMap<String, String> newRecord) {
+        if (newRecord.isEmpty()) {
+            return; // Do not proceed if there's no data
+        }
+
+        StringBuilder fields = new StringBuilder();
+        StringBuilder placeholders = new StringBuilder();
+
+        for (String key : newRecord.keySet()) {
+            fields.append(key).append(",");
+            placeholders.append("?,");
+        }
+
+        // Remove the trailing comma
+        fields.setLength(fields.length() - 1);
+        placeholders.setLength(placeholders.length() - 1);
+
+        String sql = "INSERT INTO " + table + " (" + fields.toString() + ") VALUES ("
+                + placeholders.toString() + ")";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            int index = 1;
+            for (String value : newRecord.values()) {
+                preparedStatement.setString(index++, value);
+            }
+
+            System.out.println(preparedStatement.executeUpdate());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+//    public void insert(String table, HashMap<String, String> newRecord) {
+//        StringBuilder sql = new StringBuilder();
+//        sql.append("INSERT INTO ");
+//        sql.append(table);
+//        sql.append(" ");
+//        sql.append("(");
+//        for (String key : newRecord.keySet()) {
+//            sql.append(key);
+//            sql.append(",");
+//        }
+//        sql.deleteCharAt(sql.length() - 1);
+//        sql.append(")");
+//        sql.append(" VALUES ");
+//        sql.append("(");
+//        for (String value : newRecord.values()) {
+//            sql.append("\"");
+//            sql.append(value);
+//            sql.append("\"");
+//            sql.append(",");
+//        }
+//        sql.deleteCharAt(sql.length() - 1);
+//        sql.append(")");
+//        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+//            System.out.println(preparedStatement.executeUpdate());
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+// INSERT INTO nguoidan (Hovaten, Ngaysinh, Gioitinh, Sdt)
+// value ("Ten", "2023-12-11", "Bisexual", "001");
+
+
+    public Integer getLimitQuery() {
+        return limitQuery;
+    }
+
+    public void setLimitQuery(Integer limitQuery) {
+        this.limitQuery = limitQuery;
     }
 
     public String where() {
