@@ -25,8 +25,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 
-public class dictionaryController implements Initializable{
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class dictionaryController implements Initializable {
 
     @FXML
     private AnchorPane dictionaryPane;
@@ -42,7 +48,7 @@ public class dictionaryController implements Initializable{
     private Label resultPronun;
     @FXML
     private Label resultDesc;
-    ArrayList<word> putDataHere = new ArrayList<word>();
+    ArrayList<word> putDataHere = new ArrayList<>();
     ObservableList<String> resultListDisplay = FXCollections.observableArrayList();
 
     @FXML
@@ -57,39 +63,40 @@ public class dictionaryController implements Initializable{
 
     dictionary workingDictionary = new dictionary("dict.db");
 
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private Long lastTime = System.currentTimeMillis();
-    private final Long cd = 1000L;
+    private final AtomicInteger pendingCalls = new AtomicInteger(0);
+    private static final Long cd = 500L;
 
-    /** Initialize the window. This will include the dictionary and search option choice box.
-     *  Called every time the app starts.
+    /**
+     * Initialize the window. This will include the dictionary and search option choice box.
+     * Called every time the app starts.
      */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
             workingDictionary.initTable("en", "vi", "av");
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println("Error in initiating the dictionary.");
         }
         ObservableList<String> searchModeOptions = FXCollections.observableArrayList(
-            "Contains...",
-            "Full match"
+                "Contains...",
+                "Full match"
         );
         searchModeChoiceBox.setItems(searchModeOptions);
-        searchModeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                searchModeChoice = searchModeChoiceBox.getSelectionModel().getSelectedIndex();
-                System.out.println("Current mode: " + searchModeChoice);
-            }
-            
-        });
+        searchModeChoiceBox.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    searchModeChoice = searchModeChoiceBox.getSelectionModel()
+                            .getSelectedIndex();
+                    System.out.println("Current mode: " + searchModeChoice);
+                });
 
         searchInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
             String characterTyped = event.getCharacter();
 
             // Check if the typed character is a valid character
-            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]") || event.getCode() == javafx.scene.input.KeyCode.BACK_SPACE) {
+            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]")
+                    || event.getCode() == javafx.scene.input.KeyCode.BACK_SPACE) {
                 // Trigger your method here
                 try {
                     // getKeyword();
@@ -105,9 +112,10 @@ public class dictionaryController implements Initializable{
 
         System.out.println("Dictionary window created successfully!");
     }
-    
-    /** Handles logout event.
-     * 
+
+    /**
+     * Handles logout event.
+     *
      * @param e
      */
     public void logout(ActionEvent e) {
@@ -118,18 +126,68 @@ public class dictionaryController implements Initializable{
 
         if (alert.showAndWait().get() == ButtonType.OK) {
             stage = (Stage) dictionaryPane.getScene().getWindow();
-            stage.close(); 
+            stage.close();
         }
     }
 
-    /** Get the keyword from text field immediately after input is detected 
-     * and fetch results directly into the list.
-     * @throws Exception
+    /**
+     * Get the keyword from text field immediately after input is detected and fetch results
+     * directly into the list.
+     *
      */
-    public void getKeyword() throws Exception {
+    public void getKeyword() {
         keyword = searchInput.getText();
-        fetchResult(searchModeChoice);
+        // fetchResult(searchModeChoice);
+        delayedMethod(cd);
         System.out.println("Text: " + keyword);
+    }
+
+    /**
+     * Call this method to start the timer.
+     * The timer will count down for period of time.
+     * While the timer is counting, if the method is called again the timer will be reset.
+     * After counting is finish, execute method doWork()
+     *
+     * @param period Input the period of timer in millisecond
+     * @see dictionaryController#doWork()
+     */
+    public void delayedMethod(Long period) {
+        pendingCalls.incrementAndGet();
+
+        long currentTime = System.currentTimeMillis();
+        long timeSinceLastExecution = currentTime - lastTime;
+
+        if (timeSinceLastExecution >= period) {
+            executor.schedule(() -> {
+                int remainingCalls = pendingCalls.decrementAndGet();
+                if (remainingCalls == 0) {
+                    Platform.runLater(this::doWork);
+                }
+            }, period, TimeUnit.MILLISECONDS);
+        } else {
+            long delay = period - timeSinceLastExecution;
+            System.out.println("\u001B[33m" + "Delay" + "\u001B[0m");
+            executor.schedule(() -> {
+                int remainingCalls = pendingCalls.decrementAndGet();
+                if (remainingCalls == 0) {
+                    Platform.runLater(this::doWork);
+                }
+            }, delay, TimeUnit.MILLISECONDS);
+        }
+
+        lastTime = currentTime;
+    }
+
+    private void doWork() {
+        // The code will be executed after the delay.
+        try {
+            fetchResult(searchModeChoice);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("\u001B[32m"
+                        + "Method executed after " + cd + "ms of the last call."
+                        + "\u001B[0m");
     }
 
     public void fetchResult(int searchModeChoice) throws Exception {
@@ -138,21 +196,17 @@ public class dictionaryController implements Initializable{
                 putDataHere.clear();
                 resultListDisplay.clear();
                 putDataHere = workingDictionary.searchContains("en", "vi", keyword);
-                for (int i = 0; i < (putDataHere.size() < 30 ? putDataHere.size() : 30); i++) {
+                for (int i = 0; i < (Math.min(putDataHere.size(), 30)); i++) {
                     resultListDisplay.add(putDataHere.get(i).getWord());
                 }
                 loadResult(resultListDisplay);
                 resultList.getSelectionModel().selectedItemProperty().addListener(
-                    new WeakChangeListener<>(new ChangeListener<String>() {
-                        @Override
-                        public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
+                        new WeakChangeListener<>((observable, oldValue, newValue) -> {
                             int id = resultList.getSelectionModel().getSelectedIndex();
                             resultWord.setText(putDataHere.get(id).getWord());
                             resultPronun.setText(putDataHere.get(id).getPronounce());
                             resultDesc.setText(putDataHere.get(id).getDescription());
-                        }
-                }));
+                        }));
                 break;
             case 1:
                 putDataHere.clear();
@@ -164,7 +218,7 @@ public class dictionaryController implements Initializable{
                 break;
             default:
                 break;
-        }   
+        }
     }
 
     public void loadResult(ObservableList<String> resArray) {
