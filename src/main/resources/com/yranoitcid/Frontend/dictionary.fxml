@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 
 <AnchorPane fx:id="dictionaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.Frontend.dictionaryController">
    <children>
@@ -32,7 +28,9 @@
                      </font>
                   </Label>
                   <Label fx:id="resultDesc" alignment="TOP_LEFT" layoutX="14.0" layoutY="132.0" prefHeight="388.0" prefWidth="500.0" />
-               </children></AnchorPane>
+                  <WebView fx:id="resultHtml" layoutX="14.0" layoutY="132.0" prefHeight="388.0" prefWidth="522.0" />
+               </children>
+          </AnchorPane>
         </items>
       </SplitPane>
       <TextField fx:id="searchInput" layoutX="14.0" layoutY="11.0" onAction="#getKeyword" onKeyTyped="#getKeyword" prefHeight="25.0" prefWidth="220.0" />

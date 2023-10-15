@@ -24,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.application.Platform;
 
@@ -48,6 +49,8 @@ public class dictionaryController implements Initializable {
     private Label resultPronun;
     @FXML
     private Label resultDesc;
+    @FXML
+    private WebView resultHtml;
     ArrayList<word> putDataHere = new ArrayList<>();
     ObservableList<String> resultListDisplay = FXCollections.observableArrayList();
 
@@ -206,6 +209,7 @@ public class dictionaryController implements Initializable {
                             resultWord.setText(putDataHere.get(id).getWord());
                             resultPronun.setText(putDataHere.get(id).getPronounce());
                             resultDesc.setText(putDataHere.get(id).getDescription());
+                            resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
                         }));
                 break;
             case 1:
