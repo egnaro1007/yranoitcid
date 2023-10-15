@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import org.sqlite.Function;
+
 
 /**
  * Database query class for SQLite database. Database file path can only be set once and can't be
@@ -77,6 +79,41 @@ public class databaseQuery {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public ResultSet queryWithLevenshteinDistance(String table, String column, String term, int maxLevenshteinDistance) throws SQLException {
+
+        // Register the custom Levenshtein function with the SQLite database
+        Function.create(connection, "LEVENSHTEIN", new LevenshteinFunction());
+
+        String sql = "SELECT * FROM " + table
+                + " WHERE LENGTH(" + column + ") BETWEEN ? AND ?"
+                + " AND LEVENSHTEIN(" + column + ", ?) <= ?"
+                + " ORDER BY"
+                            + " CASE WHEN " + column + " LIKE ? || '%' THEN 1 ELSE 2 END"
+                            + ", LEVENSHTEIN(" + column + ", ?)"
+                            + ", " + column
+                + " LIMIT " + limitQuery.toString();
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, term.length() - maxLevenshteinDistance);
+            preparedStatement.setInt(2, term.length() + maxLevenshteinDistance);
+            preparedStatement.setString(3, term);
+            preparedStatement.setInt(4, maxLevenshteinDistance);
+            preparedStatement.setString(5, term);
+            preparedStatement.setString(6, term);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()) {
+                throw new RuntimeException("Not found");
+            }
+
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public ResultSet randomQuery(String table, Integer magicNumber) {
