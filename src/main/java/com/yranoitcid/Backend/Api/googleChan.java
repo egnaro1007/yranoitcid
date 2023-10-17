@@ -2,6 +2,10 @@ package com.yranoitcid.Backend.Api;
 
 import com.yranoitcid.Backend.Dictionary.word;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import javax.net.ssl.HttpsURLConnection;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -49,10 +53,19 @@ public class googleChan extends api {
         addPragma("q", this.text);
     }
 
-    public void search(String inputTerm) {
+    public word search(String inputTerm) {
         this.text = inputTerm;
         this.editPragma("q", this.text);
         this.connect();
+        try {
+            Object obj = this.parse();
+            if (obj instanceof word) {
+                return (word) obj;
+            }
+        } catch (ParseException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     /**
@@ -95,10 +108,8 @@ public class googleChan extends api {
     }
 
     @Override
-    public Object parse() throws ParseException {
-        // Parse the JSON string using org.json.simple.parser.JSONParser
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(this.getResponseAsString());
+    public Object parse() throws ParseException, IOException {
+        Object obj = getJsonObject(connection);
 
         // Prepare the result
         String word;
@@ -137,5 +148,24 @@ public class googleChan extends api {
             return w;
         }
         return null;
+    }
+
+    private static Object getJsonObject(HttpsURLConnection connection)
+            throws IOException, ParseException {
+        StringBuilder response = new StringBuilder();
+
+        // Read response as String
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        // System.out.println(response);
+
+        // Parse the JSON string using org.json.simple.parser.JSONParser
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(response.toString());
+        return obj;
     }
 }

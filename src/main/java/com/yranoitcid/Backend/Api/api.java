@@ -1,5 +1,6 @@
 package com.yranoitcid.Backend.Api;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import javafx.util.Pair;
@@ -17,7 +18,7 @@ abstract public class api {
     protected final String endPoint;
     protected ArrayList<Pair<String, String>> pragmas = new ArrayList<>();
     protected ArrayList<String> userAgents = new ArrayList<>();
-    private StringBuilder response = new StringBuilder();
+    protected HttpsURLConnection connection = null;
 
     public api(String endPoint) {
         this.endPoint = endPoint;
@@ -42,63 +43,46 @@ abstract public class api {
     }
 
     /**
-     * Start call api. When call api, the response will be stored in response variable and override
-     * the old one. This response can be get by getResponseAsString() method.
-     *
-     * @return the connection.
+     * Start call api. When call api, store in connection variable.
      */
-    public HttpsURLConnection connect() {
-        responseClear();
+    protected void connect() {
         try {
             URL url = new URL(getUri());
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection = (HttpsURLConnection) url.openConnection();
 
-            connection.setRequestProperty("User-Agent",
-                    userAgents.get((int) Math.round(Math.random() * (userAgents.size() - 1))));
+            if (!userAgents.isEmpty()) {
+                connection.setRequestProperty("User-Agent",
+                        userAgents.get((int) Math.round(Math.random() * (userAgents.size() - 1))));
+            }
 
-            System.out.println(url.toString());
-            connection.connect();
+//            System.out.println(url.toString());
 
             // System.out.println(connection.getResponseCode());
-            if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-                // Read response as String
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+            switch (connection.getResponseCode()) {
+                case HttpsURLConnection.HTTP_OK -> {
+                    // Return the connection
+                    // return connection;
                 }
-                // System.out.println(response);
-
-                // Return the connection
-                return connection;
-            } else {
-                System.out.println(connection.getResponseCode());
-                throw (new Exception("Connection fail"));
+                default -> {
+                    System.out.println(connection.getResponseCode());
+                    throw (new Exception("Connection fail"));
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected abstract Object parse() throws ParseException;
+    protected abstract Object parse() throws Exception;
 
-
-    /**
-     * Get response of previous call api as String.
-     *
-     * @return A String of response.
-     */
-    public String getResponseAsString() {
-        return response.toString();
-    }
-
-    /**
-     * Clear the previous response.
-     */
-    public void responseClear() {
-        response.setLength(0);
-    }
+//    /**
+//     * Get response of previous call api as String.
+//     *
+//     * @return A String of response.
+//     */
+//    public String getResponseAsString() {
+//        return response.toString();
+//    }
 
     /**
      * Add a user agent to the user agents list. The user agent will be randomly selected when call
@@ -139,6 +123,7 @@ abstract public class api {
 
     /**
      * Delete a pragma.
+     *
      * @param deletePragma A string that represent a pragma the need to be deleted.
      */
     public void deletePragma(String deletePragma) {
@@ -158,7 +143,9 @@ abstract public class api {
         }
     }
 
-    /** Clear the pragmas list. */
+    /**
+     * Clear the pragmas list.
+     */
     public void clearPragmas() {
         pragmas.clear();
     }
