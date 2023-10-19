@@ -132,21 +132,43 @@ public class Dictionary {
     }
 
     public void addWord(String srcLang, String destLang, Word newWord) {
+        // Check if the word already exists
+        try {
+            Word validate = searchExact(srcLang, destLang, newWord.getWord());
+            if (validate != null) {
+                throw new RuntimeException("Word already exists");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // Get the table name
         String tableName = tableList.get(new Pair<>(srcLang, destLang));
         if (tableName == null) {
             throw new RuntimeException("Table not found");
         }
+
+        // Prepare the word
         String word = newWord.getWord();
         String html = newWord.getHtml();
-        String pronounce = newWord.getPronounce();
         String description = newWord.getDescription();
+        String pronounce = newWord.getPronounce();
 
+        // Prepare database query
         HashMap<String, String> newRecord = new HashMap<>();
-        newRecord.put("Word", word);
+        newRecord.put("word", word);
         newRecord.put("html", html);
-        newRecord.put("pronounce", pronounce);
         newRecord.put("description", description);
-
+        newRecord.put("pronounce", pronounce);
+        // Perform the query
         database.insert(tableName, newRecord);
+    }
+
+    public void removeWord(String srcLang, String destLang, String word) {
+        String tableName = tableList.get(new Pair<>(srcLang, destLang));
+        if (tableName == null) {
+            throw new RuntimeException("Table not found");
+        }
+        database.delete(tableName, "word", word);
     }
 }
