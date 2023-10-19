@@ -1,6 +1,6 @@
-package com.yranoitcid.Backend.Api;
+package com.yranoitcid.backend.api;
 
-import com.yranoitcid.Backend.Dictionary.word;
+import com.yranoitcid.backend.dictionary.Word;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,11 +10,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class googleChan extends api {
+public class GoogleChan extends AbstractAPI {
 
     private String text = "Hello, World!";
 
-    public googleChan() {
+    public GoogleChan() {
         super("https://translate.googleapis.com/translate_a/single");
         addUserAgents(new String[]{
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
@@ -53,14 +53,14 @@ public class googleChan extends api {
         addPragma("q", this.text);
     }
 
-    public word search(String inputTerm) {
+    public Word search(String inputTerm) {
         this.text = inputTerm;
         this.editPragma("q", this.text);
         this.connect();
         try {
             Object obj = this.parse();
-            if (obj instanceof word) {
-                return (word) obj;
+            if (obj instanceof Word) {
+                return (Word) obj;
             }
         } catch (ParseException | IOException e) {
             throw new RuntimeException(e);
@@ -144,7 +144,7 @@ public class googleChan extends api {
                     + "<h3><i>" + pronounce + "</i></h3>"
                     + "<ul><li>" + description + "</li></ul>";
 
-            com.yranoitcid.Backend.Dictionary.word w = new word(word, html, description, pronounce);
+            Word w = new Word(word, html, description, pronounce);
             return w;
         }
         return null;

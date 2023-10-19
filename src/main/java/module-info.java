@@ -9,6 +9,6 @@ module com.yranoitcid{
     requires javafx.web;
     requires jlayer;
 
-    opens com.yranoitcid.Frontend to javafx.fxml;
-    exports com.yranoitcid.Frontend;
+    opens com.yranoitcid.frontend to javafx.fxml;
+    exports com.yranoitcid.frontend;
 }

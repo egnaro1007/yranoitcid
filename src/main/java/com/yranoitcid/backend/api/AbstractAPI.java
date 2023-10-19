@@ -1,26 +1,22 @@
-package com.yranoitcid.Backend.Api;
+package com.yranoitcid.backend.api;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import javafx.util.Pair;
 import java.util.Iterator;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import org.json.simple.parser.ParseException;
 
 import static java.net.URLEncoder.encode;
 
-abstract public class api {
+abstract public class AbstractAPI {
 
     protected final String endPoint;
     protected ArrayList<Pair<String, String>> pragmas = new ArrayList<>();
     protected ArrayList<String> userAgents = new ArrayList<>();
     protected HttpsURLConnection connection = null;
 
-    public api(String endPoint) {
+    public AbstractAPI(String endPoint) {
         this.endPoint = endPoint;
     }
 
@@ -43,7 +39,7 @@ abstract public class api {
     }
 
     /**
-     * Start call api. When call api, store in connection variable.
+     * Start call AbstractAPI. When call AbstractAPI, store in connection variable.
      */
     protected void connect() {
         try {
@@ -76,7 +72,7 @@ abstract public class api {
     protected abstract Object parse() throws Exception;
 
 //    /**
-//     * Get response of previous call api as String.
+//     * Get response of previous call AbstractAPI as String.
 //     *
 //     * @return A String of response.
 //     */
@@ -86,7 +82,7 @@ abstract public class api {
 
     /**
      * Add a user agent to the user agents list. The user agent will be randomly selected when call
-     * api.
+     * AbstractAPI.
      *
      * @param newUserAgent A string that represent a user agent.
      */
@@ -96,7 +92,7 @@ abstract public class api {
 
     /**
      * Add a list of user agents to the user agents list. The user agent will be randomly selected
-     * when call api.
+     * when call AbstractAPI.
      *
      * @param newUserAgents A list of string that represent a user agent.
      */

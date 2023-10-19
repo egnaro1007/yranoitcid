@@ -1,10 +1,10 @@
-package com.yranoitcid.Frontend;
+package com.yranoitcid.frontend;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.yranoitcid.Backend.Dictionary.*;
+import com.yranoitcid.backend.dictionary.*;
 
 import javafx.beans.value.WeakChangeListener;
 import javafx.collections.FXCollections;
@@ -24,7 +24,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class dictionaryController implements Initializable {
+public class DictionaryController implements Initializable {
 
     // Listing all the elements in the current menu.
     @FXML
@@ -37,7 +37,7 @@ public class dictionaryController implements Initializable {
     private Label resultDesc;
     @FXML
     private WebView resultHtml;
-    ArrayList<word> putDataHere = new ArrayList<>();
+    ArrayList<Word> putDataHere = new ArrayList<>();
     ObservableList<String> resultListDisplay = FXCollections.observableArrayList();
 
     @FXML
@@ -46,7 +46,7 @@ public class dictionaryController implements Initializable {
 
     Stage stage;
 
-    dictionary workingDictionary = new dictionary("dict.db");
+    Dictionary workingDictionary = new Dictionary("dict.db");
 
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private Long lastTime = System.currentTimeMillis();
@@ -84,7 +84,7 @@ public class dictionaryController implements Initializable {
             }
         });
 
-        System.out.println("Dictionary window created successfully!");
+        System.out.println("dictionary window created successfully!");
     }
 
 
@@ -107,7 +107,7 @@ public class dictionaryController implements Initializable {
      * After counting is finish, execute method doWork()
      *
      * @param period Input the period of timer in millisecond
-     * @see dictionaryController#doWork()
+     * @see DictionaryController#doWork()
      */
     public void delayedMethod(Long period) {
         pendingCalls.incrementAndGet();

@@ -1,4 +1,4 @@
-package com.yranoitcid.Backend.Database;
+package com.yranoitcid.backend.database;
 
 import java.sql.SQLException;
 import org.sqlite.Function;

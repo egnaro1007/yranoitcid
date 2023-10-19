@@ -1,15 +1,15 @@
-package com.yranoitcid.Backend.Minigame;
+package com.yranoitcid.backend.minigame;
 
-public abstract class abstractGame {
+public abstract class AbstractGame {
     protected Long sectionStartTime = 0L;
     private Integer score = 0;
     private Long timeLimit;
 
-    public abstractGame() {
+    public AbstractGame() {
         this.timeLimit = Long.MAX_VALUE;
     }
 
-    public abstractGame(Long timeLimit) {
+    public AbstractGame(Long timeLimit) {
         this.timeLimit = timeLimit;
     }
 

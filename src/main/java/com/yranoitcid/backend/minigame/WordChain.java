@@ -1,25 +1,24 @@
-package com.yranoitcid.Backend.Minigame;
+package com.yranoitcid.backend.minigame;
 
-import com.yranoitcid.Backend.Dictionary.gameDictionary;
-import com.yranoitcid.Backend.Dictionary.word;
+import com.yranoitcid.backend.dictionary.GameDictionary;
+import com.yranoitcid.backend.dictionary.Word;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
-public class wordChain extends abstractGame {
+public class WordChain extends AbstractGame {
 
-    gameDictionary dict = new gameDictionary("dict.db");
+    GameDictionary dict = new GameDictionary("dict.db");
     private boolean running = false;
     private final String srcLang;
     private final String destLang;
     private final Integer maxWordLength;
-    LinkedHashMap<String, word> usedWords = new LinkedHashMap<>();
+    LinkedHashMap<String, Word> usedWords = new LinkedHashMap<>();
 
-    public wordChain(String srcLang, String destLang) {
+    public WordChain(String srcLang, String destLang) {
         this(srcLang, destLang, Integer.MAX_VALUE);
     }
 
-    public wordChain(String srcLang, String destLang, Integer maxWordLength) {
+    public WordChain(String srcLang, String destLang, Integer maxWordLength) {
         super();
         this.srcLang = srcLang;
         this.destLang = destLang;
@@ -30,7 +29,7 @@ public class wordChain extends abstractGame {
 
 //        // Test
 //        try {
-//            ArrayList<word> list = dict.getWordStartWith(srcLang, destLang, "a");
+//            ArrayList<Word> list = dict.getWordStartWith(srcLang, destLang, "a");
 //            System.out.println(list.get(0).toString());
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
@@ -60,7 +59,7 @@ public class wordChain extends abstractGame {
             System.out.println("\u001B[31m" + "Word is used" + "\u001B[0m");
         }
 
-        word commitWordObj = dict.validateWord(srcLang, destLang, commitWord);
+        Word commitWordObj = dict.validateWord(srcLang, destLang, commitWord);
         if (commitWordObj == null) {
             this.lose();
             System.out.println("\u001B[31m" + "Word is not valid" + "\u001B[0m");
@@ -74,7 +73,7 @@ public class wordChain extends abstractGame {
 
     protected String computerTurn() {
         if (usedWords.isEmpty()) {
-            word startWord = dict.getRandomWord(srcLang, destLang);
+            Word startWord = dict.getRandomWord(srcLang, destLang);
             usedWords.put(startWord.getWord(), startWord);
             return startWord.toString();
         }
@@ -82,9 +81,9 @@ public class wordChain extends abstractGame {
         String lastWord = usedWords.lastEntry().getKey();
         // String startWith = lastWord.substring(lastWord.length() - 1);
         try {
-            ArrayList<word> list = dict.getWordStartWith(srcLang, destLang,
+            ArrayList<Word> list = dict.getWordStartWith(srcLang, destLang,
                     lastWord.substring(lastWord.length() - 1, lastWord.length()));
-            word newWord = list.get((int) Math.round(Math.random() * (list.size() - 1)));
+            Word newWord = list.get((int) Math.round(Math.random() * (list.size() - 1)));
             if (newWord != null) {
                 usedWords.put(newWord.getWord(), newWord);
                 return newWord.toString();

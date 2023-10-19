@@ -1,17 +1,17 @@
-package com.yranoitcid.Backend.Dictionary;
+package com.yranoitcid.backend.dictionary;
 
-public class word {
+public class Word {
 
     private String word;
     private String html;
     private String description;
     private String pronounce;
 
-    public word(String word, String html) {
+    public Word(String word, String html) {
         this(word, html, "", "");
     }
 
-    public word(String word, String html, String description, String pronounce) {
+    public Word(String word, String html, String description, String pronounce) {
         this.word = word;
         this.html = html;
         this.description = description;

@@ -1,6 +1,5 @@
-package com.yranoitcid.Frontend;
+package com.yranoitcid.frontend;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,16 +10,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class application extends Application {
+public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        //Loading data.
-        FXMLLoader fxmlLoader = new FXMLLoader(application.class.getResource("/com/yranoitcid/Frontend/mothership.fxml"));
+        // Load data.
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/fxml/mothership.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Image icon = new Image("approv.png");
+        Image icon = new Image(getClass().getResourceAsStream("/image/icon.png"));
 
-        //Setting the stage for show.
+        // Setting the stage for show.
         stage.getIcons().add(icon);
         stage.setTitle("Hello dictionary!");
         stage.setScene(scene);

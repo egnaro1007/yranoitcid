@@ -1,4 +1,4 @@
-package com.yranoitcid.Backend.Database;
+package com.yranoitcid.backend.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,32 +10,32 @@ import org.sqlite.Function;
 
 
 /**
- * Database query class for SQLite database. Database file path can only be set once and can't be
+ * database query class for SQLite database. database file path can only be set once and can't be
  * changed. Set the database file path in the constructor or by calling setDatabaseFilePath method.
  */
-public class databaseQuery {
+public class DatabaseQuery {
 
     private String dbFilePath = "";
     private Connection connection = null;
     private Integer limitQuery = 15;
     private boolean isInit = false;
 
-    public databaseQuery() {
+    public DatabaseQuery() {
     }
 
-    public databaseQuery(String p_dbFilePath) {
+    public DatabaseQuery(String p_dbFilePath) {
         setDatabaseFilePath(p_dbFilePath);
     }
 
     /**
-     * Set the database file path Database can only be initialized once and can't be changed. If you
-     * want to change the database file path, create a new databaseQuery object.
+     * Set the database file path database can only be initialized once and can't be changed. If you
+     * want to change the database file path, create a new DatabaseQuery object.
      *
      * @param p_dbFilePath The path to the database file
      */
     public void setDatabaseFilePath(String p_dbFilePath) {
         if (isInit) {
-            throw new RuntimeException("Database is already initialized");
+            throw new RuntimeException("database is already initialized");
         }
 
         dbFilePath = p_dbFilePath;
@@ -49,7 +49,7 @@ public class databaseQuery {
     }
 
     /**
-     * Database query with "LIKE". Order by the position of the search term in the column.
+     * database query with "LIKE". Order by the position of the search term in the column.
      *
      * @param table  The table to query.
      * @param column The column to query.
@@ -70,7 +70,7 @@ public class databaseQuery {
             preparedStatement.setString(2, term);
             // Execute the query and get the result set
             ResultSet resultSet = preparedStatement.executeQuery();
-            // Process the result set if the word is found
+            // Process the result set if the Word is found
             if (!resultSet.isBeforeFirst()) {
                 throw new RuntimeException("Not found");
             }
@@ -126,7 +126,7 @@ public class databaseQuery {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             // Execute the query and get the result set
             ResultSet resultSet = preparedStatement.executeQuery();
-            // Process the result set if the word is found
+            // Process the result set if the Word is found
             if (!resultSet.isBeforeFirst()) {
                 throw new RuntimeException("Not found");
             }
@@ -149,7 +149,7 @@ public class databaseQuery {
             preparedStatement.setString(2, term);
             // Execute the query and get the result set
             ResultSet resultSet = preparedStatement.executeQuery();
-            // Process the result set if the word is found
+            // Process the result set if the Word is found
             if (!resultSet.isBeforeFirst()) {
                 throw new RuntimeException("Not found");
             }

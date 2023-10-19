@@ -1,7 +1,6 @@
-package com.yranoitcid.Frontend;
+package com.yranoitcid.frontend;
 
-import com.yranoitcid.Backend.Api.googleChan;
-import com.yranoitcid.Backend.Api.googleChanTTS;
+import com.yranoitcid.backend.api.GoogleChan;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,9 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
-public class translatorController implements Initializable{
+public class TranslatorController implements Initializable{
     
     @FXML
     private TextArea inputTranslate;
@@ -28,7 +26,7 @@ public class translatorController implements Initializable{
     @FXML
     private ChoiceBox<String> languageSelectDes;
 
-    googleChan グーグルちゃん = new googleChan();
+    GoogleChan グーグルちゃん = new GoogleChan();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

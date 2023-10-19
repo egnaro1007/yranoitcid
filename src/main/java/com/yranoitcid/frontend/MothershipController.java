@@ -1,4 +1,4 @@
-package com.yranoitcid.Frontend;
+package com.yranoitcid.frontend;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class mothershipController implements Initializable{
+public class MothershipController implements Initializable{
     private Parent dictionaryMenu;
     private Parent translatorMenu;
     
@@ -26,13 +26,15 @@ public class mothershipController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader load = new FXMLLoader(application.class.getResource("/com/yranoitcid/Frontend/dictionary.fxml"));
+        FXMLLoader load = new FXMLLoader(Application.class.getResource(
+                "/fxml/dictionary.fxml"));
         try {
             dictionaryMenu = load.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FXMLLoader load1 = new FXMLLoader(application.class.getResource("/com/yranoitcid/Frontend/translator.fxml"));
+        FXMLLoader load1 = new FXMLLoader(Application.class.getResource(
+                "/fxml/translator.fxml"));
         try {
             translatorMenu = load1.load();
         } catch (IOException e) {

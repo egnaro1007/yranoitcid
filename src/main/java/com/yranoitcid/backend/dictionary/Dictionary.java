@@ -1,19 +1,19 @@
-package com.yranoitcid.Backend.Dictionary;
+package com.yranoitcid.backend.dictionary;
 
-import com.yranoitcid.Backend.Database.databaseQuery;
+import com.yranoitcid.backend.database.DatabaseQuery;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.util.Pair;
 
-public class dictionary {
+public class Dictionary {
 
     private String databaseFilePath;
     private HashMap<Pair<String, String>, String> tableList = new HashMap<>();
-    private databaseQuery database = new databaseQuery();
+    private DatabaseQuery database = new DatabaseQuery();
 
-    public dictionary(String dbPath) {
+    public Dictionary(String dbPath) {
         try {
             database.setDatabaseFilePath(dbPath);
             this.databaseFilePath = dbPath;
@@ -44,12 +44,12 @@ public class dictionary {
      * @param destLang   Destination language.
      * @param searchTerm The term to search for.
      * @return An ArrayList of Word object that contain the result. The result is ordered by the
-     * position of the term in the word.
-     * @throws Exception If the word is not found.
+     * position of the term in the Word.
+     * @throws Exception If the Word is not found.
      */
-    public ArrayList<word> searchContains(String srcLang, String destLang, String searchTerm)
+    public ArrayList<Word> searchContains(String srcLang, String destLang, String searchTerm)
             throws Exception {
-        ArrayList<word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
+        ArrayList<Word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
         if (result.isEmpty()) {
             // throw new Exception("Word not found");
         }
@@ -63,11 +63,11 @@ public class dictionary {
      * @param destLang   Destination language.
      * @param searchTerm The term to search for.
      * @return A Word object.
-     * @throws Exception If the word is not found.
+     * @throws Exception If the Word is not found.
      */
-    public word searchExact(String srcLang, String destLang, String searchTerm) throws Exception {
-        ArrayList<word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
-        for (word w : result) {
+    public Word searchExact(String srcLang, String destLang, String searchTerm) throws Exception {
+        ArrayList<Word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
+        for (Word w : result) {
             if (w.getWord().equals(searchTerm)) {
                 return w;
             }
@@ -76,21 +76,21 @@ public class dictionary {
         // throw new Exception("Word not found");
     }
 
-    private ArrayList<word> searchTermInDatabase(
+    private ArrayList<Word> searchTermInDatabase(
             String srcLang,
             String destLang,
             String searchTerm) {
         String tableName = tableList.get(new Pair<>(srcLang, destLang));
-        ArrayList<word> result = new ArrayList<>();
+        ArrayList<Word> result = new ArrayList<>();
 
-        try (ResultSet resultSet = database.query(tableName, "word", searchTerm)) {
+        try (ResultSet resultSet = database.query(tableName, "Word", searchTerm)) {
             while (resultSet.next()) {
-                String word = resultSet.getString("word");
+                String word = resultSet.getString("Word");
                 String html = resultSet.getString("html");
                 String pronounce = resultSet.getString("pronounce");
                 String description = resultSet.getString("description");
 
-                result.add(new word(word, html, description, pronounce));
+                result.add(new Word(word, html, description, pronounce));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -99,23 +99,23 @@ public class dictionary {
         return result;
     }
 
-    public ArrayList<word> getRandomWords(String srcLang, String destLang, Integer
+    public ArrayList<Word> getRandomWords(String srcLang, String destLang, Integer
             numberOfRandom) {
         String tableName = tableList.get(new Pair<>(srcLang, destLang));
         if (tableName == null) {
             throw new RuntimeException("Table not found");
         }
 
-        ArrayList<word> result = new ArrayList<>();
+        ArrayList<Word> result = new ArrayList<>();
 
         try (ResultSet resultSet = database.randomQuery(tableName, numberOfRandom)) {
             while (resultSet.next()) {
-                String word = resultSet.getString("word");
+                String word = resultSet.getString("Word");
                 String html = resultSet.getString("html");
                 String pronounce = resultSet.getString("pronounce");
                 String description = resultSet.getString("description");
 
-                result.add(new word(word, html, description, pronounce));
+                result.add(new Word(word, html, description, pronounce));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -123,7 +123,7 @@ public class dictionary {
         return result;
     }
 
-    public word getRandomWord(String srcLang, String destLang) {
+    public Word getRandomWord(String srcLang, String destLang) {
         return getRandomWords(srcLang, destLang, 1).get(0);
     }
 

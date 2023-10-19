@@ -1,15 +1,15 @@
-package com.yranoitcid.Backend.Api;
+package com.yranoitcid.backend.api;
 
 import java.io.IOException;
 import java.io.InputStream;
 import javazoom.jl.player.Player;
 import javazoom.jl.decoder.JavaLayerException;
 
-public class googleChanTTS extends api {
+public class GoogleChanTTS extends AbstractAPI {
 
     String text = "Hello, World";
 
-    public googleChanTTS() {
+    public GoogleChanTTS() {
         super("https://translate.google.com/translate_tts");
         addPragma("ie", "UTF-8");
         addPragma("tl", "en");
