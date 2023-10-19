@@ -15,11 +15,7 @@ import javafx.scene.layout.VBox;
 public class MothershipController implements Initializable{
     private Parent dictionaryMenu;
     private Parent translatorMenu;
-    
-    @FXML
-    private Button toDictionary;
-    @FXML
-    private Button toTranslator;
+    private Parent editorMenu;
 
     @FXML
     private VBox mothership;
@@ -40,9 +36,16 @@ public class MothershipController implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        FXMLLoader load2 = new FXMLLoader(Application.class.getResource("/fxml/editor.fxml"));
+        try {
+            editorMenu = load2.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         VBox.setVgrow(dictionaryMenu, Priority.ALWAYS);
         VBox.setVgrow(translatorMenu, Priority.ALWAYS);
+        VBox.setVgrow(editorMenu, Priority.ALWAYS);
     }
 
     public void switchToDictionary() {
@@ -51,6 +54,10 @@ public class MothershipController implements Initializable{
 
     public void switchToTranslator() {
         mothership.getChildren().set(0, translatorMenu);
+    }
+
+    public void switchToEditor() {
+        mothership.getChildren().set(0, editorMenu);
     }
 
 }

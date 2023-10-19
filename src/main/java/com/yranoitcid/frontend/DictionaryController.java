@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.yranoitcid.backend.dictionary.*;
+import com.yranoitcid.backend.api.GoogleChanTTS;
 
 import javafx.beans.value.WeakChangeListener;
 import javafx.collections.FXCollections;
@@ -30,12 +31,6 @@ public class DictionaryController implements Initializable {
     @FXML
     private ListView<String> resultList;
     @FXML
-    private Label resultWord;
-    @FXML
-    private Label resultPronun;
-    @FXML
-    private Label resultDesc;
-    @FXML
     private WebView resultHtml;
     ArrayList<Word> putDataHere = new ArrayList<>();
     ObservableList<String> resultListDisplay = FXCollections.observableArrayList();
@@ -43,10 +38,13 @@ public class DictionaryController implements Initializable {
     @FXML
     private TextField searchInput;
     String keyword;
+    String resultWord;
 
     Stage stage;
 
     Dictionary workingDictionary = new Dictionary("dict.db");
+    GoogleChanTTS guuguruChan = new GoogleChanTTS();
+
 
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private Long lastTime = System.currentTimeMillis();
@@ -159,11 +157,13 @@ public class DictionaryController implements Initializable {
         resultList.getSelectionModel().selectedItemProperty().addListener(
                 new WeakChangeListener<>((observable, oldValue, newValue) -> {
                     int id = resultList.getSelectionModel().getSelectedIndex();
-                    resultWord.setText(putDataHere.get(id).getWord());
-                    resultPronun.setText(putDataHere.get(id).getPronounce());
-                    resultDesc.setText(putDataHere.get(id).getDescription());
+                    resultWord = putDataHere.get(id).getWord();
                     resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
                 }));
+    }
+
+    public void playAudio() {
+        guuguruChan.say(resultWord);
     }
 
     public void loadResult(ObservableList<String> resArray) {
