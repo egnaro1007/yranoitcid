@@ -67,12 +67,13 @@ public class dictionary {
      */
     public word searchExact(String srcLang, String destLang, String searchTerm) throws Exception {
         ArrayList<word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
-        word w = result.get(0);
-        if (w.getWord().equals(searchTerm)) {
-            return w;
-        } else {
-            throw new Exception("Word not found");
+        for (word w : result) {
+            if (w.getWord().equals(searchTerm)) {
+                return w;
+            }
         }
+        return null;
+        // throw new Exception("Word not found");
     }
 
     private ArrayList<word> searchTermInDatabase(
@@ -98,10 +99,10 @@ public class dictionary {
         return result;
     }
 
-
-    public ArrayList<word> getRandomWords(String srcLang, String destLang, Integer numberOfRandom) {
+    public ArrayList<word> getRandomWords(String srcLang, String destLang, Integer
+            numberOfRandom) {
         String tableName = tableList.get(new Pair<>(srcLang, destLang));
-        if(tableName == null) {
+        if (tableName == null) {
             throw new RuntimeException("Table not found");
         }
 
@@ -124,5 +125,9 @@ public class dictionary {
 
     public word getRandomWord(String srcLang, String destLang) {
         return getRandomWords(srcLang, destLang, 1).get(0);
+    }
+
+    public void setLimit(Integer limit) {
+        database.setLimitQuery(limit);
     }
 }
