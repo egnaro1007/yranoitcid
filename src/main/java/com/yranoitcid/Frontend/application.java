@@ -35,7 +35,7 @@ public class application extends Application {
     public void logout(Stage stage) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Really");
-        alert.setHeaderText("Did you just fucking clicked the button??");
+        alert.setHeaderText("Did you just clicked the exit button??");
         alert.setContentText("Do you want to exist?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {

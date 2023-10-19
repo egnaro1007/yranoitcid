@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox fx:id="mothership" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.Frontend.mothershipController">
+<VBox fx:id="mothership" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.Frontend.mothershipController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
@@ -36,7 +35,7 @@
                   <Insets left="25.0" right="25.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Button">
+            <Button fx:id="toTranslator" mnemonicParsing="false" onAction="#switchToTranslator" text="To Translator">
                <HBox.margin>
                   <Insets left="25.0" right="25.0" />
                </HBox.margin>

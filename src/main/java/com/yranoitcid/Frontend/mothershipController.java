@@ -14,9 +14,12 @@ import javafx.scene.layout.VBox;
 
 public class mothershipController implements Initializable{
     private Parent dictionaryMenu;
+    private Parent translatorMenu;
     
     @FXML
     private Button toDictionary;
+    @FXML
+    private Button toTranslator;
 
     @FXML
     private VBox mothership;
@@ -29,13 +32,23 @@ public class mothershipController implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        FXMLLoader load1 = new FXMLLoader(application.class.getResource("/com/yranoitcid/Frontend/translator.fxml"));
+        try {
+            translatorMenu = load1.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         VBox.setVgrow(dictionaryMenu, Priority.ALWAYS);
+        VBox.setVgrow(translatorMenu, Priority.ALWAYS);
     }
 
     public void switchToDictionary() {
         mothership.getChildren().set(0, dictionaryMenu);
     }
 
-
+    public void switchToTranslator() {
+        mothership.getChildren().set(0, translatorMenu);
+    }
 
 }
