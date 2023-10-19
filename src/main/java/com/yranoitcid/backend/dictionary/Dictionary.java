@@ -130,4 +130,23 @@ public class Dictionary {
     public void setLimit(Integer limit) {
         database.setLimitQuery(limit);
     }
+
+    public void addWord(String srcLang, String destLang, Word newWord) {
+        String tableName = tableList.get(new Pair<>(srcLang, destLang));
+        if (tableName == null) {
+            throw new RuntimeException("Table not found");
+        }
+        String word = newWord.getWord();
+        String html = newWord.getHtml();
+        String pronounce = newWord.getPronounce();
+        String description = newWord.getDescription();
+
+        HashMap<String, String> newRecord = new HashMap<>();
+        newRecord.put("Word", word);
+        newRecord.put("html", html);
+        newRecord.put("pronounce", pronounce);
+        newRecord.put("description", description);
+
+        database.insert(tableName, newRecord);
+    }
 }
