@@ -16,8 +16,8 @@ public class application extends Application {
     public void start(Stage stage) throws IOException {
 
         //Loading data.
-        FXMLLoader fxmlLoader = new FXMLLoader(application.class.getResource("/com/yranoitcid/Frontend/dictionary.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        FXMLLoader fxmlLoader = new FXMLLoader(application.class.getResource("/com/yranoitcid/Frontend/mothership.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         Image icon = new Image("approv.png");
 
         //Setting the stage for show.
