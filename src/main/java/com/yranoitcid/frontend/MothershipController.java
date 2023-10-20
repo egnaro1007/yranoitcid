@@ -36,7 +36,8 @@ public class MothershipController implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FXMLLoader load2 = new FXMLLoader(Application.class.getResource("/fxml/editor.fxml"));
+        FXMLLoader load2 = new FXMLLoader(Application.class.getResource(
+                "/fxml/editor.fxml"));
         try {
             editorMenu = load2.load();
         } catch (IOException e) {

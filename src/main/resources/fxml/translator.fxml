@@ -7,13 +7,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" hgap="10.0" prefHeight="400.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.TranslatorController">
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="500.0" prefWidth="800.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.TranslatorController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="30.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="220.0" />
@@ -29,17 +32,12 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextArea fx:id="inputTranslate" prefHeight="153.0" prefWidth="182.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <TextArea fx:id="translateInput" prefHeight="153.0" prefWidth="182.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
       <Label fx:id="resultTranslate" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-width: 0.5; -fx-border-color: #444444; -fx-background-color: #ffffff;" wrapText="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Label>
-      <Button fx:id="search" mnemonicParsing="false" onAction="#translate" text="Search" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
       <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <children>
             <Label text="Language of Input">
@@ -63,5 +61,31 @@
             <Insets />
          </GridPane.margin>
       </VBox>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="143.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="pasteFromClipboard" mnemonicParsing="false" onAction="#paste" prefHeight="26.0" prefWidth="141.0" text="Paste from Clipboard">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="search" mnemonicParsing="false" onAction="#translate" text="Search">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <ImageView fitHeight="100.0" fitWidth="99.0" layoutX="161.0" layoutY="22.0" onMouseClicked="#playAudio" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+               <image>
+                  <Image url="@../image/agdhhdhdjh.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </GridPane>

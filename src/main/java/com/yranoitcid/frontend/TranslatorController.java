@@ -5,6 +5,8 @@ import com.yranoitcid.backend.api.GoogleChan;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.yranoitcid.backend.api.GoogleChanTTS;
+import com.yranoitcid.backend.util.ClipboardAccess;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +18,7 @@ import javafx.scene.control.TextArea;
 public class TranslatorController implements Initializable{
     
     @FXML
-    private TextArea inputTranslate;
+    private TextArea translateInput;
     @FXML
     private Label resultTranslate;
     @FXML
@@ -27,6 +29,7 @@ public class TranslatorController implements Initializable{
     private ChoiceBox<String> languageSelectDes;
 
     GoogleChan グーグルちゃん = new GoogleChan();
+    GoogleChanTTS guuguruChan = new GoogleChanTTS();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,7 +43,7 @@ public class TranslatorController implements Initializable{
     }
 
     public void translate() {
-        String text = inputTranslate.getText();
+        String text = translateInput.getText();
         String langSrc = languageSelectSrc.getValue();
         String langDes = languageSelectDes.getValue();
         グーグルちゃん.setLanguage(langSrc.substring(langSrc.length() - 3, langSrc.length() - 1),
@@ -48,5 +51,15 @@ public class TranslatorController implements Initializable{
         System.out.println(text);
         System.out.println("Result: " + グーグルちゃん.search(text));
         resultTranslate.setText(グーグルちゃん.search(text).getDescription());
+    }
+
+    public void paste() {
+        translateInput.setText(ClipboardAccess.getString());
+    }
+
+    public void playAudio() {
+        String langDes = languageSelectDes.getValue();
+        guuguruChan.setLanguage(langDes.substring(langDes.length() - 3, langDes.length() - 1));
+        guuguruChan.say(resultTranslate.getText());
     }
 }

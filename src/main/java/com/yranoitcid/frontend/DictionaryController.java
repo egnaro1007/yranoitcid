@@ -40,8 +40,6 @@ public class DictionaryController implements Initializable {
     String keyword;
     String resultWord;
 
-    Stage stage;
-
     Dictionary workingDictionary = new Dictionary("dict.db");
     GoogleChanTTS guuguruChan = new GoogleChanTTS();
 
@@ -155,11 +153,11 @@ public class DictionaryController implements Initializable {
         }
         loadResult(resultListDisplay);
         resultList.getSelectionModel().selectedItemProperty().addListener(
-                new WeakChangeListener<>((observable, oldValue, newValue) -> {
-                    int id = resultList.getSelectionModel().getSelectedIndex();
-                    resultWord = putDataHere.get(id).getWord();
-                    resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
-                }));
+            new WeakChangeListener<>((observable, oldValue, newValue) -> {
+                int id = resultList.getSelectionModel().getSelectedIndex();
+                resultWord = putDataHere.get(id).getWord();
+                resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
+            }));
     }
 
     public void playAudio() {
