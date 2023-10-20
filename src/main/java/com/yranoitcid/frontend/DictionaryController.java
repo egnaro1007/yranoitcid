@@ -152,12 +152,11 @@ public class DictionaryController implements Initializable {
             resultListDisplay.add(putDataHere.get(i).getWord());
         }
         loadResult(resultListDisplay);
-        resultList.getSelectionModel().selectedItemProperty().addListener(
-            new WeakChangeListener<>((observable, oldValue, newValue) -> {
+        resultList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 int id = resultList.getSelectionModel().getSelectedIndex();
                 resultWord = putDataHere.get(id).getWord();
                 resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
-            }));
+            });
     }
 
     /**
