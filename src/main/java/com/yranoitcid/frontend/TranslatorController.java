@@ -42,6 +42,9 @@ public class TranslatorController implements Initializable{
         System.out.println("Translator created successfully!");
     }
 
+    /**
+     * Translate input in the input text area and display them on the result box.
+     */
     public void translate() {
         String text = translateInput.getText();
         String langSrc = languageSelectSrc.getValue();
@@ -53,11 +56,17 @@ public class TranslatorController implements Initializable{
         resultTranslate.setText(グーグルちゃん.search(text).getDescription());
     }
 
+    /**
+     * Paste text from clipboard to the input text area.
+     */
     public void paste() {
         translateInput.setText(ClipboardAccess.getString());
     }
 
-    public void playAudio() {
+    /**
+     * Play audio taken from the result box.
+     */
+    public void playAudio()  {
         String langDes = languageSelectDes.getValue();
         guuguruChan.setLanguage(langDes.substring(langDes.length() - 3, langDes.length() - 1));
         guuguruChan.say(resultTranslate.getText());

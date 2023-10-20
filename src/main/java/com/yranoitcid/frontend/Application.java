@@ -31,6 +31,10 @@ public class Application extends javafx.application.Application {
         });
     }
 
+    /**
+     * Logout prompt.
+     * @param stage
+     */
     public void logout(Stage stage) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Really");

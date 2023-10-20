@@ -148,7 +148,7 @@ public class DictionaryController implements Initializable {
         putDataHere.clear();
         resultListDisplay.clear();
         putDataHere = workingDictionary.searchContains("en", "vi", keyword);
-        for (int i = 0; i < (Math.min(putDataHere.size(), 30)); i++) {
+        for (int i = 0; i < putDataHere.size(); i++) {
             resultListDisplay.add(putDataHere.get(i).getWord());
         }
         loadResult(resultListDisplay);
@@ -160,6 +160,9 @@ public class DictionaryController implements Initializable {
             }));
     }
 
+    /**
+     * Play the pronunciation of the chosen word.
+     */
     public void playAudio() {
         guuguruChan.say(resultWord);
     }

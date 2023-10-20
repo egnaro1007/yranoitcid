@@ -20,6 +20,10 @@ public class MothershipController implements Initializable{
     @FXML
     private VBox mothership;
 
+    /**
+     *  Initialize the app.
+     *  Called whenever the app starts.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         FXMLLoader load = new FXMLLoader(Application.class.getResource(
@@ -47,6 +51,8 @@ public class MothershipController implements Initializable{
         VBox.setVgrow(dictionaryMenu, Priority.ALWAYS);
         VBox.setVgrow(translatorMenu, Priority.ALWAYS);
         VBox.setVgrow(editorMenu, Priority.ALWAYS);
+
+        System.out.println("Opening menu initialized successfully.");
     }
 
     public void switchToDictionary() {
