@@ -14,7 +14,7 @@
    <children>
       <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <TextField fx:id="wordInput" alignment="TOP_LEFT" prefHeight="26.0" prefWidth="180.0">
+            <TextField fx:id="wordInput" alignment="TOP_LEFT" onKeyTyped="#fetchResult" prefHeight="26.0" prefWidth="180.0">
                <HBox.margin>
                   <Insets left="22.0" right="22.0" />
                </HBox.margin>
@@ -29,7 +29,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Delete Word">
+            <Button mnemonicParsing="false" onAction="#removeWordFromDatabase" text="Delete Word">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>

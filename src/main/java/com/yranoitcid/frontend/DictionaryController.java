@@ -83,8 +83,6 @@ public class DictionaryController implements Initializable {
         System.out.println("dictionary window created successfully!");
     }
 
-
-
     /**
      * Get the keyword from text field immediately after input is detected and fetch results
      * directly into the list.
@@ -151,7 +149,7 @@ public class DictionaryController implements Initializable {
         for (int i = 0; i < putDataHere.size(); i++) {
             resultListDisplay.add(putDataHere.get(i).getWord());
         }
-        loadResult(resultListDisplay);
+        resultList.setItems(resultListDisplay);
         resultList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 int id = resultList.getSelectionModel().getSelectedIndex();
                 resultWord = putDataHere.get(id).getWord();
@@ -164,10 +162,6 @@ public class DictionaryController implements Initializable {
      */
     public void playAudio() {
         guuguruChan.say(resultWord);
-    }
-
-    public void loadResult(ObservableList<String> resArray) {
-        resultList.setItems(resArray);
     }
 
 }
