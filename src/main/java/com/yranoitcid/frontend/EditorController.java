@@ -23,6 +23,8 @@ public class EditorController implements Initializable {
     @FXML
     private TextArea descInput;
     @FXML
+    private TextArea htmlInput;
+    @FXML
     private ListView<String> wordList;
 
     Dictionary workingDictionary = new Dictionary("dict.db");
@@ -79,6 +81,7 @@ public class EditorController implements Initializable {
             wordInput.setText(putDataHere.get(id).getWord());
             pronounInput.setText(putDataHere.get(id).getPronounce());
             descInput.setText(putDataHere.get(id).getDescription());
+            htmlInput.setText(putDataHere.get(id).getHtml());
         });
     }
 
@@ -98,5 +101,34 @@ public class EditorController implements Initializable {
             wordInput.setText(wordListDisplay.get(0));
             fetchResult();
         }
+    }
+
+    /**
+     * Add a new word to the database.
+     */
+    public void addWordToDatabase() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Add word");
+        alert.setHeaderText("Are you sure you want to add this word to the database?");
+        alert.setContentText("Do you want to exist?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            // Remove word.
+            Word newWord = new Word(
+                    wordInput.getText(),
+                    htmlInput.getText(),
+                    descInput.getText(),
+                    pronounInput.getText()
+            );
+            workingDictionary.addWord("en", "vi", newWord);
+        }
+    }
+
+    /**
+     * For testing purpose.
+     */
+    public void getTextInField() {
+        String res = htmlInput.getText();
+        System.out.println(res);
     }
 }
