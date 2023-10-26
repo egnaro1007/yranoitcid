@@ -42,7 +42,7 @@ public class Application extends javafx.application.Application {
         alert.setContentText("Do you want to exist?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
-            stage.close(); 
+            stage.close();
         }
     }
 

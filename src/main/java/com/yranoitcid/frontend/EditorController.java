@@ -2,15 +2,23 @@ package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.dictionary.Dictionary;
 import com.yranoitcid.backend.dictionary.Word;
+import com.yranoitcid.backend.util.HTMLConverter;
+
+import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -24,6 +32,9 @@ public class EditorController implements Initializable {
     private TextArea descInput;
     @FXML
     private TextArea htmlInput;
+    @FXML
+    private TextField wordSearchInput;
+
     @FXML
     private ListView<String> wordList;
 
@@ -67,7 +78,7 @@ public class EditorController implements Initializable {
      * Whenever a word is chosen, data related to it will be displayed on the editable text fields.
      */
     public void fetchResult() throws Exception {
-        keyword = wordInput.getText();
+        keyword = wordSearchInput.getText();
         System.out.println(keyword);
         putDataHere.clear();
         wordListDisplay.clear();
@@ -90,6 +101,19 @@ public class EditorController implements Initializable {
      * and the only way to bring back the word is replacing the current one with backups.
      */
     public void removeWordFromDatabase() throws Exception {
+        // If word is blank or doesn't exist, abort.
+        if (wordInput.getText().isBlank()
+            || workingDictionary.searchExact("en", "vi", wordInput.getText()) == null) {
+            Alert warning = new Alert(AlertType.ERROR);
+            warning.setTitle("Invalid Input");
+            warning.setHeaderText("Cannot delete word");
+            if (warning.showAndWait().get() == ButtonType.OK) {
+                System.out.println("Hah");
+                return;
+            }
+        }
+
+        // Confirmation.
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Remove word");
         alert.setHeaderText("Are you sure you want to delete the word from the database?");
@@ -104,16 +128,90 @@ public class EditorController implements Initializable {
     }
 
     /**
+     * Change the information of chosen word.
+     */
+    public void changeWord() throws Exception {
+        // If no input is detected, abort.
+        if (wordInput.getText().isBlank()
+            || pronounInput.getText().isBlank()
+            || htmlInput.getText().isBlank()) {
+            Alert warning = new Alert(AlertType.ERROR);
+            warning.setTitle("Invalid Input");
+            warning.setHeaderText("No input detected");
+            if (warning.showAndWait().get() == ButtonType.OK) {
+                System.out.println("Hah");
+                return;
+            }
+        }
+
+        // If word doesn't exist, abort.
+        if (workingDictionary.searchExact("en", "vi", wordInput.getText()) == null) {
+            Alert warning = new Alert(AlertType.ERROR);
+            warning.setTitle("Invalid Input");
+            warning.setHeaderText("Word doesn't exist");
+            if (warning.showAndWait().get() == ButtonType.OK) {
+                System.out.println("Hah");
+                return;
+            }
+        }
+
+        // Confirmation.
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Update word");
+        alert.setHeaderText("Are you sure you want to update word from the database?");
+        alert.setContentText("Do you want to exist?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            workingDictionary.removeWord("en", "vi", wordInput.getText());
+            Word newWord = new Word(
+                wordInput.getText(),
+                htmlInput.getText(),
+                descInput.getText(),
+                pronounInput.getText()
+            );
+            workingDictionary.addWord("en", "vi", newWord);
+        }
+    }
+
+    /**
      * Add a new word to the database.
      */
-    public void addWordToDatabase() {
+    public void addWordToDatabase() throws Exception {
+        // If no input is detected, abort.
+        if (wordInput.getText().isBlank()
+            || pronounInput.getText().isBlank()
+            || htmlInput.getText().isBlank()) {
+            Alert warning = new Alert(AlertType.ERROR);
+            warning.setTitle("Invalid Input");
+            warning.setHeaderText("No input detected");
+            if (warning.showAndWait().get() == ButtonType.OK) {
+                System.out.println("Hah");
+                return;
+            }
+        }
+
+        // If word did exist, abort.
+        if (Objects.equals(workingDictionary.searchExact(
+            "en",
+            "vi",
+            wordInput.getText()
+        ).getWord(), wordInput.getText())) {
+            Alert warning = new Alert(AlertType.ERROR);
+            warning.setTitle("Invalid Input");
+            warning.setHeaderText("Word already exist");
+            if (warning.showAndWait().get() == ButtonType.OK) {
+                System.out.println("Hah");
+                return;
+            }
+        }
+
+        // Confirmation.
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Add word");
         alert.setHeaderText("Are you sure you want to add this word to the database?");
         alert.setContentText("Do you want to exist?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
-            // Remove word.
             Word newWord = new Word(
                     wordInput.getText(),
                     htmlInput.getText(),
@@ -121,6 +219,28 @@ public class EditorController implements Initializable {
                     pronounInput.getText()
             );
             workingDictionary.addWord("en", "vi", newWord);
+        }
+    }
+
+
+
+    /**
+     * Convert texts from the text-to-HTML field to HTML and put it in the HTML field.
+     * If it fails, create a warning popup.
+     */
+    public void convert() throws IOException {
+        System.out.println(htmlInput.getText());
+        try {
+            String temp = HTMLConverter.stringToHtml(htmlInput.getText());
+            htmlInput.setText(temp);
+        } catch (Exception e) {
+            System.out.println("Bruh");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid Input");
+            alert.setHeaderText("There are invalid texts in the box.");
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                System.out.println("Hah");
+            }
         }
     }
 

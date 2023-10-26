@@ -13,7 +13,7 @@ public class HTMLConverter {
         StringBuilder output = new StringBuilder();
 
         String wordAndPronounce = buffer.readLine();
-        if (wordAndPronounce.charAt(0) == '@') {
+        if (wordAndPronounce != null && wordAndPronounce.charAt(0) == '@') {
             // Define the regular expression pattern
             Pattern pattern = Pattern.compile("@([^/]+) /([^/]+)/");
 
@@ -79,6 +79,8 @@ public class HTMLConverter {
                 l2ListOpened = false;
                 output.append("</li>").append("</ul>");
             }
+        } else {
+            throw new IOException();
         }
         // output.append("</ul>");
 
@@ -86,6 +88,13 @@ public class HTMLConverter {
     }
 
     public String htmlToString(String input) {
+        return "";
+    }
+
+    /**
+     * Convert inputs of word into a single html paragraph.
+     */
+    public String generateHtml() {
         return "";
     }
 }
