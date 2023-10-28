@@ -27,7 +27,7 @@
                   <Image url="@../image/agdhhdhdjh.jpg" />
                </image>
                <HBox.margin>
-                  <Insets right="100.0" />
+                  <Insets right="50.0" />
                </HBox.margin>
             </ImageView>
             <Button fx:id="toDictionary" mnemonicParsing="false" onAction="#switchToDictionary" text="To Dictionary">
@@ -41,6 +41,11 @@
                </HBox.margin>
             </Button>
             <Button fx:id="toEditor" mnemonicParsing="false" onAction="#switchToEditor" text="To Dictionary Editor">
+               <HBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="toWordChain" mnemonicParsing="false" onAction="#switchToWordChain" text="To Word Chain Game">
                <HBox.margin>
                   <Insets left="20.0" right="20.0" />
                </HBox.margin>
