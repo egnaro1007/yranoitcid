@@ -17,7 +17,7 @@ public class DatabaseQuery {
 
     private String dbFilePath = "";
     private Connection connection = null;
-    private Integer limitQuery = 15;
+    private Integer limitQuery = 100;
     private boolean isInit = false;
 
     public DatabaseQuery() {
