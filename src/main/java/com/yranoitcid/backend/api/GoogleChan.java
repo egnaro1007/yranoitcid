@@ -1,7 +1,9 @@
 package com.yranoitcid.backend.api;
 
 import com.yranoitcid.backend.dictionary.Word;
+import com.yranoitcid.backend.util.TextProcess;
 
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -69,6 +71,39 @@ public class GoogleChan extends AbstractAPI {
     }
 
     /**
+     * Same usage with {@link #search(String) search}.
+     *
+     * <p>
+     * This method will split the paragraph into sentences and search each sentence.
+     *
+     * @param input The input paragraph.
+     * @return A Word object with the description is translated result of the paragraph.
+     */
+    public Word paragraphSearch(String input) {
+        this.text = input;
+        ArrayList<String> sentences = TextProcess.splitParagraphIntoSentences(input);
+        StringBuilder word = new StringBuilder();
+        StringBuilder description = new StringBuilder();
+        for (String sentence : sentences) {
+            this.editPragma("q", sentence);
+            this.connect();
+            try {
+                Object obj = this.parse();
+                if (obj instanceof Word) {
+                    word.append(((Word) obj).getWord()).append(" ");
+                    description.append(((Word) obj).getDescription()).append(" ");
+                }
+            } catch (ParseException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        word.deleteCharAt(word.length() - 1);
+        description.deleteCharAt(description.length() - 1);
+
+        return new Word(word.toString(), "", description.toString(), "");
+    }
+
+    /**
      * Change the source language of the translation.
      *
      * @param language The language code ISO 639-1.
@@ -89,8 +124,10 @@ public class GoogleChan extends AbstractAPI {
     /**
      * Change the source and destination language of the translation.
      *
-     * @param srcLang  The language code of source language by ISO 639-1.
-     * @param destLang The language code of destination language by ISO 639-1.
+     * <p herf="https://cloud.google.com/translate/docs/languages">ISO 639-1</p>
+     *
+     * @param srcLang  The language code of source language by ISO 639.
+     * @param destLang The language code of destination language by ISO 639.
      */
     public void setLanguage(String srcLang, String destLang) {
         this.setSourceLanguage(srcLang);
