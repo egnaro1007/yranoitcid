@@ -116,6 +116,22 @@ public class DatabaseQuery {
         }
     }
 
+    public ResultSet query(String table) {
+        String sql = "SELECT *"
+                + " FROM " + table
+                + " LIMIT " + limitQuery.toString();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                throw new RuntimeException("Empty");
+            }
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ResultSet randomQuery(String table, Integer magicNumber) {
         String sql = "SELECT *"
                 + " FROM " + table
