@@ -7,23 +7,16 @@ import java.util.ResourceBundle;
 import com.yranoitcid.backend.dictionary.*;
 import com.yranoitcid.backend.api.GoogleChanTTS;
 
-import javafx.beans.value.WeakChangeListener;
+import java.util.concurrent.ExecutionException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-import javafx.application.Platform;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class DictionaryController implements Initializable {
 
@@ -40,14 +33,10 @@ public class DictionaryController implements Initializable {
     String keyword;
     String resultWord;
 
+    // Dictionary
     Dictionary workingDictionary = new Dictionary("dict.db");
     GoogleChanTTS guuguruChan = new GoogleChanTTS();
 
-
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-    private Long lastTime = System.currentTimeMillis();
-    private final AtomicInteger pendingCalls = new AtomicInteger(0);
-    private static final Long cd = 500L;
 
     /**
      * Initialize the window. This will include the dictionary and search option choice box.
@@ -61,6 +50,7 @@ public class DictionaryController implements Initializable {
             System.out.println("Error in initiating the dictionary.");
         }
 
+        // String normalization
         searchInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
             String characterTyped = event.getCharacter();
 
@@ -87,70 +77,38 @@ public class DictionaryController implements Initializable {
      * Get the keyword from text field immediately after input is detected and fetch results
      * directly into the list.
      */
-    public void getKeyword() {
+    public void getKeyword() throws ExecutionException, InterruptedException {
         keyword = searchInput.getText();
-        // fetchResult(searchModeChoice);
-        delayedMethod(cd);
+        Task<Void> dictionaryTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("Dictionary called.");
+                putDataHere = workingDictionary.searchContains("en", "vi", keyword);
+                return null;
+            }
+        };
+        dictionaryTask.setOnSucceeded(workerStateEvent -> {
+            try {
+                fetchResult();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        Thread dictionaryThread = new Thread(dictionaryTask);
+        dictionaryThread.start();
         System.out.println("Text: " + keyword);
     }
 
-    /**
-     * Call this method to start the timer.
-     * The timer will count down for period of time.
-     * While the timer is counting, if the method is called again the timer will be reset.
-     * After counting is finish, execute method doWork()
-     *
-     * @param period Input the period of timer in millisecond
-     * @see DictionaryController#doWork()
-     */
-    public void delayedMethod(Long period) {
-        pendingCalls.incrementAndGet();
-
-        long currentTime = System.currentTimeMillis();
-        long timeSinceLastExecution = currentTime - lastTime;
-
-        if (timeSinceLastExecution >= period) {
-            executor.schedule(() -> {
-                int remainingCalls = pendingCalls.decrementAndGet();
-                if (remainingCalls == 0) {
-                    Platform.runLater(this::doWork);
-                }
-            }, period, TimeUnit.MILLISECONDS);
-        } else {
-            long delay = period - timeSinceLastExecution;
-            System.out.println("\u001B[33m" + "Delay" + "\u001B[0m");
-            executor.schedule(() -> {
-                int remainingCalls = pendingCalls.decrementAndGet();
-                if (remainingCalls == 0) {
-                    Platform.runLater(this::doWork);
-                }
-            }, delay, TimeUnit.MILLISECONDS);
-        }
-
-        lastTime = currentTime;
-    }
-
-    private void doWork() {
-        // The code will be executed after the delay.
-        try {
-            fetchResult();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("\u001B[32m"
-                        + "Method executed after " + cd + "ms of the last call."
-                        + "\u001B[0m");
-    }
 
     public void fetchResult() throws Exception {
-        putDataHere.clear();
+        System.out.println("Dictionary running.");
         resultListDisplay.clear();
-        putDataHere = workingDictionary.searchContains("en", "vi", keyword);
-        for (int i = 0; i < putDataHere.size(); i++) {
-            resultListDisplay.add(putDataHere.get(i).getWord());
-        }
+          for (Word word : putDataHere) {
+            resultListDisplay.add(word.getWord());
+          }
         resultList.setItems(resultListDisplay);
-        resultList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        resultList.getSelectionModel().selectedItemProperty().addListener(
+            (observable, oldValue, newValue) -> {
                 int id = resultList.getSelectionModel().getSelectedIndex();
                 resultWord = putDataHere.get(id).getWord();
                 resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
@@ -161,7 +119,18 @@ public class DictionaryController implements Initializable {
      * Play the pronunciation of the chosen word.
      */
     public void playAudio() {
-        guuguruChan.say(resultWord);
+        Task<Void> guuguruChanTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                guuguruChan.say(resultWord);
+                return null;
+            }
+        };
+        guuguruChanTask.setOnSucceeded(workerStateEvent -> {
+            System.out.println("Guuguru-chan said something!");
+        });
+        Thread guuguruChanThread = new Thread(guuguruChanTask);
+        guuguruChanThread.start();
     }
 
 }

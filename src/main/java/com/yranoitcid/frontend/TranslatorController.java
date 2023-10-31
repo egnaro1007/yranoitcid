@@ -8,12 +8,15 @@ import java.util.ResourceBundle;
 import com.yranoitcid.backend.api.GoogleChanTTS;
 import com.yranoitcid.backend.util.ClipboardAccess;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 
 public class TranslatorController implements Initializable{
     
@@ -21,6 +24,7 @@ public class TranslatorController implements Initializable{
     private TextArea translateInput;
     @FXML
     private Label resultTranslate;
+    private String result;
     @FXML
     private Button search;
     @FXML
@@ -46,14 +50,28 @@ public class TranslatorController implements Initializable{
      * Translate input in the input text area and display them on the result box.
      */
     public void translate() {
+        // Input processing.
         String text = translateInput.getText();
         String langSrc = languageSelectSrc.getValue();
         String langDes = languageSelectDes.getValue();
         グーグルちゃん.setLanguage(langSrc.substring(langSrc.length() - 3, langSrc.length() - 1),
-                                 langDes.substring(langDes.length() - 3, langDes.length() - 1));
+            langDes.substring(langDes.length() - 3, langDes.length() - 1));
         System.out.println(text);
-        System.out.println("Result: " + グーグルちゃん.search(text));
-        resultTranslate.setText(グーグルちゃん.search(text).getDescription());
+
+        // Translate.
+        Task<Void> translateTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("Result: " + グーグルちゃん.search(text));
+                result = グーグルちゃん.search(text).getDescription();
+                return null;
+            }
+        };
+        translateTask.setOnSucceeded(workerStateEvent -> {
+            resultTranslate.setText(result);
+        });
+        Thread translatorThread = new Thread(translateTask);
+        translatorThread.start();
     }
 
     /**
@@ -69,6 +87,14 @@ public class TranslatorController implements Initializable{
     public void playAudio()  {
         String langDes = languageSelectDes.getValue();
         guuguruChan.setLanguage(langDes.substring(langDes.length() - 3, langDes.length() - 1));
-        guuguruChan.say(resultTranslate.getText());
+        Task<Void> guuguruChanTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                guuguruChan.say(result);
+                return null;
+            }
+        };
+        Thread guuguruChanThread = new Thread(guuguruChanTask);
+        guuguruChanThread.start();
     }
 }
