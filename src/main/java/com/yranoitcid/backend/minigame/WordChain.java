@@ -9,11 +9,11 @@ public class WordChain extends AbstractGame {
 
     GameDictionary dict = new GameDictionary("dict.db");
     private boolean running = false;
+    private int state = 0;
     private final String srcLang;
     private final String destLang;
     private final Integer maxWordLength;
     LinkedHashMap<String, Word> usedWords = new LinkedHashMap<>();
-
     public WordChain(String srcLang, String destLang) {
         this(srcLang, destLang, Integer.MAX_VALUE);
     }
@@ -39,6 +39,8 @@ public class WordChain extends AbstractGame {
     public void commit(String commitWord) {
         // First round
         if (!isRunning()) {
+            state = 0;
+            this.setScore(0);
             if (commitWord.isEmpty()) {
                 System.out.println("Computer first");
                 this.setRunning(true);
@@ -52,26 +54,28 @@ public class WordChain extends AbstractGame {
 
         if (commitWord.length() > maxWordLength) {
             System.out.println("\u001B[31m" + "Word is too long" + "\u001B[0m");
+            return;
         }
 
         if (usedWords.containsKey(commitWord)) {
             this.lose();
             System.out.println("\u001B[31m" + "Word is used" + "\u001B[0m");
+            return;
         }
 
         Word commitWordObj = dict.validateWord(srcLang, destLang, commitWord);
         if (commitWordObj == null) {
             this.lose();
             System.out.println("\u001B[31m" + "Word is not valid" + "\u001B[0m");
+            return;
         }
 
         this.scoreUp();
-        assert commitWordObj != null;
         usedWords.put(commitWordObj.getWord(), commitWordObj);
-        System.out.println("\u001B[32m" + "Your guest: " + commitWordObj.toString() + "\u001B[0m");
+        System.out.println("\u001B[32m" + "Your guess: " + commitWordObj.toString() + "\u001B[0m");
     }
 
-    protected String computerTurn() {
+    public String computerTurn() {
         if (usedWords.isEmpty()) {
             Word startWord = dict.getRandomWord(srcLang, destLang);
             usedWords.put(startWord.getWord(), startWord);
@@ -86,7 +90,8 @@ public class WordChain extends AbstractGame {
             Word newWord = list.get((int) Math.round(Math.random() * (list.size() - 1)));
             if (newWord != null) {
                 usedWords.put(newWord.getWord(), newWord);
-                return newWord.toString();
+                System.out.println("\u001B[32m" + "Machine guess: " + newWord.toString());
+                return newWord.getWord();
             } else {
                 this.win();
                 return null;
@@ -100,11 +105,13 @@ public class WordChain extends AbstractGame {
     public void win() {
         System.out.println("\u001B[32m" + "\u001B[1m" + "Congratulation! Your score is: "
                 + getScore().toString() + "\u001B[0m");
+        state = 1;
         this.setRunning(false);
     }
 
     public void lose() {
         System.out.println("\u001B[31m" + "\u001B[1m" + "You lose"+ "\u001B[0m");
+        state = 2;
         this.setRunning(false);
     }
 
@@ -115,6 +122,8 @@ public class WordChain extends AbstractGame {
     private void setRunning(boolean running) {
         this.running = running;
     }
+
+    public int getState() { return state; }
 
     //    public void startGame(String srcLang, String destLang) {
 //        this.startGame(srcLang, destLang, Integer.MAX_VALUE);
