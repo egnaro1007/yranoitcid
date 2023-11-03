@@ -44,6 +44,11 @@ public class MothershipController implements Initializable{
     @FXML
     private Label date;
 
+    @FXML
+    private VBox leftSideBar;
+    @FXML
+    private VBox mainPane;
+
     /**
      *  Initialize the app.
      *  Called whenever the app starts.

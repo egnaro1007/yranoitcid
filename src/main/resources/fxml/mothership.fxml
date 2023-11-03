@@ -8,7 +8,7 @@
 
 <HBox fx:id="mothership" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.MothershipController">
    <children>
-      <VBox prefWidth="300.0" HBox.hgrow="ALWAYS">
+      <VBox fx:id="leftSideBar" prefWidth="300.0" HBox.hgrow="ALWAYS">
          <children>
             <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                <image>
@@ -17,10 +17,10 @@
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></ImageView>
-            <Button fx:id="toDictionary" maxWidth="1.7976931348623157E308" minWidth="300.0" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0" text="Dictionary" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toTranslator" maxWidth="1.7976931348623157E308" minWidth="300.0" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0" text="Online Translator" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toEditor" maxWidth="1.7976931348623157E308" minWidth="300.0" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0" text="Managerment" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toWordChain" maxWidth="1.7976931348623157E308" minWidth="300.0" mnemonicParsing="false" onAction="#switchToWordChain" prefHeight="50.0" text="Game" VBox.vgrow="ALWAYS" />
+            <Button fx:id="toDictionary" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0" text="Dictionary" VBox.vgrow="ALWAYS" />
+            <Button fx:id="toTranslator" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0" text="Online Translator" VBox.vgrow="ALWAYS" />
+            <Button fx:id="toEditor" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0" text="Managerment" VBox.vgrow="ALWAYS" />
+            <Button fx:id="toWordChain" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToWordChain" prefHeight="50.0" text="Game" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
       <VBox fx:id="mainPane" prefWidth="1140.0" HBox.hgrow="ALWAYS">
