@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
@@ -18,6 +19,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -35,6 +40,7 @@ public class MothershipController implements Initializable{
 
     private List<Parent> menus = new ArrayList<>();
     private List<String> resourceLink = new ArrayList<>();
+    private int mainPaneIndex = 0;
 
     @FXML
     private HBox mothership;
@@ -48,6 +54,9 @@ public class MothershipController implements Initializable{
     private VBox leftSideBar;
     @FXML
     private VBox mainPane;
+
+    @FXML
+    private Button reloadCSS;
 
     /**
      *  Initialize the app.
@@ -84,22 +93,39 @@ public class MothershipController implements Initializable{
         );
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
+
+        mainPaneIndex = mothership.getChildren().size() - 1;
     }
 
     public void switchToDictionary() {
-        mothership.getChildren().set(1, menus.get(Menus.DICTIONARY.ordinal()));
+        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.DICTIONARY.ordinal()));
     }
 
     public void switchToTranslator() {
-        mothership.getChildren().set(1, menus.get(Menus.TRANSLATOR.ordinal()));
+        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.TRANSLATOR.ordinal()));
     }
 
     public void switchToEditor() {
-        mothership.getChildren().set(1, menus.get(Menus.EDITOR.ordinal()));
+        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.EDITOR.ordinal()));
     }
 
     public void switchToWordChain() {
-        mothership.getChildren().set(1, menus.get(Menus.WORDCHAIN.ordinal()));
+        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.WORDCHAIN.ordinal()));
     }
 
+    public void reloadCSS() {
+        Scene scene = mothership.getScene();
+        if (scene != null) {
+            String css = Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm();
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(css);
+        } else {
+        // Show an error message if the button is not in a scene
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Button not in a scene");
+        alert.setContentText("The button cannot reload CSS because it's not in a scene.");
+        alert.showAndWait();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.yranoitcid.frontend;
 
+import java.util.Objects;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,9 +18,11 @@ public class Application extends javafx.application.Application {
         // Load data.
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/fxml/mothership.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Image icon = new Image(getClass().getResourceAsStream("/image/icon.png"));
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
 
         // Setting the stage for show.
+        Image icon = new Image(
+                Objects.requireNonNull(getClass().getResourceAsStream("/image/icon.png")));
         stage.getIcons().add(icon);
         stage.setTitle("Hello dictionary!");
         stage.setScene(scene);

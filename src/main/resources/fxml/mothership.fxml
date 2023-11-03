@@ -1,29 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <HBox fx:id="mothership" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.MothershipController">
    <children>
       <VBox fx:id="leftSideBar" prefWidth="300.0" HBox.hgrow="ALWAYS">
+          <styleClass>
+              <String fx:value="side-bar" />
+          </styleClass>
          <children>
             <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                <image>
                   <Image url="@../image/agdhhdhdjh.jpg" />
                </image>
                <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin></ImageView>
-            <Button fx:id="toDictionary" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0" text="Dictionary" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toTranslator" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0" text="Online Translator" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toEditor" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0" text="Managerment" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toWordChain" maxWidth="1.7976931348623157E308" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToWordChain" prefHeight="50.0" text="Game" VBox.vgrow="ALWAYS" />
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ImageView>
+            <Pane prefHeight="10.0" prefWidth="${leftSideBar.prefWidth}" >
+                <styleClass>
+                    <String fx:value="background" />
+                </styleClass>
+            </Pane>
+            <Button fx:id="toDictionary" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0" text="Dictionary" VBox.vgrow="ALWAYS">
+            </Button>
+            <Button fx:id="toTranslator" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0" text="Online Translator" VBox.vgrow="ALWAYS" />
+            <Button fx:id="toEditor" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0" text="Managerment" VBox.vgrow="ALWAYS" />
+            <Button fx:id="toWordChain" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToWordChain" prefHeight="50.0" text="Game" VBox.vgrow="ALWAYS" />
+            <Button fx:id="reloadCSS" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#reloadCSS" prefHeight="50.0" text="Reload CSS" VBox.vgrow="ALWAYS">
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="btn-outline-info" />
+               </styleClass>
+            </Button>
          </children>
       </VBox>
-      <VBox fx:id="mainPane" prefWidth="1140.0" HBox.hgrow="ALWAYS">
+      <Pane prefHeight="${mothership.height}" prefWidth="20.0" >
+         <styleClass>
+            <String fx:value="background" />
+         </styleClass>
+      </Pane>
+      <VBox fx:id="mainPane" prefWidth="1120.0" HBox.hgrow="ALWAYS">
+         <styleClass>
+            <String fx:value="main-pane" />
+         </styleClass>
          <children>
             <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="270.0" text="WELCOME" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                <VBox.margin>
@@ -43,6 +69,12 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-         </children></VBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin></VBox>
    </children>
 </HBox>

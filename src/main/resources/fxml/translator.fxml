@@ -16,7 +16,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" hgap="10.0" prefWidth="1140.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.TranslatorController">
+<?import java.lang.String?>
+
+<GridPane alignment="CENTER" hgap="10.0" prefWidth="1120.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.TranslatorController">
+  <styleClass>
+    <String fx:value="main-pane" />
+  </styleClass>
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="30.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="220.0" />
