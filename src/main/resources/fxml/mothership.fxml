@@ -5,7 +5,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <HBox fx:id="mothership" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.MothershipController">
@@ -23,25 +22,129 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </ImageView>
-            <Pane prefHeight="10.0" prefWidth="${leftSideBar.prefWidth}" >
+
+            <Pane prefHeight="10.0" prefWidth="${leftSideBar.prefWidth}">
                 <styleClass>
                     <String fx:value="background" />
                 </styleClass>
             </Pane>
-            <Button fx:id="toDictionary" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0" text="Dictionary" VBox.vgrow="ALWAYS">
-            </Button>
-            <Button fx:id="toTranslator" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0" text="Online Translator" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toEditor" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0" text="Managerment" VBox.vgrow="ALWAYS" />
-            <Button fx:id="toWordChain" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToWordChain" prefHeight="50.0" text="Game" VBox.vgrow="ALWAYS" />
-            <Button fx:id="reloadCSS" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#reloadCSS" prefHeight="50.0" text="Reload CSS" VBox.vgrow="ALWAYS">
+
+            <StackPane fx:id="toDictionaryContainer" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" prefHeight="50.0">
+               <children>
+                  <Button fx:id="toDictionaryButton" maxWidth="Infinity" minWidth="${toDictionaryContainer.minWidth}" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                     </styleClass>
+                  </Button>
+                  <StackPane fx:id="toDictionaryMask" prefHeight="${toDictionaryContainer.height}" prefWidth="${toDictionaryContainer.width}" translateX="Infinity" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-hover-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <Label text="Dictionary" alignment="CENTER" prefHeight="${toDictionaryContainer.height}" prefWidth="${toDictionaryContainer.width}" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                        <String fx:value="transparent-background" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </StackPane>
+
+            <StackPane fx:id="toTranslatorContainer" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" prefHeight="50.0">
+               <children>
+                  <Button fx:id="toTranslatorButton" maxWidth="Infinity" minWidth="${toTranslatorContainer.minWidth}" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                     </styleClass>
+                  </Button>
+                  <StackPane fx:id="toTranslatorMask" prefHeight="${toTranslatorContainer.height}" prefWidth="${toTranslatorContainer.width}" translateX="Infinity" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-hover-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <Label text="Online Translator" alignment="CENTER" prefHeight="${toTranslatorContainer.height}" prefWidth="${toTranslatorContainer.width}" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                        <String fx:value="transparent-background" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </StackPane>
+
+            <StackPane fx:id="toEditorContainer" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" prefHeight="50.0">
+               <children>
+                  <Button fx:id="toEditorButton" maxWidth="Infinity" minWidth="${toEditorContainer.minWidth}" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                     </styleClass>
+                  </Button>
+                  <StackPane fx:id="toEditorMask" prefHeight="${toEditorContainer.height}" prefWidth="${toEditorContainer.width}" translateX="Infinity" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-hover-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <Label text="Management" alignment="CENTER" prefHeight="${toEditorContainer.height}" prefWidth="${toEditorContainer.width}" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                        <String fx:value="transparent-background" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </StackPane>
+
+            <StackPane fx:id="toWordChainContainer" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" prefHeight="50.0">
+               <children>
+                  <Button fx:id="toWordChainButton" maxWidth="Infinity" minWidth="${toWordChainContainer.minWidth}" mnemonicParsing="false" onAction="#switchToWordChain" prefHeight="50.0">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                     </styleClass>
+                  </Button>
+                  <StackPane fx:id="toWordChainMask" prefHeight="${toWordChainContainer.height}" prefWidth="${toWordChainContainer.width}" translateX="Infinity" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-hover-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <Label text="Game" alignment="CENTER" prefHeight="${toWordChainContainer.height}" prefWidth="${toWordChainContainer.width}" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                        <String fx:value="transparent-background" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </StackPane>
+
+<!--            <Button fx:id="toDictionaryButton" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0" text="Dictionary" VBox.vgrow="ALWAYS" /> -->
+<!--            <Button fx:id="toTranslatorButton" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0" text="Online Translator" VBox.vgrow="ALWAYS" />-->
+<!--            <Button fx:id="toEditorButton" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0" text="Managerment" VBox.vgrow="ALWAYS" />-->
+<!--            <Button fx:id="toWordChainButton" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToWordChain" prefHeight="50.0" text="Game" VBox.vgrow="ALWAYS" />-->
+            <Pane prefHeight="10.0" prefWidth="${leftSideBar.prefWidth}">
                <styleClass>
-                  <String fx:value="btn" />
-                  <String fx:value="btn-outline-info" />
+                  <String fx:value="background" />
                </styleClass>
-            </Button>
+            </Pane>
+            <StackPane fx:id="reloadCSSContainer" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" prefHeight="50.0">
+               <children>
+                  <Button fx:id="reloadCSSButton" maxWidth="Infinity" minWidth="${reloadCSSContainer.minWidth}" mnemonicParsing="false" onAction="#reloadCSS" prefHeight="50.0">
+                     <styleClass>
+                       <String fx:value="side-bar-button" />
+                     </styleClass>
+                  </Button>
+                  <StackPane fx:id="reloadCSSMask" prefHeight="${reloadCSSContainer.height}" prefWidth="${reloadCSSContainer.width}" translateX="Infinity" mouseTransparent="true">
+                    <styleClass>
+                      <String fx:value="side-bar-button-hover-overlay" />
+                    </styleClass>
+                  </StackPane>
+                  <Label text="Reload CSS" alignment="CENTER" prefHeight="${reloadCSSContainer.height}" prefWidth="${reloadCSSContainer.width}" mouseTransparent="true">
+                    <styleClass>
+                      <String fx:value="side-bar-button" />
+                      <String fx:value="transparent-background" />
+                    </styleClass>
+                  </Label>
+               </children>
+            </StackPane>
          </children>
       </VBox>
-      <Pane prefHeight="${mothership.height}" prefWidth="20.0" >
+      <Pane prefHeight="${mothership.height}" prefWidth="20.0">
          <styleClass>
             <String fx:value="background" />
          </styleClass>

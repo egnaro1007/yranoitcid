@@ -2,19 +2,18 @@ package com.yranoitcid.frontend;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,11 +21,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class MothershipController implements Initializable{
@@ -38,8 +38,8 @@ public class MothershipController implements Initializable{
         WORDCHAIN
     }
 
-    private List<Parent> menus = new ArrayList<>();
-    private List<String> resourceLink = new ArrayList<>();
+    private final List<Parent> menus = new ArrayList<>();
+    private final List<String> resourceLink = new ArrayList<>();
     private int mainPaneIndex = 0;
 
     @FXML
@@ -55,8 +55,27 @@ public class MothershipController implements Initializable{
     @FXML
     private VBox mainPane;
 
+
     @FXML
-    private Button reloadCSS;
+    private StackPane toDictionaryContainer;
+    @FXML
+    private StackPane toDictionaryMask;
+    @FXML
+    private StackPane toTranslatorContainer;
+    @FXML
+    private StackPane toTranslatorMask;
+    @FXML
+    private StackPane toEditorContainer;
+    @FXML
+    private StackPane toEditorMask;
+    @FXML
+    private StackPane toWordChainContainer;
+    @FXML
+    private StackPane toWordChainMask;
+    @FXML
+    private StackPane reloadCSSContainer;
+    @FXML
+    private StackPane reloadCSSMask;
 
     /**
      *  Initialize the app.
@@ -83,7 +102,23 @@ public class MothershipController implements Initializable{
 
         System.out.println("Opening menu initialized successfully.");
 
+        // Set the index of the main pane
+        mainPaneIndex = mothership.getChildren().size() - 1;
+
         // Live clock
+        Timeline clock = getTimeline();
+        clock.play();
+
+        // Add animation to the buttons
+        addTransition(toDictionaryContainer, toDictionaryMask);
+        addTransition(toTranslatorContainer, toTranslatorMask);
+        addTransition(toEditorContainer, toEditorMask);
+        addTransition(toWordChainContainer, toWordChainMask);
+        addTransition(reloadCSSContainer, reloadCSSMask);
+    }
+
+
+    private Timeline getTimeline() {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO,e -> {
                 String timeFormat = ((LocalDateTime.now().getNano() / 600_000_000) % 2 == 0) ? "HH:mm:ss" : "HH mm ss";
                 time.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)));
@@ -92,9 +127,34 @@ public class MothershipController implements Initializable{
                 new KeyFrame(Duration.seconds(0.1))
         );
         clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
+        return clock;
+    }
 
-        mainPaneIndex = mothership.getChildren().size() - 1;
+    private void addTransition (Pane container, Pane mask) {
+        addTransition(container, mask, Duration.millis(300));
+    }
+
+    private void addTransition (Pane container, Pane mask, Duration duration) {
+        TranslateTransition tt = new TranslateTransition(duration, mask);
+        tt.setInterpolator(Interpolator.EASE_BOTH);
+        container.setOnMouseEntered(e -> {
+            tt.setRate(0.5);
+            if (mask.getTranslateX() < container.getLayoutX()) {
+                tt.setFromX(mask.getTranslateX());
+
+            } else {
+                tt.setFromX(container.getLayoutX()-container.getWidth());
+            }
+            tt.setToX(container.getLayoutX());
+            tt.playFromStart();
+        });
+        container.setOnMouseExited(e -> {
+            tt.setRate(1);
+
+            tt.setFromX(mask.getTranslateX());
+            tt.setToX(container.getLayoutX()+container.getWidth());
+            tt.playFromStart();
+        });
     }
 
     public void switchToDictionary() {
@@ -119,6 +179,7 @@ public class MothershipController implements Initializable{
             String css = Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm();
             scene.getStylesheets().clear();
             scene.getStylesheets().add(css);
+            System.out.println("CSS reloaded successfully.");
         } else {
         // Show an error message if the button is not in a scene
         Alert alert = new Alert(AlertType.ERROR);

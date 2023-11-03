@@ -24,15 +24,29 @@
 }
 
 .label {
-    -fx-text-fill: #dde6ed;
+    -fx-text-fill: text-color;
 }
 
-.button {
+.side-bar-button {
     -fx-font-size: 16px;
-    -fx-letter-spacing: 2px;
+    -fx-background-color: primary-color;
+    -fx-text-fill: text-color
+}
+
+.side-bar-button-hover-overlay {
+    -fx-background-color: #fff;
+    -fx-opacity: 0.5;
+}
+
+.transparent-background {
+    -fx-background-color: transparent;
+}
+
+/* 
+.button:hover {
     -fx-background-color: accent-color;
     -fx-text-fill: #dde6ed;
-}
+} */
 
 .background {
     -fx-background-color: neutral-color;
