@@ -29,7 +29,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Update Word">
+            <Button mnemonicParsing="false" onAction="#changeWord" text="Update Word">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>

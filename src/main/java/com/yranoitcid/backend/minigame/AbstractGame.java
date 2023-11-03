@@ -17,7 +17,7 @@ public abstract class AbstractGame {
         return score;
     }
 
-    private void setScore(Integer score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 

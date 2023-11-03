@@ -97,6 +97,7 @@ public class EditorController implements Initializable {
      * and the only way to bring back the word is replacing the current one with backups.
      */
     public void removeWordFromDatabase() throws Exception {
+        System.out.println("Proceeding to remove: " + wordInput.getText());
         // If word is blank or doesn't exist, abort.
         if (wordInput.getText().isBlank()
             || workingDictionary.searchExact("en", "vi", wordInput.getText()) == null) {
@@ -127,6 +128,7 @@ public class EditorController implements Initializable {
      * Change the information of chosen word.
      */
     public void changeWord() throws Exception {
+        System.out.println("Proceeding to update: " + wordInput.getText());
         // If no input is detected, abort.
         if (wordInput.getText().isBlank()
             || pronounInput.getText().isBlank()
@@ -173,6 +175,7 @@ public class EditorController implements Initializable {
      * Add a new word to the database.
      */
     public void addWordToDatabase() throws Exception {
+        System.out.println("Proceeding to add: " + wordInput.getText());
         // If no input is detected, abort.
         if (wordInput.getText().isBlank()
             || pronounInput.getText().isBlank()
@@ -187,11 +190,11 @@ public class EditorController implements Initializable {
         }
 
         // If word did exist, abort.
-        if (Objects.equals(workingDictionary.searchExact(
+        if (workingDictionary.searchExact(
             "en",
             "vi",
             wordInput.getText()
-        ).getWord(), wordInput.getText())) {
+        ) != null) {
             Alert warning = new Alert(AlertType.ERROR);
             warning.setTitle("Invalid Input");
             warning.setHeaderText("Word already exist");
@@ -217,8 +220,6 @@ public class EditorController implements Initializable {
             workingDictionary.addWord("en", "vi", newWord);
         }
     }
-
-
 
     /**
      * Convert texts from the text-to-HTML field to HTML and put it in the HTML field.
