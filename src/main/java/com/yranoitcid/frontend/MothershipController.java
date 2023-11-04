@@ -35,7 +35,8 @@ public class MothershipController implements Initializable{
         DICTIONARY,
         TRANSLATOR,
         EDITOR,
-        WORDCHAIN
+        WORDCHAIN,
+        QUIZ
     }
 
     private final List<Parent> menus = new ArrayList<>();
@@ -88,8 +89,9 @@ public class MothershipController implements Initializable{
         resourceLink.add("/fxml/translator.fxml");
         resourceLink.add("/fxml/editor.fxml");
         resourceLink.add("/fxml/wordchain.fxml");
+        resourceLink.add("/fxml/multiplechoice.fxml");
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             FXMLLoader load = new FXMLLoader(Application.class.getResource(
                 resourceLink.get(i)));
             try {
@@ -171,6 +173,10 @@ public class MothershipController implements Initializable{
 
     public void switchToWordChain() {
         mothership.getChildren().set(mainPaneIndex, menus.get(Menus.WORDCHAIN.ordinal()));
+    }
+
+    public void switchToQuiz() {
+        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.QUIZ.ordinal()));
     }
 
     public void reloadCSS() {

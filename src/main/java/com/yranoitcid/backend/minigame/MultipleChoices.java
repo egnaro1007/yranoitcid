@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 public class MultipleChoices extends AbstractGame {
+    private boolean isRunning = false;
     HashMap<Integer, MultipleChoiceQuestion> questions = new HashMap<>();
 
     public void loadQuestion() {
@@ -48,6 +49,12 @@ public class MultipleChoices extends AbstractGame {
         return ques.getAnswer().equals(answer);
     }
 
+    /**
+     * Check if the answer is correct.
+     * @param questionID
+     * @param answer
+     * @return whether the answer is correct or not.
+     */
     public boolean answer(int questionID, int answer) {
         try {
             if (checkAnswer(questionID,answer)) {
@@ -59,5 +66,13 @@ public class MultipleChoices extends AbstractGame {
         } catch (InvalidKeyException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
     }
 }

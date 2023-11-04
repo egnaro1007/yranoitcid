@@ -1,6 +1,6 @@
 package com.yranoitcid.backend.minigame;
 
-class MultipleChoiceQuestion {
+public class MultipleChoiceQuestion {
 
     private Integer id;
     private String question;
@@ -39,7 +39,7 @@ class MultipleChoiceQuestion {
     }
 
     public String getChoice(Integer index) {
-        return choices[index];
+        return choices[index - 1];
     }
 
     public Integer getAnswer() {
