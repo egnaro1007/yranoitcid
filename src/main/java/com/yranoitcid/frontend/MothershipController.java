@@ -74,6 +74,10 @@ public class MothershipController implements Initializable{
     @FXML
     private StackPane toWordChainMask;
     @FXML
+    private StackPane toQuizContainer;
+    @FXML
+    private StackPane toQuizMask;
+    @FXML
     private StackPane reloadCSSContainer;
     @FXML
     private StackPane reloadCSSMask;
@@ -116,6 +120,7 @@ public class MothershipController implements Initializable{
         addTransition(toTranslatorContainer, toTranslatorMask);
         addTransition(toEditorContainer, toEditorMask);
         addTransition(toWordChainContainer, toWordChainMask);
+        addTransition(toQuizContainer, toQuizMask);
         addTransition(reloadCSSContainer, reloadCSSMask);
     }
 
@@ -148,14 +153,20 @@ public class MothershipController implements Initializable{
                 tt.setFromX(container.getLayoutX()-container.getWidth());
             }
             tt.setToX(container.getLayoutX());
+
+            mask.setVisible(true);
             tt.playFromStart();
         });
         container.setOnMouseExited(e -> {
             tt.setRate(1);
-
             tt.setFromX(mask.getTranslateX());
             tt.setToX(container.getLayoutX()+container.getWidth());
+
             tt.playFromStart();
+            tt.setOnFinished(event -> {
+                mask.setVisible(false);
+                tt.setOnFinished(null);
+            });
         });
     }
 

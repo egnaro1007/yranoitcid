@@ -12,7 +12,7 @@ public class MultipleChoices extends AbstractGame {
 
     public void loadQuestion() {
         DatabaseQuery database = new DatabaseQuery("dict.db");
-        try (ResultSet rs = database.query("mutilchoiceQuiz")) {
+        try (ResultSet rs = database.query("multiple_choice_quiz")) {
             while (rs.next()) {
                 String choice[] = new String[4];
                 choice[0] = rs.getString("answer1");

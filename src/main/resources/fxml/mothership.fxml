@@ -9,7 +9,7 @@
 
 <HBox fx:id="mothership" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.MothershipController">
    <children>
-      <VBox fx:id="leftSideBar" prefWidth="300.0" HBox.hgrow="ALWAYS">
+      <VBox fx:id="leftSideBar" minWidth="200.0" maxWidth="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
           <styleClass>
               <String fx:value="side-bar" />
           </styleClass>
@@ -113,6 +113,27 @@
                </children>
             </StackPane>
 
+            <StackPane fx:id="toQuizContainer" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" prefHeight="50.0">
+               <children>
+                  <Button fx:id="toQuizButton" maxWidth="Infinity" minWidth="${toQuizContainer.minWidth}" mnemonicParsing="false" onAction="#switchToQuiz" prefHeight="50.0">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                     </styleClass>
+                  </Button>
+                  <StackPane fx:id="toQuizMask" prefHeight="${toQuizContainer.height}" prefWidth="${toQuizContainer.width}" translateX="Infinity" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-hover-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <Label text="Quiz" alignment="CENTER" prefHeight="${toQuizContainer.height}" prefWidth="${toQuizContainer.width}" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button" />
+                        <String fx:value="transparent-background" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </StackPane>
+
 <!--            <Button fx:id="toDictionaryButton" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToDictionary" prefHeight="50.0" text="Dictionary" VBox.vgrow="ALWAYS" /> -->
 <!--            <Button fx:id="toTranslatorButton" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToTranslator" prefHeight="50.0" text="Online Translator" VBox.vgrow="ALWAYS" />-->
 <!--            <Button fx:id="toEditorButton" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" mnemonicParsing="false" onAction="#switchToEditor" prefHeight="50.0" text="Managerment" VBox.vgrow="ALWAYS" />-->
@@ -144,12 +165,14 @@
             </StackPane>
          </children>
       </VBox>
-      <Pane prefHeight="${mothership.height}" prefWidth="20.0">
+
+      <Pane prefHeight="${mothership.height}" prefWidth="20.0" minWidth="20" maxWidth="20" >
          <styleClass>
             <String fx:value="background" />
          </styleClass>
       </Pane>
-      <VBox fx:id="mainPane" prefWidth="1120.0" HBox.hgrow="ALWAYS">
+
+      <VBox fx:id="mainPane" prefWidth="1120.0" maxWidth="Infinity" HBox.hgrow="ALWAYS">
          <styleClass>
             <String fx:value="main-pane" />
          </styleClass>
