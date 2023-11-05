@@ -38,6 +38,11 @@
     -fx-opacity: 0.5;
 }
 
+.side-bar-button-selected-overlay {
+    -fx-background-color: accent-color;
+    -fx-text-fill: text-color;
+}
+
 .transparent-background {
     -fx-background-color: transparent;
 }

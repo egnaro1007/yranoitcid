@@ -10,10 +10,13 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,6 +32,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import com.yranoitcid.backend.util.BooleanExclusive;
+import com.yranoitcid.backend.util.ANSIColor;
+
 public class MothershipController implements Initializable{
 
     enum Menus {
@@ -41,7 +47,9 @@ public class MothershipController implements Initializable{
 
     private final List<Parent> menus = new ArrayList<>();
     private final List<String> resourceLink = new ArrayList<>();
+    private List<FadeTransition> selectedEffect = new ArrayList<>();
     private int mainPaneIndex = 0;
+    private BooleanExclusive isMenuOpen = null;
 
     @FXML
     private HBox mothership;
@@ -62,21 +70,31 @@ public class MothershipController implements Initializable{
     @FXML
     private StackPane toDictionaryMask;
     @FXML
+    private StackPane toDictionarySelected;
+    @FXML
     private StackPane toTranslatorContainer;
     @FXML
     private StackPane toTranslatorMask;
+    @FXML
+    private StackPane toTranslatorSelected;
     @FXML
     private StackPane toEditorContainer;
     @FXML
     private StackPane toEditorMask;
     @FXML
+    private StackPane toEditorSelected;
+    @FXML
     private StackPane toWordChainContainer;
     @FXML
     private StackPane toWordChainMask;
     @FXML
+    private StackPane toWordChainSelected;
+    @FXML
     private StackPane toQuizContainer;
     @FXML
     private StackPane toQuizMask;
+    @FXML
+    private StackPane toQuizSelected;
     @FXML
     private StackPane reloadCSSContainer;
     @FXML
@@ -100,13 +118,16 @@ public class MothershipController implements Initializable{
                 resourceLink.get(i)));
             try {
                 menus.add(load.load());
+//                System.out.println(load.getLocation() + " loaded successfully.");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             VBox.setVgrow(menus.get(i), Priority.ALWAYS);
         }
+        isMenuOpen = new BooleanExclusive(resourceLink.size());
 
         System.out.println("Opening menu initialized successfully.");
+
 
         // Set the index of the main pane
         mainPaneIndex = mothership.getChildren().size() - 1;
@@ -116,32 +137,89 @@ public class MothershipController implements Initializable{
         clock.play();
 
         // Add animation to the buttons
-        addTransition(toDictionaryContainer, toDictionaryMask);
-        addTransition(toTranslatorContainer, toTranslatorMask);
-        addTransition(toEditorContainer, toEditorMask);
-        addTransition(toWordChainContainer, toWordChainMask);
-        addTransition(toQuizContainer, toQuizMask);
-        addTransition(reloadCSSContainer, reloadCSSMask);
+        addWipeEffect(toDictionaryContainer, toDictionaryMask);
+        addSelectedFadeEffect(toDictionarySelected, selectedEffect);
+        addWipeEffect(toTranslatorContainer, toTranslatorMask);
+        addSelectedFadeEffect(toTranslatorSelected, selectedEffect);
+        addWipeEffect(toEditorContainer, toEditorMask);
+        addSelectedFadeEffect(toEditorSelected, selectedEffect);
+        addWipeEffect(toWordChainContainer, toWordChainMask);
+        addSelectedFadeEffect(toWordChainSelected, selectedEffect);
+        addWipeEffect(toQuizContainer, toQuizMask);
+        addSelectedFadeEffect(toQuizSelected, selectedEffect);
+        addWipeEffect(reloadCSSContainer, reloadCSSMask);
+    }
+
+    public void switchToDictionary() {
+        switchMainPane(Menus.DICTIONARY.ordinal());
+//        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.DICTIONARY.ordinal()));
+    }
+
+    public void switchToTranslator() {
+        switchMainPane(Menus.TRANSLATOR.ordinal());
+//        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.TRANSLATOR.ordinal()));
+    }
+
+    public void switchToEditor() {
+        switchMainPane(Menus.EDITOR.ordinal());
+//        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.EDITOR.ordinal()));
+    }
+
+    public void switchToWordChain() {
+        switchMainPane(Menus.WORDCHAIN.ordinal());
+//        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.WORDCHAIN.ordinal()));
+    }
+
+    public void switchToQuiz() {
+        switchMainPane(Menus.QUIZ.ordinal());
+//        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.QUIZ.ordinal()));
+    }
+
+    private void switchMainPane(int index) {
+        int oldIndex = isMenuOpen.getTrue();
+        isMenuOpen.setTrue(index);
+        int newIndex = isMenuOpen.getTrue();
+
+        if (oldIndex != BooleanExclusive.ALL_FALSE_INDEX && oldIndex != newIndex){
+            selectedEffect.get(oldIndex).stop();
+            selectedEffect.get(oldIndex).setFromValue(1);
+            selectedEffect.get(oldIndex).setToValue(0);
+            selectedEffect.get(oldIndex).setRate(-1);
+            selectedEffect.get(oldIndex).playFromStart();
+        }
+
+        selectedEffect.get(newIndex).setFromValue(0.3);
+        selectedEffect.get(newIndex).setToValue(1);
+        selectedEffect.get(newIndex).playFromStart();
+
+        if (newIndex != oldIndex) {
+            mothership.getChildren().set(mainPaneIndex, menus.get(newIndex));
+
+            ANSIColor.consoleColorPrint(
+                    "Menu selected: " + index + " " + Menus.values()[index], ANSIColor.GREEN);
+        } else {
+            ANSIColor.consoleColorPrint("Already selected!", ANSIColor.GREEN);
+        }
     }
 
 
     private Timeline getTimeline() {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO,e -> {
-                String timeFormat = ((LocalDateTime.now().getNano() / 600_000_000) % 2 == 0) ? "HH:mm:ss" : "HH mm ss";
-                time.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)));
-                date.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-            }),
+            String timeFormat = ((LocalDateTime.now().getNano() / 600_000_000) % 2 == 0) ? "HH:mm:ss" : "HH mm ss";
+            time.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)));
+            date.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        }),
                 new KeyFrame(Duration.seconds(0.1))
         );
         clock.setCycleCount(Animation.INDEFINITE);
         return clock;
     }
 
-    private void addTransition (Pane container, Pane mask) {
-        addTransition(container, mask, Duration.millis(300));
+    private void addWipeEffect(Pane container, Pane mask) {
+        addWipeEffect(container, mask, Duration.millis(300));
     }
 
-    private void addTransition (Pane container, Pane mask, Duration duration) {
+    private void addWipeEffect(Pane container, Pane mask, Duration duration) {
         TranslateTransition tt = new TranslateTransition(duration, mask);
         tt.setInterpolator(Interpolator.EASE_BOTH);
         container.setOnMouseEntered(e -> {
@@ -170,40 +248,56 @@ public class MothershipController implements Initializable{
         });
     }
 
-    public void switchToDictionary() {
-        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.DICTIONARY.ordinal()));
-    }
-
-    public void switchToTranslator() {
-        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.TRANSLATOR.ordinal()));
-    }
-
-    public void switchToEditor() {
-        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.EDITOR.ordinal()));
-    }
-
-    public void switchToWordChain() {
-        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.WORDCHAIN.ordinal()));
-    }
-
-    public void switchToQuiz() {
-        mothership.getChildren().set(mainPaneIndex, menus.get(Menus.QUIZ.ordinal()));
+    private void addSelectedFadeEffect(Pane button, List<FadeTransition> selectedEffectList) {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), button);
+        ft.setFromValue(0.3);
+        ft.setToValue(1);
+        selectedEffectList.add(ft);
     }
 
     public void reloadCSS() {
-        Scene scene = mothership.getScene();
+//        Scene scene = mothership.getScene();
+//        if (scene != null) {
+//            System.out.println(scene.getStylesheets());
+//            String css = Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm();
+//            scene.getStylesheets().clear();
+//            scene.getStylesheets().add(css);
+//            System.out.println("CSS reloaded successfully.");
+//        } else {
+//            Alert alert = new Alert(AlertType.ERROR);
+//            alert.setTitle("Error");
+//            alert.setHeaderText("Cannot load scene");
+//            alert.setContentText("Something went wrong. Cannot load Mothership");
+//            alert.showAndWait();
+//        }
+        reloadStyleSheets(mothership);
+    }
+
+    public void reloadStyleSheets(Parent parent) {
+        Scene scene = parent.getScene();
         if (scene != null) {
-            String css = Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm();
+            System.out.println("Reload all stylesheets:");
+            ObservableList<String> stylesheets = scene.getStylesheets();
+            ArrayList<String> stylesheetsToCopy = new ArrayList<>();
+            for (String stylesheet : stylesheets) {
+                stylesheetsToCopy.add(stylesheet);
+                System.out.println("\tStylesheet found: " + stylesheet);
+            }
+
+            System.out.println("\t-----------");
+
             scene.getStylesheets().clear();
-            scene.getStylesheets().add(css);
-            System.out.println("CSS reloaded successfully.");
+            for (String stylesheet : stylesheetsToCopy) {
+                scene.getStylesheets().add(stylesheet);
+                System.out.println("\tReload successfully: " + stylesheet);
+            }
+            System.out.println("Stylesheets reloaded successfully.");
         } else {
-        // Show an error message if the button is not in a scene
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Button not in a scene");
-        alert.setContentText("The button cannot reload CSS because it's not in a scene.");
-        alert.showAndWait();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Cannot load scene");
+            alert.setContentText("Something went wrong. Cannot load " + parent.getClass().getName());
+            alert.showAndWait();
         }
     }
 }

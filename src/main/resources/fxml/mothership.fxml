@@ -41,6 +41,11 @@
                         <String fx:value="side-bar-button-hover-overlay" />
                      </styleClass>
                   </StackPane>
+                  <StackPane fx:id="toDictionarySelected" prefHeight="${toDictionaryContainer.height}" prefWidth="${toDictionaryContainer.width}" opacity="0" mouseTransparent="true">
+                  <styleClass>
+                     <String fx:value="side-bar-button-selected-overlay" />
+                  </styleClass>
+                  </StackPane>
                   <Label text="Dictionary" alignment="CENTER" prefHeight="${toDictionaryContainer.height}" prefWidth="${toDictionaryContainer.width}" mouseTransparent="true">
                      <styleClass>
                         <String fx:value="side-bar-button" />
@@ -60,6 +65,11 @@
                   <StackPane fx:id="toTranslatorMask" prefHeight="${toTranslatorContainer.height}" prefWidth="${toTranslatorContainer.width}" translateX="Infinity" mouseTransparent="true">
                      <styleClass>
                         <String fx:value="side-bar-button-hover-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <StackPane fx:id="toTranslatorSelected" prefHeight="${toTranslatorContainer.height}" prefWidth="${toTranslatorContainer.width}" opacity="0" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-selected-overlay" />
                      </styleClass>
                   </StackPane>
                   <Label text="Online Translator" alignment="CENTER" prefHeight="${toTranslatorContainer.height}" prefWidth="${toTranslatorContainer.width}" mouseTransparent="true">
@@ -83,6 +93,11 @@
                         <String fx:value="side-bar-button-hover-overlay" />
                      </styleClass>
                   </StackPane>
+                  <StackPane fx:id="toEditorSelected" prefHeight="${toEditorContainer.height}" prefWidth="${toEditorContainer.width}" opacity="0" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-selected-overlay" />
+                     </styleClass>
+                  </StackPane>
                   <Label text="Management" alignment="CENTER" prefHeight="${toEditorContainer.height}" prefWidth="${toEditorContainer.width}" mouseTransparent="true">
                      <styleClass>
                         <String fx:value="side-bar-button" />
@@ -104,7 +119,12 @@
                         <String fx:value="side-bar-button-hover-overlay" />
                      </styleClass>
                   </StackPane>
-                  <Label text="Game" alignment="CENTER" prefHeight="${toWordChainContainer.height}" prefWidth="${toWordChainContainer.width}" mouseTransparent="true">
+                  <StackPane fx:id="toWordChainSelected" prefHeight="${toWordChainContainer.height}" prefWidth="${toWordChainContainer.width}" opacity="0" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-selected-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <Label text="Word Chain" alignment="CENTER" prefHeight="${toWordChainContainer.height}" prefWidth="${toWordChainContainer.width}" mouseTransparent="true">
                      <styleClass>
                         <String fx:value="side-bar-button" />
                         <String fx:value="transparent-background" />
@@ -123,6 +143,11 @@
                   <StackPane fx:id="toQuizMask" prefHeight="${toQuizContainer.height}" prefWidth="${toQuizContainer.width}" translateX="Infinity" mouseTransparent="true">
                      <styleClass>
                         <String fx:value="side-bar-button-hover-overlay" />
+                     </styleClass>
+                  </StackPane>
+                  <StackPane fx:id="toQuizSelected" prefHeight="${toQuizContainer.height}" prefWidth="${toQuizContainer.width}" opacity="0" mouseTransparent="true">
+                     <styleClass>
+                        <String fx:value="side-bar-button-selected-overlay" />
                      </styleClass>
                   </StackPane>
                   <Label text="Quiz" alignment="CENTER" prefHeight="${toQuizContainer.height}" prefWidth="${toQuizContainer.width}" mouseTransparent="true">
