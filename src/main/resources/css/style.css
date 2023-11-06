@@ -57,6 +57,25 @@
     -fx-background-color: neutral-color;
 }
 
+.dark-text {
+    -fx-text-fill: black;
+}
+
+.white-background {
+    -fx-background-color: #fff;
+}
+
+.transparent-background {
+    -fx-background-color: transparent;
+}
+
+.big-text-box {
+    -fx-font-size: 20px;
+    -fx-padding: 10 10 10 10;
+}
+
+
+
 
 
 /* Button base */
