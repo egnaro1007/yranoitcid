@@ -49,14 +49,65 @@ public class DatabaseQuery {
     }
 
     /**
-     * database query with "LIKE". Order by the position of the search term in the column.
+     * Query the database. If the term is not found, throw a RuntimeException.
+     *
+     * @param table        The table to query.
+     * @param column       The column to query.
+     * @param term         The term to query.
+     * @param isExactMatch Search for exact match if true, otherwise search for contain.
+     * @return A ResultSet object containing rows that match the query.
+     */
+    public ResultSet query(String table, String column, String term, boolean isExactMatch) {
+        if (isExactMatch) {
+            return queryExact(table, column, term);
+        } else {
+            return queryContain(table, column, term);
+        }
+    }
+
+    /**
+     * Query the database. Use {@link #query(String, String, String, boolean)} with default value of
+     * isExactMatch is false.
+     *
+     * @param table  The table to query.
+     * @param column The column to query.
+     * @param term   The term to query.
+     * @return A ResultSet object containing rows that match the query.
+     */
+    public ResultSet query(String table, String column, String term) {
+        return query(table, column, term, false);
+    }
+
+    private ResultSet queryExact(String table, String column, String term) {
+        String sql = "SELECT * "
+                + "FROM " + table
+                + " WHERE " + column
+                + " = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            // Set the parameters
+            preparedStatement.setString(1, term);
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+            // Process the result set if the Word is found
+            if (!resultSet.isBeforeFirst()) {
+                throw new RuntimeException("Not found");
+            }
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Database query with "LIKE". Order by the position of the search term in the column.
      *
      * @param table  The table to query.
      * @param column The column to query.
      * @param term   The term to query.
      * @return a ResultSet object containing rows that match the query.
      */
-    public ResultSet query(String table, String column, String term) {
+    private ResultSet queryContain(String table, String column, String term) {
         String sql = "SELECT * "
                 + "FROM " + table
                 + " WHERE " + column
@@ -78,10 +129,10 @@ public class DatabaseQuery {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    public ResultSet queryWithLevenshteinDistance(String table, String column, String term, int maxLevenshteinDistance) throws SQLException {
+    public ResultSet queryWithLevenshteinDistance(String table, String column, String term,
+            int maxLevenshteinDistance) throws SQLException {
 
         // Register the custom Levenshtein function with the SQLite database
         Function.create(connection, "LEVENSHTEIN", new LevenshteinFunction());
@@ -90,9 +141,9 @@ public class DatabaseQuery {
                 + " WHERE LENGTH(" + column + ") BETWEEN ? AND ?"
                 + " AND LEVENSHTEIN(" + column + ", ?) <= ?"
                 + " ORDER BY"
-                            + " CASE WHEN " + column + " LIKE ? || '%' THEN 1 ELSE 2 END"
-                            + ", LEVENSHTEIN(" + column + ", ?)"
-                            + ", " + column
+                + " CASE WHEN " + column + " LIKE ? || '%' THEN 1 ELSE 2 END"
+                + ", LEVENSHTEIN(" + column + ", ?)"
+                + ", " + column
                 + " LIMIT " + limitQuery.toString();
 
         try {

@@ -35,6 +35,7 @@ public class WordChainController {
    */
   public void playerAnswer() {
     String answer = playerInput.getText();
+    playerInput.clear();
     game.commit(answer);
     if (game.isRunning()) {
       playerInputList.getItems().add(answer);

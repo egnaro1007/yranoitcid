@@ -37,6 +37,9 @@ public class WordChain extends AbstractGame {
     }
 
     public void commit(String commitWord) {
+        // Lowercase
+        commitWord = commitWord.toLowerCase();
+
         // First round
         if (!isRunning()) {
             state = 0;
@@ -66,7 +69,7 @@ public class WordChain extends AbstractGame {
         Word commitWordObj = dict.validateWord(srcLang, destLang, commitWord);
         if (commitWordObj == null) {
             this.lose();
-            System.out.println("\u001B[31m" + "Word is not valid" + "\u001B[0m");
+            System.out.println("\u001B[31m" + "Word is invalid" + "\u001B[0m");
             return;
         }
 

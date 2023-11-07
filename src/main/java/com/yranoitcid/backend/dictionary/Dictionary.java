@@ -49,7 +49,7 @@ public class Dictionary {
      */
     public ArrayList<Word> searchContains(String srcLang, String destLang, String searchTerm)
             throws Exception {
-        ArrayList<Word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
+        ArrayList<Word> result = searchTermInDatabase(srcLang, destLang, searchTerm, false);
         if (result.isEmpty()) {
             // throw new Exception("Word not found");
         }
@@ -66,26 +66,28 @@ public class Dictionary {
      * @throws Exception If the Word is not found.
      */
     public Word searchExact(String srcLang, String destLang, String searchTerm) throws Exception {
-        ArrayList<Word> result = searchTermInDatabase(srcLang, destLang, searchTerm);
-        for (Word w : result) {
-            if (w.getWord().equals(searchTerm)) {
-                return w;
-            }
-        }
-        return null;
+        ArrayList<Word> result = searchTermInDatabase(srcLang, destLang, searchTerm, true);
+//        for (Word w : result) {
+//            if (w.getWord().equals(searchTerm)) {
+//                return w;
+//            }
+//        }
+//        return null;
         // throw new Exception("Word not found");
+        return result.isEmpty() ? null : result.get(0);
     }
 
     private ArrayList<Word> searchTermInDatabase(
             String srcLang,
             String destLang,
-            String searchTerm) {
+            String searchTerm,
+            boolean searchExact) {
         String tableName = tableList.get(new Pair<>(srcLang, destLang));
         ArrayList<Word> result = new ArrayList<>();
 
-        try (ResultSet resultSet = database.query(tableName, "Word", searchTerm)) {
+        try (ResultSet resultSet = database.query(tableName, "word", searchTerm, searchExact)) {
             while (resultSet.next()) {
-                String word = resultSet.getString("Word");
+                String word = resultSet.getString("word");
                 String html = resultSet.getString("html");
                 String pronounce = resultSet.getString("pronounce");
                 String description = resultSet.getString("description");
