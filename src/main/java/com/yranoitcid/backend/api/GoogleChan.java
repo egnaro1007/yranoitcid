@@ -8,9 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.net.ssl.HttpsURLConnection;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class GoogleChan extends AbstractAPI {
 
@@ -64,7 +63,7 @@ public class GoogleChan extends AbstractAPI {
             if (obj instanceof Word) {
                 return (Word) obj;
             }
-        } catch (ParseException | IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -93,7 +92,7 @@ public class GoogleChan extends AbstractAPI {
                     word.append(((Word) obj).getWord()).append(" ");
                     description.append(((Word) obj).getDescription()).append(" ");
                 }
-            } catch (ParseException | IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -145,64 +144,45 @@ public class GoogleChan extends AbstractAPI {
     }
 
     @Override
-    public Object parse() throws ParseException, IOException {
-        Object obj = getJsonObject(connection);
-
-        // Prepare the result
-        String word;
-        word = text;
-        String html;
-        String description = "";
-        String pronounce = "";
-
-        // Parse
-        if (obj instanceof JSONArray jsonArray
-                && !jsonArray.isEmpty()
-                && jsonArray.get(0) instanceof JSONArray innerArray1_0
-                && !innerArray1_0.isEmpty()) {
-            // System.out.println(jsonArray);
-            if (innerArray1_0.get(0) instanceof JSONArray innerArray2_0_0 &&
-                    !innerArray2_0_0.isEmpty()) {
-                String value = (String) innerArray2_0_0.get(0);
-                // System.out.println(value);
-                description = value;
+    public Object parse() {
+        try {
+            // Read response as String
+            StringBuilder response = new StringBuilder();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
             }
+
+            // Put the response into JSONArray
+            JSONArray jsonArray = new JSONArray(response.toString());
+
+            // Prepare the result
+            String word;
+            word = text;
+            StringBuilder html = new StringBuilder();
+            String description = "";
+            String pronounce = "";
+
+            // Parse the JSON and get the result
+            description = jsonArray.getJSONArray(0).getJSONArray(0).getString(0);
             try {
-                if (innerArray1_0.get(1) instanceof JSONArray innerArray2_0_1 &&
-                        !innerArray2_0_1.isEmpty()) {
-                    String value = (String) innerArray2_0_1.get(3);
-                    System.out.println(value);
-                    pronounce = value;
-                }
+                pronounce = jsonArray.getJSONArray(0).getJSONArray(1).getString(3);
             } catch (Exception e) {
-                pronounce = "";
+                pronounce = null;
             }
-            html = "<h1>" + word + "</h1>"
-                    + "<h3><i>" + pronounce + "</i></h3>"
-                    + "<ul><li>" + description + "</li></ul>";
+            html.append("<h1>").append(word).append("</h1>");
+            if (pronounce != null) {
+                html.append("<h3><i>").append(pronounce).append("</i></h3>");
+            }
+            html.append("<ul><li>").append(description).append("</li></ul>");
 
-            Word w = new Word(word, html, description, pronounce);
+            // Return the result
+            Word w = new Word(word, html.toString(), description, pronounce);
             return w;
+        } catch (Exception e) {
+            return null;
         }
-        return null;
-    }
-
-    private static Object getJsonObject(HttpsURLConnection connection)
-            throws IOException, ParseException {
-        StringBuilder response = new StringBuilder();
-
-        // Read response as String
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        // System.out.println(response);
-
-        // Parse the JSON string using org.json.simple.parser.JSONParser
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(response.toString());
-        return obj;
     }
 }
