@@ -41,4 +41,17 @@ public class Word {
                 ((pronounce == null) || pronounce.isEmpty()) ? "" : "\\" + pronounce + "\\",
                 description);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    public boolean equals(Word word) {
+        return this.word.equals(word.getWord());
+    }
+
+    public boolean equals(String word) {
+        return this.word.equals(word);
+    }
 }

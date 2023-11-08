@@ -13,6 +13,9 @@ public class WordChain extends AbstractGame {
     private final String srcLang;
     private final String destLang;
     private final Integer maxWordLength;
+    public static final int WORDCHAIN_STATE_RUNNING = 0;
+    public static final int WORDCHAIN_STATE_WIN = 1;
+    public static final int WORDCHAIN_STATE_LOSE = 2;
     LinkedHashMap<String, Word> usedWords = new LinkedHashMap<>();
     public WordChain(String srcLang, String destLang) {
         this(srcLang, destLang, Integer.MAX_VALUE);
@@ -26,14 +29,6 @@ public class WordChain extends AbstractGame {
         if (srcLang.equals("en") && destLang.equals("vi")) {
             dict.initTable("en", "vi", "av");
         }
-
-//        // Test
-//        try {
-//            ArrayList<Word> list = dict.getWordStartWith(srcLang, destLang, "a");
-//            System.out.println(list.get(0).toString());
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     public void commit(String commitWord) {
@@ -42,7 +37,7 @@ public class WordChain extends AbstractGame {
 
         // First round
         if (!isRunning()) {
-            state = 0;
+            state = WordChain.WORDCHAIN_STATE_RUNNING;
             usedWords.clear();
             this.setScore(0);
             if (commitWord.isEmpty()) {
@@ -57,6 +52,7 @@ public class WordChain extends AbstractGame {
         }
 
         if (commitWord.length() > maxWordLength) {
+            this.lose();
             System.out.println("\u001B[31m" + "Word is too long" + "\u001B[0m");
             return;
         }
@@ -91,7 +87,11 @@ public class WordChain extends AbstractGame {
         try {
             ArrayList<Word> list = dict.getWordStartWith(srcLang, destLang,
                     lastWord.substring(lastWord.length() - 1, lastWord.length()));
-            list.removeIf(word -> usedWords.containsKey(word.getWord()));
+            list.removeIf(word -> usedWords.containsKey(word.getWord())
+                                || word.getWord().length() == 1
+                                || word.getWord().length() > maxWordLength
+                                || word.equals(word.getWord().toUpperCase())
+            );
             Word newWord = list.get((int) Math.round(Math.random() * (list.size() - 1)));
             if (newWord != null) {
                 usedWords.put(newWord.getWord(), newWord);
@@ -110,13 +110,13 @@ public class WordChain extends AbstractGame {
     public void win() {
         System.out.println("\u001B[32m" + "\u001B[1m" + "Congratulation! Your score is: "
                 + getScore().toString() + "\u001B[0m");
-        state = 1;
+        state = WordChain.WORDCHAIN_STATE_WIN;
         this.setRunning(false);
     }
 
     public void lose() {
         System.out.println("\u001B[31m" + "\u001B[1m" + "You lose"+ "\u001B[0m");
-        state = 2;
+        state = WordChain.WORDCHAIN_STATE_LOSE;
         this.setRunning(false);
     }
 
