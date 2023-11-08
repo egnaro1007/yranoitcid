@@ -25,6 +25,8 @@ public class Application extends javafx.application.Application {
                 Objects.requireNonNull(getClass().getResourceAsStream("/image/icon.png")));
         stage.getIcons().add(icon);
         stage.setTitle("Hello dictionary!");
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
 

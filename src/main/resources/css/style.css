@@ -47,6 +47,10 @@
     -fx-background-color: transparent;
 }
 
+#resultList {
+    -fx-font-size: 20px;
+}
+
 /* 
 .button:hover {
     -fx-background-color: accent-color;
