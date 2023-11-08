@@ -43,6 +43,7 @@ public class WordChain extends AbstractGame {
         // First round
         if (!isRunning()) {
             state = 0;
+            usedWords.clear();
             this.setScore(0);
             if (commitWord.isEmpty()) {
                 System.out.println("Computer first");
@@ -90,6 +91,7 @@ public class WordChain extends AbstractGame {
         try {
             ArrayList<Word> list = dict.getWordStartWith(srcLang, destLang,
                     lastWord.substring(lastWord.length() - 1, lastWord.length()));
+            list.removeIf(word -> usedWords.containsKey(word.getWord()));
             Word newWord = list.get((int) Math.round(Math.random() * (list.size() - 1)));
             if (newWord != null) {
                 usedWords.put(newWord.getWord(), newWord);
