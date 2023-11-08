@@ -273,6 +273,22 @@ public class DatabaseQuery {
         }
     }
 
+    public void deleteAll(String table) {
+        String sqlToClearTheTable = "DELETE FROM " + table;
+        String sqlToResetAutoIncrement = "DELETE FROM sqlite_sequence WHERE name = '" + table + "'";
+        try {
+            PreparedStatement preparedForClearingTheTable =
+                    connection.prepareStatement(sqlToClearTheTable);
+            PreparedStatement preparedForResettingAutoIncrement =
+                    connection.prepareStatement(sqlToResetAutoIncrement);
+
+            preparedForClearingTheTable.executeUpdate();
+            preparedForResettingAutoIncrement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 //    public void insert(String table, HashMap<String, String> newRecord) {
 //        StringBuilder sql = new StringBuilder();
 //        sql.append("INSERT INTO ");

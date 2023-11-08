@@ -8,6 +8,7 @@ module com.yranoitcid{
     requires javafx.base;
     requires javafx.web;
     requires jlayer;
+    requires org.json;
 
     opens com.yranoitcid.frontend to javafx.fxml;
     exports com.yranoitcid.frontend;
