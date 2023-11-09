@@ -8,6 +8,7 @@ module com.yranoitcid{
     requires javafx.media;
     requires org.slf4j;
     requires org.json;
+    requires org.jsoup;
 
     opens com.yranoitcid.frontend to javafx.fxml;
     exports com.yranoitcid.frontend;
