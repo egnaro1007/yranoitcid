@@ -2,6 +2,7 @@ package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.api.GoogleChan;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,6 +18,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class TranslatorController implements Initializable{
     
@@ -25,6 +28,7 @@ public class TranslatorController implements Initializable{
     @FXML
     private Label resultTranslate;
     private String result;
+    private Media audio;
     @FXML
     private Button search;
     @FXML
@@ -54,8 +58,11 @@ public class TranslatorController implements Initializable{
         String text = translateInput.getText();
         String langSrc = languageSelectSrc.getValue();
         String langDes = languageSelectDes.getValue();
+
         グーグルちゃん.setLanguage(langSrc.substring(langSrc.length() - 3, langSrc.length() - 1),
             langDes.substring(langDes.length() - 3, langDes.length() - 1));
+
+        guuguruChan.setLanguage(langDes.substring(langDes.length() - 3, langDes.length() - 1));
         System.out.println(text);
 
         // Translate.
@@ -64,6 +71,10 @@ public class TranslatorController implements Initializable{
             protected Void call() throws Exception {
                 System.out.println("Result: " + グーグルちゃん.search(text));
                 result = グーグルちゃん.search(text).getDescription();
+
+                guuguruChan.say(result);
+                audio = guuguruChan.parse();
+
                 return null;
             }
         };
@@ -90,7 +101,9 @@ public class TranslatorController implements Initializable{
         Task<Void> guuguruChanTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                guuguruChan.say(result);
+//                guuguruChan.say(result);
+                MediaPlayer mediaPlayer = new MediaPlayer(audio);
+                mediaPlayer.setOnReady(mediaPlayer::play);
                 return null;
             }
         };

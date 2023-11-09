@@ -24,16 +24,16 @@ public class GoogleChanTTS extends AbstractAPI {
         this.text = inputTerm;
         this.editPragma("q", this.text);
         this.connect();
-        try {
-            MediaPlayer mediaPlayer = new MediaPlayer(this.parse());
-            mediaPlayer.setOnReady(mediaPlayer::play);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            MediaPlayer mediaPlayer = new MediaPlayer(this.parse());
+//            mediaPlayer.setOnReady(mediaPlayer::play);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override
-    protected Media parse() throws IOException {
+    public Media parse() throws IOException {
         InputStream audio = connection.getInputStream();
         String tempFileUri = Objects.requireNonNull(createTemporaryFileFromInputStream(audio)).toURI().toString();
 
