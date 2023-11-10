@@ -29,6 +29,8 @@ public class TranslatorController implements Initializable{
     private Label resultTranslate;
     private String result;
     private Media audio;
+    private MediaPlayer mediaPlayer;
+    private boolean readyToSay = false;
     @FXML
     private Button search;
     @FXML
@@ -65,6 +67,9 @@ public class TranslatorController implements Initializable{
         guuguruChan.setLanguage(langDes.substring(langDes.length() - 3, langDes.length() - 1));
         System.out.println(text);
 
+        readyToSay = false;
+        resultTranslate.setText("Translating...");
+
         // Translate.
         Task<Void> translateTask = new Task<Void>() {
             @Override
@@ -72,8 +77,12 @@ public class TranslatorController implements Initializable{
                 System.out.println("Result: " + グーグルちゃん.search(text));
                 result = グーグルちゃん.search(text).getDescription();
 
-                guuguruChan.say(result);
-                audio = guuguruChan.parse();
+                audio = guuguruChan.say(result);
+//                audio = guuguruChan.parse();
+                mediaPlayer = new MediaPlayer(audio);
+                mediaPlayer.setOnReady(() -> {
+                    readyToSay = true;
+                });
 
                 return null;
             }
@@ -81,8 +90,23 @@ public class TranslatorController implements Initializable{
         translateTask.setOnSucceeded(workerStateEvent -> {
             resultTranslate.setText(result);
         });
+
+        Task<Void> countDownTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Thread.sleep(5000);
+                if (!readyToSay) {
+                    resultTranslate.setText("");
+                    System.out.println("Connection timed out.");
+                }
+                return null;
+            }
+        };
+
         Thread translatorThread = new Thread(translateTask);
+        Thread countDownThread = new Thread(countDownTask);
         translatorThread.start();
+        countDownThread.start();
     }
 
     /**
@@ -102,8 +126,12 @@ public class TranslatorController implements Initializable{
             @Override
             protected Void call() throws Exception {
 //                guuguruChan.say(result);
-                MediaPlayer mediaPlayer = new MediaPlayer(audio);
-                mediaPlayer.setOnReady(mediaPlayer::play);
+//                MediaPlayer mediaPlayer = new MediaPlayer(audio);
+//                mediaPlayer.setOnReady(mediaPlayer::play);
+                if (readyToSay) {
+                    mediaPlayer.stop();
+                    mediaPlayer.play();
+                }
                 return null;
             }
         };

@@ -16,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.web.WebView;
 
 public class DictionaryController implements Initializable {
@@ -32,6 +34,12 @@ public class DictionaryController implements Initializable {
     private TextField searchInput;
     String keyword;
     String resultWord;
+
+    // This boolean is used to check if the word is sayed for the first time.
+    // Set to true when choose a word from resultList, set to false when playAudio() is called.
+    private boolean newWord = true;
+    private Media media;
+    private MediaPlayer mediaPlayer;
 
     // Dictionary
     Dictionary workingDictionary = new Dictionary("dict.db");
@@ -51,24 +59,24 @@ public class DictionaryController implements Initializable {
         }
 
         // String normalization
-        searchInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
-            String characterTyped = event.getCharacter();
-
-            // Check if the typed character is a valid character
-            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]")
-                    || event.getCode() == javafx.scene.input.KeyCode.BACK_SPACE) {
-                // Trigger your method here
-                try {
-                    // getKeyword();
-                    System.out.println("Key typed: " + characterTyped);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                // Ignore invalid keys
-                event.consume();
-            }
-        });
+//        searchInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
+//            String characterTyped = event.getCharacter();
+//
+//            // Check if the typed character is a valid character
+//            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]")
+//                    || event.getCode() == javafx.scene.input.KeyCode.BACK_SPACE) {
+//                // Trigger your method here
+//                try {
+//                    // getKeyword();
+//                    System.out.println("Key typed: " + characterTyped);
+//                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+//                }
+//            } else {
+//                // Ignore invalid keys
+//                event.consume();
+//            }
+//        });
 
         System.out.println("dictionary window created successfully!");
     }
@@ -112,6 +120,9 @@ public class DictionaryController implements Initializable {
                 int id = resultList.getSelectionModel().getSelectedIndex();
                 resultWord = putDataHere.get(id).getWord();
                 resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
+
+                // Reset newWord to true when a new word is chosen.
+                newWord = true;
             });
     }
 
@@ -122,7 +133,18 @@ public class DictionaryController implements Initializable {
         Task<Void> guuguruChanTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                guuguruChan.say(resultWord);
+                if (newWord) {
+                    // Set to false when fetch audio completed.
+                    newWord = false;
+                    media = guuguruChan.say(resultWord);
+//                    media = guuguruChan.parse();
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaPlayer.setOnReady(() -> {
+                        mediaPlayer.play();
+                    });
+                }
+                mediaPlayer.stop();
+                mediaPlayer.play();
                 return null;
             }
         };
