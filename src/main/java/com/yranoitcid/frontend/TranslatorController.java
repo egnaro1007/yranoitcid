@@ -2,6 +2,7 @@ package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.api.GoogleChan;
 
+import com.yranoitcid.backend.dictionary.Word;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
@@ -33,6 +35,8 @@ public class TranslatorController implements Initializable{
     private boolean readyToSay = false;
     @FXML
     private Button search;
+    @FXML
+    private ProgressBar loadingBar;
     @FXML
     private ChoiceBox<String> languageSelectSrc;
     @FXML
@@ -56,11 +60,21 @@ public class TranslatorController implements Initializable{
      * Translate input in the input text area and display them on the result box.
      */
     public void translate() {
-        // Input processing.
+        // Get input.
         String text = translateInput.getText();
         String langSrc = languageSelectSrc.getValue();
         String langDes = languageSelectDes.getValue();
 
+        // Verify input is not empty.
+        if (text.trim().isEmpty()) {
+            resultTranslate.setText("");
+            return;
+        }
+
+        // Show loading bar.
+        loadingBar.setVisible(true);
+
+        // Input processing.
         グーグルちゃん.setLanguage(langSrc.substring(langSrc.length() - 3, langSrc.length() - 1),
             langDes.substring(langDes.length() - 3, langDes.length() - 1));
 
@@ -70,19 +84,36 @@ public class TranslatorController implements Initializable{
         readyToSay = false;
         resultTranslate.setText("Translating...");
 
+        // Prepare audio.
+        Task<Void> prepareAudioTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                audio = guuguruChan.say(result);
+                mediaPlayer = new MediaPlayer(audio);
+                mediaPlayer.setOnReady(() -> {
+                    readyToSay = true;
+                    loadingBar.setVisible(false);
+                });
+                return null;
+            }
+        };
+
         // Translate.
         Task<Void> translateTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                System.out.println("Result: " + グーグルちゃん.search(text));
-                result = グーグルちゃん.search(text).getDescription();
+                // Translate the text
+                Word resultWord = グーグルちゃん.search(text);
+                if (resultWord == null) {
+                    connectionFail();
+                    return null;
+                }
+                System.out.println("Result: " + resultWord);
+                result = resultWord.getDescription();
 
-                audio = guuguruChan.say(result);
-//                audio = guuguruChan.parse();
-                mediaPlayer = new MediaPlayer(audio);
-                mediaPlayer.setOnReady(() -> {
-                    readyToSay = true;
-                });
+                // Start preparing the audio
+                Thread prepareAudioThread = new Thread(prepareAudioTask);
+                prepareAudioThread.start();
 
                 return null;
             }
@@ -91,13 +122,13 @@ public class TranslatorController implements Initializable{
             resultTranslate.setText(result);
         });
 
+
         Task<Void> countDownTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 Thread.sleep(5000);
                 if (!readyToSay) {
-                    resultTranslate.setText("");
-                    System.out.println("Connection timed out.");
+                    connectionFail();
                 }
                 return null;
             }
@@ -107,6 +138,13 @@ public class TranslatorController implements Initializable{
         Thread countDownThread = new Thread(countDownTask);
         translatorThread.start();
         countDownThread.start();
+    }
+
+    private void connectionFail() {
+        loadingBar.setVisible(false);
+        resultTranslate.setText("");
+        readyToSay = true;
+        System.out.println("Connection fail.");
     }
 
     /**
@@ -131,6 +169,12 @@ public class TranslatorController implements Initializable{
                 if (readyToSay) {
                     mediaPlayer.stop();
                     mediaPlayer.play();
+                } else {
+                    mediaPlayer.setOnReady(() -> {
+                        readyToSay = true;
+                        loadingBar.setVisible(false);
+                        mediaPlayer.play();
+                    });
                 }
                 return null;
             }

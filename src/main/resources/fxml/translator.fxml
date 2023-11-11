@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" hgap="10.0" prefWidth="1120.0" vgap="10.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.TranslatorController">
+<GridPane alignment="CENTER" hgap="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900" prefWidth="1120.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.TranslatorController">
   <styleClass>
     <String fx:value="main-pane" />
   </styleClass>
@@ -93,6 +93,7 @@
                   <Image url="@../image/agdhhdhdjh.jpg" />
                </image>
             </ImageView>
+            <ProgressBar fx:id="loadingBar" layoutX="12.0" layoutY="227.0" prefHeight="18.0" prefWidth="342.0" visible="false" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
          </children>
       </AnchorPane>
    </children>
