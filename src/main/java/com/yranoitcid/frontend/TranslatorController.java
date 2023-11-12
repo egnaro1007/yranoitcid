@@ -127,12 +127,14 @@ public class TranslatorController implements Initializable{
             @Override
             protected Void call() throws Exception {
                 Thread.sleep(5000);
-                if (!readyToSay) {
-                    connectionFail();
-                }
                 return null;
             }
         };
+        countDownTask.setOnSucceeded(workerStateEvent -> {
+            if (!readyToSay) {
+                connectionFail();
+            }
+        });
 
         Thread translatorThread = new Thread(translateTask);
         Thread countDownThread = new Thread(countDownTask);
