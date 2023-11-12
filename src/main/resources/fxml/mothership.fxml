@@ -203,22 +203,25 @@
          </styleClass>
          <children>
             <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="270.0" text="WELCOME" textAlignment="CENTER" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets top="100.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Cambria" size="50.0" />
-               </font>
+               <styleClass>
+                  <String fx:value="welcome-screen-title" />
+               </styleClass>
             </Label>
             <Label fx:id="time" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="time" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="50.0" />
                </VBox.margin>
+               <styleClass>
+                  <String fx:value="welcome-screen" />
+               </styleClass>
             </Label>
             <Label fx:id="date" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="date" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
+               <styleClass>
+                  <String fx:value="welcome-screen" />
+               </styleClass>
             </Label>
          </children>
          <opaqueInsets>

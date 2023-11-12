@@ -9,7 +9,6 @@
     -fx-font-family: 'Helvetica';
     -fx-font-weight: 400;
     -fx-line-spacing: 1.5;
-    -fx-text-fill: text-color;
     -fx-background-color: neutral-color;
 }
 
@@ -21,10 +20,6 @@
 .side-bar {
     -fx-background-color: primary-color;
     -fx-text-fill: text-color; 
-}
-
-.label {
-    -fx-text-fill: text-color;
 }
 
 .side-bar-button {
@@ -45,6 +40,19 @@
 
 .transparent-background {
     -fx-background-color: transparent;
+}
+
+.welcome-screen-title {
+    -fx-background-color: primary-color;
+    -fx-text-fill: text-color;
+    -fx-font-size: 50px;
+    -fx-font-weight: 700;
+}
+
+.welcome-screen {
+    -fx-background-color: primary-color;
+    -fx-text-fill: text-color;
+    -fx-font-size: 20px;
 }
 
 #resultList {
@@ -78,7 +86,17 @@
     -fx-padding: 10 10 10 10;
 }
 
+.normal-light-text {
+    -fx-text-fill: text-color;
+    -fx-text-size: 14px;
+    -fx-background-color: transparent;
+}
 
+.big-light-text {
+    -fx-text-fill: text-color;
+    -fx-text-size: 32px;
+    -fx-background-color: transparent;
+}
 
 
 

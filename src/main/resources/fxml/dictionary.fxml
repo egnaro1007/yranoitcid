@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.web.WebView?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
 
-<?import java.lang.String?>
-
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="1120.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.DictionaryController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900" prefWidth="1120.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.DictionaryController">
    <styleClass>
       <String fx:value="main-pane" />
    </styleClass>
@@ -40,7 +34,7 @@
          <left>
             <ListView fx:id="resultList" prefHeight="320.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="12.0" />
+                  <Insets bottom="10.0" left="12.0" />
                </BorderPane.margin></ListView>
          </left>
          <center>

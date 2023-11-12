@@ -33,9 +33,9 @@
   </rowConstraints>
    <children>
       <Label fx:id="questionBox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
-         <font>
-            <Font size="24.0" />
-         </font>
+         <styleClass>
+            <String fx:value="big-light-text" />
+         </styleClass>
       </Label>
       <Button fx:id="answer1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer1Check" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Button fx:id="answer2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer2Check" text="" GridPane.columnIndex="3" GridPane.rowIndex="2" />
