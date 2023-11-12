@@ -3,6 +3,7 @@ package com.yranoitcid.backend.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
@@ -98,7 +99,7 @@ public class HTMLConverter {
         return output.toString();
     }
 
-    public String htmlToString(String input) {
+    public static String htmlToString(String input) {
         Document doc = Jsoup.parse(input);
         Elements elements = doc.body().children();
         StringBuilder output = new StringBuilder();
@@ -128,5 +129,10 @@ public class HTMLConverter {
                 parseList(li.child(0), output, level + 1);
             }
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner scan = new Scanner(System.in);
+        System.out.println(HTMLConverter.stringToHtml(scan.nextLine()));
     }
 }

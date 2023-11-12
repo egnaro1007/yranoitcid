@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class EditorController implements Initializable {
     @FXML
@@ -30,7 +34,6 @@ public class EditorController implements Initializable {
     private TextArea htmlInput;
     @FXML
     private TextField wordSearchInput;
-
     @FXML
     private ListView<String> wordList;
 
@@ -39,7 +42,19 @@ public class EditorController implements Initializable {
     ArrayList<Word> putDataHere = new ArrayList<>();
     String keyword;
 
+    @FXML
+    private HBox wordEditorPane;
+    private Node textMode;
+    private Node htmlMode;
+
     public void initialize(URL arg0, ResourceBundle arg1) {
+        // Get modes menu
+        textMode = wordEditorPane.getChildren().get(0);
+        htmlMode = wordEditorPane.getChildren().get(1);
+
+        wordEditorPane.getChildren().clear();
+        wordEditorPane.getChildren().add(textMode);
+
         // Init the dictionary (default is the English dictionary).
         try {
             workingDictionary.initTable("en", "vi", "av");
@@ -221,6 +236,8 @@ public class EditorController implements Initializable {
         }
     }
 
+
+
     /**
      * Convert texts from the text-to-HTML field to HTML and put it in the HTML field.
      * If it fails, create a warning popup.
@@ -239,6 +256,14 @@ public class EditorController implements Initializable {
                 System.out.println("Hah");
             }
         }
+    }
+
+    public void switchToHtmlMode() {
+        wordEditorPane.getChildren().set(0, htmlMode);
+    }
+
+    public void switchToTextMode() {
+        wordEditorPane.getChildren().set(0, textMode);
     }
 
     /**
