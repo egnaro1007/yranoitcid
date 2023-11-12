@@ -2,10 +2,14 @@ package com.yranoitcid.backend.dictionary;
 
 public class Word {
 
-    private String word;
-    private String html;
-    private String description;
-    private String pronounce;
+    protected String word;
+    protected String html;
+    protected String description;
+    protected String pronounce;
+
+    protected Word() {
+        this("", "", "", "");
+    }
 
     public Word(String word, String html) {
         this(word, html, "", "");
