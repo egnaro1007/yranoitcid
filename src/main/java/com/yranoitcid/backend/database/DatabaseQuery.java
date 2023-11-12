@@ -43,6 +43,8 @@ public class DatabaseQuery {
             connection = DriverManager.getConnection("jdbc:sqlite:" + dbFilePath);
             // If the connection is successful, set isInit to true
             isInit = true;
+            // Register the custom Levenshtein function with the SQLite database
+            Function.create(connection, "LEVENSHTEIN", new LevenshteinFunction());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -112,13 +114,14 @@ public class DatabaseQuery {
                 + "FROM " + table
                 + " WHERE " + column
                 + " LIKE ?"
-                + "ORDER BY CHARINDEX(?, " + column + ")"
+                + "ORDER BY CHARINDEX(LOWER(?), LOWER(" + column + ")), LEVENSHTEIN(" + column + ", ?)"
                 + " LIMIT " + limitQuery.toString();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             // Set the parameters
             preparedStatement.setString(1, "%" + term + "%");
             preparedStatement.setString(2, term);
+            preparedStatement.setString(3, term);
             // Execute the query and get the result set
             ResultSet resultSet = preparedStatement.executeQuery();
             // Process the result set if the Word is found
@@ -133,9 +136,6 @@ public class DatabaseQuery {
 
     public ResultSet queryWithLevenshteinDistance(String table, String column, String term,
             int maxLevenshteinDistance) throws SQLException {
-
-        // Register the custom Levenshtein function with the SQLite database
-        Function.create(connection, "LEVENSHTEIN", new LevenshteinFunction());
 
         String sql = "SELECT * FROM " + table
                 + " WHERE LENGTH(" + column + ") BETWEEN ? AND ?"
