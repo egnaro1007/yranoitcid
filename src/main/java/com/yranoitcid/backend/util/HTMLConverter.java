@@ -22,22 +22,26 @@ public class HTMLConverter {
             throw new IOException("Word not found. Must start with \"@\".");
         }
 
-        // Define the regex pattern
-        Pattern pattern = Pattern.compile("@([^/]+) /([^/]+)/");
-        // Create a Matcher object
-        Matcher matcher = pattern.matcher(input);
-        // Search for the pattern
-        if (matcher.find()) {
-            // Get the text between "@" and "/"
-            String word = matcher.group(1);
-            if (word.isBlank() || word.isEmpty()) {
-                throw new IOException("Empty word.");
+        int startPronounceIndex = wordAndPronounce.indexOf('/') + 1;
+
+        String word = "";
+        String pronounce = "";
+
+        if (startPronounceIndex != 0) {
+            word = wordAndPronounce.substring(1, startPronounceIndex - 2).trim();
+
+            int endPronounceIndex = wordAndPronounce.indexOf('/', startPronounceIndex);
+            if (endPronounceIndex != -1) {
+                pronounce = wordAndPronounce.substring(startPronounceIndex, endPronounceIndex)
+                        .trim();
             }
-            output.append("<h1>").append(word.trim()).append("</h1>");
-            // Get the text between "/" and the next "/"
-            output.append("<h3><i>/").append(matcher.group(2).trim()).append("/</i></h3>");
         } else {
-            throw new IOException("Input must be in the format of @word /pronunciation/");
+            word = wordAndPronounce.substring(1).trim();
+        }
+
+        output.append("<h1>").append(word).append("</h1>");
+        if (!pronounce.isEmpty()) {
+            output.append("<h3><i>/").append(pronounce).append("/</i></h3>");
         }
 
         String line = "";

@@ -51,6 +51,7 @@ public class WordEdit extends Word {
 
     public void setWord(String word) {
         Document doc = Jsoup.parse(super.html);
+        doc.outputSettings().prettyPrint(false);
         Elements elements = doc.body().children();
 
         for (Element element : elements) {
@@ -61,11 +62,12 @@ public class WordEdit extends Word {
         }
 
         super.word = word;
-        this.setHtml(doc.html());
+        this.setHtml(doc.body().html());
     }
 
     public void setPronounce(String pronounce) {
         Document doc = Jsoup.parse(super.html);
+        doc.outputSettings().prettyPrint(false);
         Elements elements = doc.body().children();
 
         for (Element element : elements) {
@@ -76,35 +78,46 @@ public class WordEdit extends Word {
         }
 
         super.pronounce = pronounce;
-        this.setHtml(doc.html());
+        this.setHtml(doc.body().html());
     }
 
     private static String stringToHtml(String input) throws IOException {
         BufferedReader buffer = new BufferedReader(new StringReader(input));
         StringBuilder output = new StringBuilder();
 
+
         String wordAndPronounce = buffer.readLine();
         if (wordAndPronounce == null || wordAndPronounce.charAt(0) != '@') {
             throw new IOException("Word not found. Must start with \"@\".");
         }
 
-        // Define the regex pattern
-        Pattern pattern = Pattern.compile("@([^/]+) /([^/]+)/");
-        // Create a Matcher object
-        Matcher matcher = pattern.matcher(input);
-        // Search for the pattern
-        if (matcher.find()) {
-            // Get the text between "@" and "/"
-            String word = matcher.group(1);
-            if (word.isBlank() || word.isEmpty()) {
-                throw new IOException("Empty word.");
+        String word = "";
+        String pronounce = "";
+
+        // Get the index of start pronounce position is the first character after "/".
+        // If not found character "/", this will be 0.
+        int startPronounceIndex = wordAndPronounce.indexOf('/') + 1;
+
+        // If character "/" is found, get the word is from second character (ignore first character is "@") to the character before "/".
+        // If not found character "/", get the word is from second character to the end of string.
+        if (startPronounceIndex != 0) {
+            word = wordAndPronounce.substring(1, startPronounceIndex - 2).trim();
+
+            int endPronounceIndex = wordAndPronounce.indexOf('/', startPronounceIndex);
+            if (endPronounceIndex != -1) {
+                pronounce = wordAndPronounce.substring(startPronounceIndex, endPronounceIndex)
+                        .trim();
             }
-            output.append("<h1>").append(word.trim()).append("</h1>");
-            // Get the text between "/" and the next "/"
-            output.append("<h3><i>/").append(matcher.group(2).trim()).append("/</i></h3>");
         } else {
-            throw new IOException("Input must be in the format of @word /pronunciation/");
+            word = wordAndPronounce.substring(1).trim();
         }
+
+        // Append word and pronounce to output.
+        output.append("<h1>").append(word).append("</h1>");
+        if (!pronounce.isEmpty()) {
+            output.append("<h3><i>/").append(pronounce).append("/</i></h3>");
+        }
+
 
         String line = "";
         boolean l2ListOpened = false;
