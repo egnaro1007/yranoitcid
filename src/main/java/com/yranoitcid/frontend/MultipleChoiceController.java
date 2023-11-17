@@ -4,6 +4,7 @@ import com.yranoitcid.backend.minigame.MultipleChoiceQuestion;
 import com.yranoitcid.backend.minigame.MultipleChoices;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -35,6 +36,7 @@ public class MultipleChoiceController implements Initializable {
 
   private MultipleChoices game = new MultipleChoices();
   private List<Integer> unansweredQuestionId = new ArrayList<>();
+  private int questionPointer = 0;
   MultipleChoiceQuestion currentQuestion = null;
 
   /**
@@ -45,6 +47,9 @@ public class MultipleChoiceController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     game.loadQuestion();
+    for (int i = 1; i <= game.getQuestions().size(); i++) {
+      unansweredQuestionId.add(i);
+    }
     reloadArray();
     System.out.println("MC Questionaries initialized successfully!");
   }
@@ -71,14 +76,9 @@ public class MultipleChoiceController implements Initializable {
     }
   }
   private void loadQuestion() {
-    System.out.println("Questions remaining:" + unansweredQuestionId.size());
-    if (unansweredQuestionId.isEmpty()) {
-      win();
-      return;
-    }
-    int x = (int) Math.round(Math.random() * (unansweredQuestionId.size() - 1));
-    currentQuestion = game.getQuestions().get(x);
-    unansweredQuestionId.remove(x);
+    int currentQuestionId = unansweredQuestionId.get(questionPointer);
+    currentQuestion = game.getQuestions().get(currentQuestionId);
+    questionPointer++;
     questionBox.setText(currentQuestion.getQuestion());
     String[] answerList = currentQuestion.getChoices();
     answer1.setText(answerList[0]);
@@ -134,6 +134,7 @@ public class MultipleChoiceController implements Initializable {
       lost.setTitle("YOU LOST!");
       lost.setHeaderText("Your score is " + game.getScore());
       lost.showAndWait();
+      currentQuestion = null;
       reloadArray();
       game.setScore(0);
       scoreUpdate();
@@ -160,10 +161,8 @@ public class MultipleChoiceController implements Initializable {
   }
 
   private void reloadArray() {
-    unansweredQuestionId.clear();
-    for (int i = 1; i <= game.getQuestions().size(); i++) {
-      unansweredQuestionId.add(i);
-    }
+    Collections.shuffle(unansweredQuestionId);
+    questionPointer = 0;
   }
 
 }
