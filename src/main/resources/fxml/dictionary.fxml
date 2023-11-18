@@ -14,7 +14,7 @@
    <children>
       <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="200.0">
          <children>
-            <TextField fx:id="searchInput" onKeyTyped="#getKeyword" prefHeight="26.0" prefWidth="180.0">
+            <TextField fx:id="searchInput" onKeyTyped="#getKeyword" onAction="#chooseFirst" prefHeight="26.0" prefWidth="180.0">
                <HBox.margin>
                   <Insets left="22.0" right="22.0" />
                </HBox.margin>

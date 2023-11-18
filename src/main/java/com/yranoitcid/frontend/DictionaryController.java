@@ -111,19 +111,28 @@ public class DictionaryController implements Initializable {
     public void fetchResult() throws Exception {
         System.out.println("Dictionary running.");
         resultListDisplay.clear();
-          for (Word word : putDataHere) {
+        for (Word word : putDataHere) {
             resultListDisplay.add(word.getWord());
-          }
+        }
         resultList.setItems(resultListDisplay);
         resultList.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> {
-                int id = resultList.getSelectionModel().getSelectedIndex();
-                resultWord = putDataHere.get(id).getWord();
-                resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
+                (observable, oldValue, newValue) -> {
+                    int id = resultList.getSelectionModel().getSelectedIndex();
+                    resultWord = putDataHere.get(id).getWord();
+                    resultHtml.getEngine().loadContent(putDataHere.get(id).getHtml());
 
-                // Reset newWord to true when a new word is chosen.
-                newWord = true;
-            });
+                    // Reset newWord to true when a new word is chosen.
+                    newWord = true;
+                });
+    }
+
+    public void chooseFirst() {
+        choose(0);
+    }
+
+    public void choose(int id) {
+        resultList.getSelectionModel().select(id);
+        resultList.requestFocus();
     }
 
     /**
