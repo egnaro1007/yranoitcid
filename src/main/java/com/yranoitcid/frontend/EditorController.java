@@ -6,29 +6,32 @@ import com.yranoitcid.backend.dictionary.WordEdit;
 import com.yranoitcid.backend.util.HTMLConverter;
 
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.io.IOException;
+import java.net.URL;
+
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class EditorController implements Initializable {
 
+    @FXML
+    private TabPane settingsPane;
     @FXML
     private TextField wordInput;
     @FXML
@@ -70,24 +73,22 @@ public class EditorController implements Initializable {
             System.out.println("Error in initiating the dictionary.");
         }
 
-//        // Limiting character input.
-//        wordInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
-//            String characterTyped = event.getCharacter();
-//
-//            // Check if the typed character is a valid character
-//            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]")
-//                    || event.getCode() == KeyCode.BACK_SPACE) {
-//                // Trigger your method here
-//                try {
-//                    System.out.println("Key typed: " + characterTyped);
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//            } else {
-//                // Ignore invalid keys
-//                event.consume();
-//            }
-//        });
+        for(Tab tab : settingsPane.getTabs()) {
+            tab.setClosable(false);
+        }
+        settingsPane.getTabs().addListener(new ListChangeListener<Tab>() {
+            @Override
+            public void onChanged(Change<? extends Tab> c) {
+                while (c.next()) {
+                    if (c.wasAdded()) {
+                        for (Tab tab : c.getAddedSubList()) {
+                            tab.setClosable(false);
+                        }
+                    }
+                }
+            }
+        });
+
         System.out.println("Editor menu initialized successfully.");
     }
 

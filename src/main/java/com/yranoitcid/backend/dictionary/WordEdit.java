@@ -13,7 +13,7 @@ public class WordEdit extends Word {
     private String text = "";
 
     public WordEdit() {
-        super("","", "", "<h1></h1><h3><i></i></h3>");
+        super("", "<h1></h1><h3><i></i></h3>");
         this.text = "";
     }
 

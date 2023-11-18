@@ -59,6 +59,36 @@
     -fx-font-size: 20px;
 }
 
+#settingsPane:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.main-pane-tab {
+    -fx-background-color: accent-color;
+    -fx-text-fill: text-color;
+    -fx-font-size: 20px;
+}
+
+.main-pane-tab:selected {
+    -fx-background-color: primary-color;
+    -fx-text-fill: text-color;
+    -fx-font-size: 20px;
+}
+
+.tab-label {
+    -fx-background-color: transparent;
+    -fx-text-fill: text-color;
+    -fx-font-size: 20px;
+}
+
+.text-box {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-text-fill: text-color;
+    -fx-font-size: 20px;
+}
+
+
 /* 
 .button:hover {
     -fx-background-color: accent-color;
