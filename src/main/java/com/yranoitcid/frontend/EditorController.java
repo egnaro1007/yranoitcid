@@ -2,6 +2,7 @@ package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.dictionary.Dictionary;
 import com.yranoitcid.backend.dictionary.Word;
+import com.yranoitcid.backend.dictionary.WordEdit;
 import com.yranoitcid.backend.util.HTMLConverter;
 
 import java.util.Objects;
@@ -10,8 +11,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -24,12 +28,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class EditorController implements Initializable {
+
     @FXML
     private TextField wordInput;
     @FXML
     private TextField pronounInput;
     @FXML
-    private TextArea descInput;
+    private TextField descInput;
+    @FXML
+    private TextArea textInput;
     @FXML
     private TextArea htmlInput;
     @FXML
@@ -41,6 +48,7 @@ public class EditorController implements Initializable {
     ObservableList<String> wordListDisplay = FXCollections.observableArrayList();
     ArrayList<Word> putDataHere = new ArrayList<>();
     String keyword;
+    WordEdit wordEdit = new WordEdit();
 
     @FXML
     private HBox wordEditorPane;
@@ -62,33 +70,33 @@ public class EditorController implements Initializable {
             System.out.println("Error in initiating the dictionary.");
         }
 
-        // Limiting character input.
-        wordInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
-            String characterTyped = event.getCharacter();
-
-            // Check if the typed character is a valid character
-            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]")
-                    || event.getCode() == KeyCode.BACK_SPACE) {
-                // Trigger your method here
-                try {
-                    // getKeyword();
-                    System.out.println("Key typed: " + characterTyped);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                // Ignore invalid keys
-                event.consume();
-            }
-        });
+//        // Limiting character input.
+//        wordInput.addEventHandler(KeyEvent.KEY_TYPED, event -> {
+//            String characterTyped = event.getCharacter();
+//
+//            // Check if the typed character is a valid character
+//            if (characterTyped.matches("[a-zA-Z0-9\\s!@#$%^&*()_+-]")
+//                    || event.getCode() == KeyCode.BACK_SPACE) {
+//                // Trigger your method here
+//                try {
+//                    System.out.println("Key typed: " + characterTyped);
+//                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+//                }
+//            } else {
+//                // Ignore invalid keys
+//                event.consume();
+//            }
+//        });
         System.out.println("Editor menu initialized successfully.");
     }
 
     /**
-     * Display words list.
-     * Whenever a word is chosen, data related to it will be displayed on the editable text fields.
+     * Display words list. Whenever a word is chosen, data related to it will be displayed on the
+     * editable text fields.
      */
-    public void fetchResult() throws Exception {
+    @FXML
+    private void fetchResult() throws Exception {
         keyword = wordSearchInput.getText();
         System.out.println(keyword);
         putDataHere.clear();
@@ -98,24 +106,30 @@ public class EditorController implements Initializable {
             wordListDisplay.add(putDataHere.get(i).getWord());
         }
         wordList.setItems(wordListDisplay);
-        wordList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            int id = wordList.getSelectionModel().getSelectedIndex();
-            wordInput.setText(putDataHere.get(id).getWord());
-            pronounInput.setText(putDataHere.get(id).getPronounce());
-            descInput.setText(putDataHere.get(id).getDescription());
-            htmlInput.setText(putDataHere.get(id).getHtml());
-        });
+        wordList.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    int id = wordList.getSelectionModel().getSelectedIndex();
+
+                    wordEdit.loadWord(putDataHere.get(id));
+
+                    wordInput.setText(wordEdit.getWord());
+                    pronounInput.setText(wordEdit.getPronounce());
+                    descInput.setText(wordEdit.getDescription());
+
+                    textInput.setText(wordEdit.getText());
+                    htmlInput.setText(wordEdit.getHtml());
+                });
     }
 
     /**
-     * Remove the selected word from the database. Currently, this is a permanent deletion
-     * and the only way to bring back the word is replacing the current one with backups.
+     * Remove the selected word from the database. Currently, this is a permanent deletion and the
+     * only way to bring back the word is replacing the current one with backups.
      */
     public void removeWordFromDatabase() throws Exception {
         System.out.println("Proceeding to remove: " + wordInput.getText());
         // If word is blank or doesn't exist, abort.
         if (wordInput.getText().isBlank()
-            || workingDictionary.searchExact("en", "vi", wordInput.getText()) == null) {
+                || workingDictionary.searchExact("en", "vi", wordInput.getText()) == null) {
             Alert warning = new Alert(AlertType.ERROR);
             warning.setTitle("Invalid Input");
             warning.setHeaderText("Cannot delete word");
@@ -146,8 +160,8 @@ public class EditorController implements Initializable {
         System.out.println("Proceeding to update: " + wordInput.getText());
         // If no input is detected, abort.
         if (wordInput.getText().isBlank()
-            || pronounInput.getText().isBlank()
-            || htmlInput.getText().isBlank()) {
+                || pronounInput.getText().isBlank()
+                || htmlInput.getText().isBlank()) {
             Alert warning = new Alert(AlertType.ERROR);
             warning.setTitle("Invalid Input");
             warning.setHeaderText("No input detected");
@@ -177,10 +191,10 @@ public class EditorController implements Initializable {
         if (alert.showAndWait().get() == ButtonType.OK) {
             workingDictionary.removeWord("en", "vi", wordInput.getText());
             Word newWord = new Word(
-                wordInput.getText(),
-                htmlInput.getText(),
-                descInput.getText(),
-                pronounInput.getText()
+                    wordInput.getText(),
+                    htmlInput.getText(),
+                    descInput.getText(),
+                    pronounInput.getText()
             );
             workingDictionary.addWord("en", "vi", newWord);
         }
@@ -193,8 +207,8 @@ public class EditorController implements Initializable {
         System.out.println("Proceeding to add: " + wordInput.getText());
         // If no input is detected, abort.
         if (wordInput.getText().isBlank()
-            || pronounInput.getText().isBlank()
-            || htmlInput.getText().isBlank()) {
+                || pronounInput.getText().isBlank()
+                || htmlInput.getText().isBlank()) {
             Alert warning = new Alert(AlertType.ERROR);
             warning.setTitle("Invalid Input");
             warning.setHeaderText("No input detected");
@@ -206,9 +220,9 @@ public class EditorController implements Initializable {
 
         // If word did exist, abort.
         if (workingDictionary.searchExact(
-            "en",
-            "vi",
-            wordInput.getText()
+                "en",
+                "vi",
+                wordInput.getText()
         ) != null) {
             Alert warning = new Alert(AlertType.ERROR);
             warning.setTitle("Invalid Input");
@@ -236,11 +250,50 @@ public class EditorController implements Initializable {
         }
     }
 
+    @FXML
+    private void editInWordField() {
+        String newWord = wordInput.getText();
+        wordEdit.setWord(newWord);
+        textInput.setText(wordEdit.getText());
+        htmlInput.setText(wordEdit.getHtml());
+    }
+
+    @FXML
+    private void editInPronounField() {
+        String newPronoun = pronounInput.getText();
+        wordEdit.setPronounce(newPronoun);
+        textInput.setText(wordEdit.getText());
+        htmlInput.setText(wordEdit.getHtml());
+    }
+
+    @FXML
+    private void editInTextField() {
+        String newText = textInput.getText();
+        try {
+            wordEdit.setText(newText);
+
+            wordInput.setText(wordEdit.getWord());
+            pronounInput.setText(wordEdit.getPronounce());
+            htmlInput.setText(wordEdit.getHtml());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void editInHtmlField() {
+        String newHtml = htmlInput.getText();
+        wordEdit.setHtml(newHtml);
+
+        textInput.setText(wordEdit.getText());
+        wordInput.setText(wordEdit.getWord());
+        pronounInput.setText(wordEdit.getPronounce());
+    }
 
 
     /**
-     * Convert texts from the text-to-HTML field to HTML and put it in the HTML field.
-     * If it fails, create a warning popup.
+     * Convert texts from the text-to-HTML field to HTML and put it in the HTML field. If it fails,
+     * create a warning popup.
      */
     public void convert() throws IOException {
         System.out.println(htmlInput.getText());

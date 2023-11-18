@@ -3,8 +3,6 @@ package com.yranoitcid.backend.dictionary;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,14 +10,15 @@ import org.jsoup.select.Elements;
 
 public class WordEdit extends Word {
 
-    private String text;
+    private String text = "";
 
     public WordEdit() {
-        super();
+        super("","", "", "<h1></h1><h3><i></i></h3>");
+        this.text = "";
     }
 
     public WordEdit(Word word) {
-        super();
+        this();
         loadWord(word);
     }
 
@@ -38,15 +37,15 @@ public class WordEdit extends Word {
     public void setText(String text) throws IOException {
         this.text = text;
         super.html = stringToHtml(text);
-        super.word = getWord(super.html);
-        super.pronounce = getPronounce(super.html);
+        super.word = getWordFromHtml(super.html);
+        super.pronounce = getPronounceFromHtml(super.html);
     }
 
     public void setHtml(String html) {
         super.html = html;
         this.text = htmlToString(html);
-        super.word = getWord(super.html);
-        super.pronounce = getPronounce(super.html);
+        super.word = getWordFromHtml(super.html);
+        super.pronounce = getPronounceFromHtml(super.html);
     }
 
     public void setWord(String word) {
@@ -62,6 +61,8 @@ public class WordEdit extends Word {
         }
 
         super.word = word;
+        System.out.println(super.getWord());
+        System.out.println(super.html);
         this.setHtml(doc.body().html());
     }
 
@@ -72,7 +73,7 @@ public class WordEdit extends Word {
 
         for (Element element : elements) {
             if (element.tagName().equals("h3")) {
-                element.text(pronounce);
+                element.text("/" + pronounce + "/");
                 break;
             }
         }
@@ -210,7 +211,7 @@ public class WordEdit extends Word {
         }
     }
 
-    private static String getWord(String html) {
+    private static String getWordFromHtml(String html) {
         Document doc = Jsoup.parse(html);
         Elements elements = doc.body().children();
 
@@ -223,7 +224,7 @@ public class WordEdit extends Word {
         return null;
     }
 
-    public static String getPronounce(String html) {
+    public static String getPronounceFromHtml(String html) {
         Document doc = Jsoup.parse(html);
         Elements elements = doc.body().children();
 
