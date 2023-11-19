@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<TabPane fx:id="settingsPane" maxWidth="1.7976931348623157E308" styleClass="main-pane-tab" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMinHeight="35.0" tabMinWidth="150.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.EditorController">
+<TabPane fx:id="settingsPane" maxWidth="1.7976931348623157E308" styleClass="main-pane-tab" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMinHeight="35.0" tabMinWidth="150.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.EditorController">
    <tabs>
       <Tab closable="false" styleClass="main-pane-tab" text="Word Editor">
          <content>
@@ -18,7 +26,7 @@
                <children>
                   <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="1120.0">
                      <children>
-                        <TextField fx:id="wordSearchInput" alignment="TOP_LEFT" onKeyTyped="#fetchResult" prefHeight="26.0" prefWidth="180.0">
+                        <TextField fx:id="wordSearchInput" alignment="TOP_LEFT" onKeyTyped="#getKeyword" prefHeight="26.0" prefWidth="180.0">
                            <HBox.margin>
                               <Insets left="22.0" right="22.0" />
                            </HBox.margin>
@@ -52,7 +60,7 @@
                      <children>
                         <ListView fx:id="wordList" prefHeight="200.0" prefWidth="200.0">
                            <HBox.margin>
-                              <Insets bottom="10.0" left="12.0" />
+                              <Insets bottom="30.0" left="12.0" />
                            </HBox.margin>
                         </ListView>
                         <VBox HBox.hgrow="ALWAYS">
@@ -118,7 +126,7 @@
                                           </HBox>
                                           <TextArea fx:id="textInput" onKeyTyped="#editInTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
-                                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                                                <Insets bottom="30.0" left="12.0" right="12.0" top="12.0" />
                                              </VBox.margin>
                                              <cursor>
                                                 <Cursor fx:constant="TEXT" />
@@ -143,7 +151,7 @@
                                           </HBox>
                                           <TextArea fx:id="htmlInput" onKeyTyped="#editInHtmlField" prefHeight="200.0" prefWidth="200.0" wrapText="true" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
-                                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                                                <Insets bottom="30.0" left="12.0" right="12.0" top="12.0" />
                                              </VBox.margin>
                                           </TextArea>
                                        </children>

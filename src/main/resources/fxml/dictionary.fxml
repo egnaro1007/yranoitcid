@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900" prefWidth="1120.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.DictionaryController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900" prefWidth="1120.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.DictionaryController">
    <styleClass>
       <String fx:value="main-pane" />
    </styleClass>
    <children>
       <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="200.0">
          <children>
-            <TextField fx:id="searchInput" onKeyTyped="#getKeyword" onAction="#chooseFirst" prefHeight="26.0" prefWidth="180.0">
+            <TextField fx:id="searchInput" onAction="#chooseFirst" onKeyTyped="#getKeyword" prefHeight="26.0" prefWidth="180.0">
                <HBox.margin>
                   <Insets left="22.0" right="22.0" />
                </HBox.margin>
@@ -34,7 +34,7 @@
          <left>
             <ListView fx:id="resultList" prefHeight="320.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets bottom="10.0" left="12.0" />
+                  <Insets bottom="30.0" left="12.0" />
                </BorderPane.margin></ListView>
          </left>
          <center>
@@ -42,7 +42,7 @@
                <children>
                   <WebView fx:id="resultHtml" prefHeight="246.0" prefWidth="360.0" VBox.vgrow="ALWAYS">
                      <VBox.margin>
-                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                        <Insets bottom="30.0" left="12.0" right="12.0" top="12.0" />
                      </VBox.margin>
                   </WebView>
                </children>

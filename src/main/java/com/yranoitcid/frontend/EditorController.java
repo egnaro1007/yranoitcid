@@ -14,6 +14,7 @@ import java.net.URL;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -93,19 +94,42 @@ public class EditorController implements Initializable {
     }
 
     /**
+     * Get the keyword from text field immediately after input is detected and fetch results
+     * directly into the list.
+     */
+    @FXML
+    private void getKeyword() {
+        keyword = wordSearchInput.getText();
+        Task<Void> editorTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("Dictionary called.");
+                putDataHere = workingDictionary.searchContains("en", "vi", keyword);
+                return null;
+            }
+        };
+        editorTask.setOnSucceeded(workerStateEvent -> {
+            try {
+                fetchResult();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        Thread editorThread = new Thread(editorTask);
+        editorThread.start();
+        System.out.println(keyword);
+    }
+
+    /**
      * Display words list. Whenever a word is chosen, data related to it will be displayed on the
      * editable text fields.
      */
-    @FXML
     private void fetchResult() throws Exception {
-        keyword = wordSearchInput.getText();
-        System.out.println(keyword);
-        putDataHere.clear();
+        System.out.println("Editor list called.");
         wordListDisplay.clear();
-        putDataHere = workingDictionary.searchContains("en", "vi", keyword);
-        for (int i = 0; i < putDataHere.size(); i++) {
-            wordListDisplay.add(putDataHere.get(i).getWord());
-        }
+      for (Word word : putDataHere) {
+        wordListDisplay.add(word.getWord());
+      }
         wordList.setItems(wordListDisplay);
         wordList.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {

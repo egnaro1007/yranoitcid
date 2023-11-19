@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -14,14 +15,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="1120.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.MultipleChoiceController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1120.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.MultipleChoiceController">
   <styleClass>
     <String fx:value="main-pane" />
   </styleClass>
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="Infinity" minWidth="0" percentWidth="5.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="20.0" percentWidth="42.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="10.0" percentWidth="6.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="10.0" percentWidth="10.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="20.0" percentWidth="42.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="Infinity" minWidth="0.0" percentWidth="5.0" />
   </columnConstraints>
@@ -32,22 +33,49 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="questionBox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+      <Label fx:id="questionBox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Welcome to sQuiz Game! Please press &quot;Start&quot; to start the game!" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
          <styleClass>
             <String fx:value="big-light-text" />
          </styleClass>
-      </Label>
-      <Button fx:id="answer1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer1Check" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <Button fx:id="answer2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer2Check" text="" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <Button fx:id="answer3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer3Check" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Button fx:id="answer4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer4Check" text="" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-      <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" text="Start" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-      <Label fx:id="currentScore" text="Current Score: " GridPane.columnIndex="1" GridPane.halignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="highestScore" alignment="CENTER" text="Highest Score: " GridPane.columnIndex="3" GridPane.halignment="CENTER">
+      <Button fx:id="answer1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer1Check" text="" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="30.0" top="30.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="answer2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer2Check" text="" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="30.0" top="30.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="answer3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer3Check" text="" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets bottom="30.0" top="30.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="answer4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer4Check" text="" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets bottom="30.0" top="30.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" text="Start" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+      <Label fx:id="currentScore" styleClass="big-light-text" text="Current Score: " GridPane.columnIndex="1" GridPane.halignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="highestScore" alignment="CENTER" styleClass="big-light-text" text="Highest Score: " GridPane.columnIndex="3" GridPane.halignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>

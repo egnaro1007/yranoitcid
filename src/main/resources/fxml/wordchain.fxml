@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -13,7 +20,7 @@
 <?import javafx.scene.shape.Polyline?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefWidth="1120.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.WordChainController">
+<BorderPane prefHeight="800.0" prefWidth="1120.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.WordChainController">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -56,7 +63,7 @@
          <children>
             <AnchorPane prefHeight="75.0" prefWidth="163.0">
                <children>
-                  <Label fx:id="currentScore" layoutX="23.0" layoutY="29.0" style="-fx-background-color: #e3e3e3;" text="Current Score: 0" AnchorPane.leftAnchor="30.0">
+                  <Label fx:id="currentScore" layoutX="23.0" layoutY="29.0" text="Current Score: 0" AnchorPane.leftAnchor="30.0">
                      <font>
                         <Font size="18.0" />
                      </font></Label>
@@ -64,7 +71,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="highestScore" layoutX="36.0" layoutY="29.0" style="-fx-background-color: #e3e3e3;" text="Highest Score: 0" AnchorPane.leftAnchor="30.0">
+                  <Label fx:id="highestScore" layoutX="36.0" layoutY="29.0" text="Highest Score: 0" AnchorPane.leftAnchor="30.0">
                      <font>
                         <Font size="18.0" />
                      </font></Label>
@@ -78,7 +85,7 @@
          <children>
             <ListView fx:id="playerInputList" prefHeight="200.0" prefWidth="200.0">
                <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="30.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </ListView>
          </children>
@@ -89,7 +96,7 @@
          <children>
             <ListView fx:id="machineInputList" prefHeight="200.0" prefWidth="200.0">
                <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="30.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </ListView>
          </children>

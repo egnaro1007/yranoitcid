@@ -16,9 +16,13 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
 
         // Load data.
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/fxml/mothership.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(
+            "/fxml/mothership.fxml")
+        );
         Scene scene = new Scene(fxmlLoader.load());
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
+        scene.getStylesheets().add(
+            Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm()
+        );
 
         // Setting the stage for show.
         Image icon = new Image(
