@@ -10,7 +10,13 @@ import java.io.InputStreamReader;
 import java.security.InvalidKeyException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,9 +27,10 @@ public class MultipleChoices extends AbstractGame {
     private DatabaseQuery database = new DatabaseQuery("dict.db");
 
     public void loadQuestion() {
+        questions.clear();
         try (ResultSet rs = database.query("multiple_choice_quiz")) {
             while (rs.next()) {
-                String choice[] = new String[4];
+                String[] choice = new String[4];
                 choice[0] = rs.getString("answer1");
                 choice[1] = rs.getString("answer2");
                 choice[2] = rs.getString("answer3");
@@ -48,6 +55,24 @@ public class MultipleChoices extends AbstractGame {
             this.loadQuestion();
         }
         return questions;
+    }
+
+    public List<String> getQuestionsSet() {
+        this.loadQuestion();
+
+        List<MultipleChoiceQuestion> questions = new ArrayList<>(this.questions.values());
+        questions.sort(new Comparator<MultipleChoiceQuestion>() {
+            @Override
+            public int compare(MultipleChoiceQuestion q1, MultipleChoiceQuestion q2) {
+                return q1.getId() - q2.getId();
+            }
+        });
+
+        List<String> questionsSet =  new ArrayList<>();
+        for (MultipleChoiceQuestion question : questions) {
+            questionsSet.add(question.getQuestion());
+        }
+        return questionsSet;
     }
 
     private boolean checkAnswer(int questionID, int answer) throws InvalidKeyException {

@@ -3,22 +3,33 @@ package com.yranoitcid.frontend;
 import com.yranoitcid.backend.dictionary.Dictionary;
 import com.yranoitcid.backend.dictionary.Word;
 import com.yranoitcid.backend.dictionary.WordEdit;
+import com.yranoitcid.backend.minigame.MultipleChoiceQuestion;
+import com.yranoitcid.backend.minigame.MultipleChoices;
 import com.yranoitcid.backend.util.HTMLConverter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.IOException;
 import java.net.URL;
 
+import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -28,8 +39,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
 public class EditorController implements Initializable {
+
+    MultipleChoices multipleChoices = new MultipleChoices();
 
     @FXML
     private TabPane settingsPane;
@@ -47,6 +61,10 @@ public class EditorController implements Initializable {
     private TextField wordSearchInput;
     @FXML
     private ListView<String> wordList;
+    @FXML
+    private Button browseButton;
+    @FXML
+    private ListView<String> questionsList;
 
     Dictionary workingDictionary = new Dictionary("dict.db");
     ObservableList<String> wordListDisplay = FXCollections.observableArrayList();
@@ -67,6 +85,9 @@ public class EditorController implements Initializable {
         wordEditorPane.getChildren().clear();
         wordEditorPane.getChildren().add(textMode);
 
+        // Load the questions list of the multiple choices game.
+        refreshQuestionsList();
+
         // Init the dictionary (default is the English dictionary).
         try {
             workingDictionary.initTable("en", "vi", "av");
@@ -74,7 +95,7 @@ public class EditorController implements Initializable {
             System.out.println("Error in initiating the dictionary.");
         }
 
-        for(Tab tab : settingsPane.getTabs()) {
+        for (Tab tab : settingsPane.getTabs()) {
             tab.setClosable(false);
         }
         settingsPane.getTabs().addListener(new ListChangeListener<Tab>() {
@@ -86,6 +107,21 @@ public class EditorController implements Initializable {
                             tab.setClosable(false);
                         }
                     }
+                }
+            }
+        });
+
+        browseButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                File selectedFile = fileChooser.showOpenDialog(null);
+
+                try (InputStream quizFile = new FileInputStream(selectedFile)) {
+                    multipleChoices.updateDatabase(quizFile);
+                    refreshQuestionsList();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -127,9 +163,9 @@ public class EditorController implements Initializable {
     private void fetchResult() throws Exception {
         System.out.println("Editor list called.");
         wordListDisplay.clear();
-      for (Word word : putDataHere) {
-        wordListDisplay.add(word.getWord());
-      }
+        for (Word word : putDataHere) {
+            wordListDisplay.add(word.getWord());
+        }
         wordList.setItems(wordListDisplay);
         wordList.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
@@ -313,6 +349,15 @@ public class EditorController implements Initializable {
         textInput.setText(wordEdit.getText());
         wordInput.setText(wordEdit.getWord());
         pronounInput.setText(wordEdit.getPronounce());
+    }
+
+    private void refreshQuestionsList() {
+        int i = 0;
+        questionsList.getItems().clear();
+        for (String question : multipleChoices.getQuestionsSet()) {
+            i++;
+            questionsList.getItems().add(String.format("%3d.  %s", i, question));
+        }
     }
 
 
