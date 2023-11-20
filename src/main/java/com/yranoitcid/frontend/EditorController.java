@@ -43,7 +43,7 @@ import javafx.stage.FileChooser;
 
 public class EditorController implements Initializable {
 
-    MultipleChoices multipleChoices = new MultipleChoices();
+    private final MultipleChoices multipleChoices = MultipleChoices.getInstance();
 
     @FXML
     private TabPane settingsPane;
@@ -66,7 +66,7 @@ public class EditorController implements Initializable {
     @FXML
     private ListView<String> questionsList;
 
-    Dictionary workingDictionary = new Dictionary("dict.db");
+    Dictionary workingDictionary = Dictionary.getInstance("dict.db");
     ObservableList<String> wordListDisplay = FXCollections.observableArrayList();
     ArrayList<Word> putDataHere = new ArrayList<>();
     String keyword;

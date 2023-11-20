@@ -22,9 +22,22 @@ import org.json.JSONObject;
 
 public class MultipleChoices extends AbstractGame {
 
+    private static MultipleChoices instance;
+
     private boolean isRunning = false;
     HashMap<Integer, MultipleChoiceQuestion> questions = new HashMap<>();
-    private DatabaseQuery database = new DatabaseQuery("dict.db");
+    private final DatabaseQuery database = new DatabaseQuery("dict.db");
+
+    private MultipleChoices() {
+        super();
+    }
+
+    public static MultipleChoices getInstance() {
+        if (instance == null) {
+            instance = new MultipleChoices();
+        }
+        return instance;
+    }
 
     public void loadQuestion() {
         questions.clear();

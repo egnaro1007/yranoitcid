@@ -42,7 +42,7 @@ public class DictionaryController implements Initializable {
     private MediaPlayer mediaPlayer;
 
     // Dictionary
-    Dictionary workingDictionary = new Dictionary("dict.db");
+    Dictionary workingDictionary = Dictionary.getInstance("dict.db");
     GoogleChanTTS guuguruChan = new GoogleChanTTS();
 
 

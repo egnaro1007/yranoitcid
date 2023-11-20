@@ -9,17 +9,37 @@ import javafx.util.Pair;
 
 public class Dictionary {
 
+    private static Dictionary instance;
+
     private String databaseFilePath;
     private HashMap<Pair<String, String>, String> tableList = new HashMap<>();
-    private DatabaseQuery database = new DatabaseQuery();
+    private final DatabaseQuery database = new DatabaseQuery();
 
-    public Dictionary(String dbPath) {
+    protected Dictionary(String dbPath) {
         try {
             database.setDatabaseFilePath(dbPath);
             this.databaseFilePath = dbPath;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static Dictionary getInstance(String dbPath) {
+        if (instance == null) {
+            instance = new Dictionary(dbPath);
+            return instance;
+        } else if (instance.getDatabaseFilePath().equals(dbPath)) {
+            return instance;
+        } else {
+            throw new RuntimeException("Dictionary already initialized");
+        }
+    }
+
+    public static Dictionary getInstance() {
+        if (instance == null) {
+            throw new RuntimeException("Dictionary not initialized");
+        }
+        return instance;
     }
 
     public String getDatabaseFilePath() {

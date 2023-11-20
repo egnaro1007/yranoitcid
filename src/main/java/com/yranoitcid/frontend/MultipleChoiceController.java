@@ -39,8 +39,8 @@ public class MultipleChoiceController implements Initializable {
   private Button answer4;
   private List<Button> answerList = new ArrayList<>();
 
-  private MultipleChoices game = new MultipleChoices();
-  private List<Integer> questionId = new ArrayList<>();
+  private final MultipleChoices game = MultipleChoices.getInstance();
+  private final List<Integer> questionId = new ArrayList<>();
   private int questionIndex = 0;
   private int questionIdPointer = 0;
   private int correctAnswerCount = 0;
