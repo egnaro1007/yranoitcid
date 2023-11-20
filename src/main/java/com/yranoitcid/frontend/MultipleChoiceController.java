@@ -41,6 +41,7 @@ public class MultipleChoiceController implements Initializable {
 
   private MultipleChoices game = new MultipleChoices();
   private List<Integer> questionId = new ArrayList<>();
+  private int questionIndex = 0;
   private int questionIdPointer = 0;
   private int correctAnswerCount = 0;
 
@@ -218,6 +219,7 @@ public class MultipleChoiceController implements Initializable {
     Collections.shuffle(questionId);
     questionIdPointer = 0;
     correctAnswerCount = 0;
+    questionIndex = 0;
   }
 
   /**
@@ -250,7 +252,7 @@ public class MultipleChoiceController implements Initializable {
       // New buttons to put into question button list.
       while (i < currentQuestionList.size()) {
         Button newQuestionButton = new Button();
-        newQuestionButton.setText("Q" + (questionIdPointer + 1));
+        newQuestionButton.setText("Q" + (questionIndex++ + 1));
         newQuestionButton.getStyleClass().add("question-btn");
         int id = i;
         newQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
