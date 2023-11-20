@@ -4,6 +4,8 @@
     primary-color: #27374D;
     accent-color: #526D82;
     neutral-color: #9DB2BF;
+    green-color: #20e170;
+    red-color: #de3030;
     text-color: #DDE6ED;
 
     -fx-font-family: 'Helvetica';
@@ -560,4 +562,55 @@
     -fx-text-fill: #212529;
     -fx-background-color: transparent;
     -fx-border-color: #212529;
+}
+
+/* Quiz choice button */
+
+.answer-btn {
+  -fx-alignment: center;
+  -fx-text-alignment: center;
+  -fx-background-color: primary-color;
+  -fx-text-fill: text-color;
+  -fx-border-color: accent-color;
+  -fx-border-width: 10px;
+}
+
+.answer-btn:hover {
+  -fx-alignment: center;
+  -fx-text-alignment: center;
+  -fx-background-color: primary-color;
+  -fx-text-fill: text-color;
+  -fx-border-color: neutral-color;
+  -fx-border-width: 12px;
+}
+
+.answer-btn-correct {
+  -fx-alignment: center;
+  -fx-text-alignment: center;
+  -fx-background-color: primary-color;
+  -fx-text-fill: text-color;
+  -fx-border-color: green-color;
+  -fx-border-width: 12px;
+}
+
+.answer-btn-wrong {
+  -fx-alignment: center;
+  -fx-text-alignment: center;
+  -fx-background-color: primary-color;
+  -fx-text-fill: text-color;
+  -fx-border-color: red-color;
+  -fx-border-width: 12px;
+}
+
+.question-btn {
+  -fx-background-color: neutral-color;
+}
+
+.question-btn-correct {
+  -fx-background-color: green-color;
+}
+
+.question-btn-wrong {
+  -fx-background-color: red-color;
+  -fx-text-fill: text-color;
 }
