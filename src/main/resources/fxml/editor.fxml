@@ -39,17 +39,17 @@
                               <Cursor fx:constant="TEXT" />
                            </cursor>
                         </TextField>
-                        <Button mnemonicParsing="false" onAction="#addWordToDatabase" text="Add Word">
+                        <Button mnemonicParsing="false" styleClass="btn" onAction="#addWordToDatabase" text="Add Word">
                            <HBox.margin>
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#changeWord" text="Update Word">
+                        <Button mnemonicParsing="false" styleClass="btn" onAction="#changeWord" text="Update Word">
                            <HBox.margin>
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#removeWordFromDatabase" text="Delete Word">
+                        <Button mnemonicParsing="false" styleClass="btn" onAction="#removeWordFromDatabase" text="Delete Word">
                            <HBox.margin>
                               <Insets right="15.0" />
                            </HBox.margin>
@@ -123,7 +123,7 @@
                                                       <String fx:value="normal-light-text" />
                                                    </styleClass>
                                                 </Label>
-                                                <Button mnemonicParsing="false" onAction="#switchToHtmlMode" text="Switch To HTML Mode" />
+                                                <Button mnemonicParsing="false" styleClass="btn" onAction="#switchToHtmlMode" text="Switch To HTML Mode" />
                                              </children>
                                              <VBox.margin>
                                                 <Insets left="12.0" right="12.0" top="12.0" />
@@ -148,7 +148,7 @@
                                                       <String fx:value="normal-light-text" />
                                                    </styleClass>
                                                 </Label>
-                                                <Button mnemonicParsing="false" onAction="#switchToTextMode" text="Switch To Text Mode" />
+                                                <Button mnemonicParsing="false" styleClass="btn" onAction="#switchToTextMode" text="Switch To Text Mode" />
                                              </children>
                                              <VBox.margin>
                                                 <Insets left="12.0" right="12.0" top="12.0" />

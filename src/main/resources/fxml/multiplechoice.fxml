@@ -32,13 +32,10 @@
     <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="questionBox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Welcome to sQuiz Game! Please press &quot;Start&quot; to start the game!" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+      <Label fx:id="questionBox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Welcome to sQuiz Game! Please press &quot;Start&quot; to start the game!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
          <styleClass>
             <String fx:value="big-light-text" />
          </styleClass>
-         <font>
-            <Font size="18.0" />
-         </font>
       </Label>
       <Button fx:id="answer1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer1Check" text="" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
@@ -68,13 +65,13 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" text="Start" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-      <Label fx:id="currentScore" styleClass="big-light-text" text="Current Score: " GridPane.columnIndex="1" GridPane.halignment="CENTER">
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#startGame" styleClass="btn" text="Start" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+      <Label fx:id="currentScore" styleClass="normal-light-text" text="Current Score: " GridPane.columnIndex="1" GridPane.halignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="highestScore" alignment="CENTER" styleClass="big-light-text" text="Highest Score: " GridPane.columnIndex="3" GridPane.halignment="CENTER">
+      <Label fx:id="highestScore" alignment="CENTER" styleClass="normal-light-text" text="Highest Score: " GridPane.columnIndex="3" GridPane.halignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>

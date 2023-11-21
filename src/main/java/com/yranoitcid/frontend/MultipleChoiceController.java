@@ -166,13 +166,13 @@ public class MultipleChoiceController implements Initializable {
     answerList.add(answer2);
     answerList.add(answer3);
     answerList.add(answer4);
-    questionsButtonList.setSpacing(10);
 
     // Load questions from the database to the game.
     game.loadQuestion();
     for (int i = 1; i <= game.getQuestions().size(); i++) {
       questionId.add(i);
     }
+    questionsButtonList.setSpacing(10);
     reloadArray();
     System.out.println("MC Questionaries initialized successfully!");
   }

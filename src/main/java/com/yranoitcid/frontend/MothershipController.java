@@ -113,7 +113,7 @@ public class MothershipController implements Initializable{
         resourceLink.add("/fxml/wordchain.fxml");
         resourceLink.add("/fxml/multiplechoice.fxml");
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < resourceLink.size(); i++) {
             FXMLLoader load = new FXMLLoader(Application.class.getResource(
                 resourceLink.get(i)));
             try {
@@ -122,7 +122,7 @@ public class MothershipController implements Initializable{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            VBox.setVgrow(menus.get(i), Priority.ALWAYS);
+            HBox.setHgrow(menus.get(i), Priority.ALWAYS);
         }
         isMenuOpen = new BooleanExclusive(resourceLink.size());
 
