@@ -1,6 +1,8 @@
 package com.yranoitcid.frontend;
 
 import java.util.Objects;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,6 +14,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
+    ObservableList<String> randomTitles = FXCollections.observableArrayList(
+        "Yranoitcid!",
+        "Hello Dictionary!",
+        "Just an ordinary Dictionary?",
+        "Cool Dictionary!"
+    );
+
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -28,7 +37,8 @@ public class Application extends javafx.application.Application {
         Image icon = new Image(
                 Objects.requireNonNull(getClass().getResourceAsStream("/image/icon.png")));
         stage.getIcons().add(icon);
-        stage.setTitle("Hello dictionary!");
+
+        stage.setTitle(randomTitles.get((int) (Math.random() * randomTitles.size())));
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);

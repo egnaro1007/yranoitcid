@@ -163,5 +163,4 @@ public class DictionaryController implements Initializable {
         Thread guuguruChanThread = new Thread(guuguruChanTask);
         guuguruChanThread.start();
     }
-
 }

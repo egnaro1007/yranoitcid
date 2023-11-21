@@ -37,9 +37,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 public class EditorController implements Initializable {
 
@@ -56,7 +58,11 @@ public class EditorController implements Initializable {
     @FXML
     private TextArea textInput;
     @FXML
+    private Tooltip textInputHelp;
+    @FXML
     private TextArea htmlInput;
+    @FXML
+    private Tooltip htmlInputHelp;
     @FXML
     private TextField wordSearchInput;
     @FXML
@@ -125,6 +131,9 @@ public class EditorController implements Initializable {
                 }
             }
         });
+
+        textInputHelp.setText("Can it\ndo this?\nnó nói tiếng vệt được không?");
+        htmlInputHelp.setText("Can it?????\nhehe");
 
         System.out.println("Editor menu initialized successfully.");
     }

@@ -87,13 +87,12 @@ public class WordChain extends AbstractGame {
         try {
             ArrayList<Word> list = dict.getWordStartWith(srcLang, destLang,
                     lastWord.substring(lastWord.length() - 1, lastWord.length()));
-            list.removeIf(word -> usedWords.containsKey(word.getWord())
-                                || word.getWord().length() == 1
+            list.removeIf(word -> word.getWord().length() == 1
                                 || word.getWord().length() > maxWordLength
                                 || word.equals(word.getWord().toUpperCase())
             );
             Word newWord = list.get((int) Math.round(Math.random() * (list.size() - 1)));
-            if (newWord != null) {
+            if (newWord != null && !usedWords.containsKey(newWord.getWord())) {
                 usedWords.put(newWord.getWord(), newWord);
                 System.out.println("\u001B[32m" + "Machine guess: " + newWord.toString());
                 return newWord.getWord();
