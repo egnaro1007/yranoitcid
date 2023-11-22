@@ -4,15 +4,15 @@ import com.yranoitcid.backend.database.DatabaseQuery;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
-import javafx.util.Pair;
 
 public class Dictionary {
 
     private static Dictionary instance;
 
     private String databaseFilePath;
-    private HashMap<Pair<String, String>, String> tableList = new HashMap<>();
+    private HashMap<SimpleEntry<String, String>, String> tableList = new HashMap<>();
     private final DatabaseQuery database = new DatabaseQuery();
 
     protected Dictionary(String dbPath) {
@@ -70,7 +70,7 @@ public class Dictionary {
      * @param tableName The name of the table.
      */
     public void initTable(String srcLang, String destLang, String tableName) {
-        tableList.put(new Pair<>(srcLang, destLang), tableName);
+        tableList.put(new SimpleEntry<>(srcLang, destLang), tableName);
     }
 
     /**
@@ -118,7 +118,7 @@ public class Dictionary {
             String destLang,
             String searchTerm,
             boolean searchExact) {
-        String tableName = tableList.get(new Pair<>(srcLang, destLang));
+        String tableName = tableList.get(new SimpleEntry<>(srcLang, destLang));
         ArrayList<Word> result = new ArrayList<>();
 
         try (ResultSet resultSet = database.query(tableName, "word", searchTerm, searchExact)) {
@@ -139,7 +139,7 @@ public class Dictionary {
 
     public ArrayList<Word> getRandomWords(String srcLang, String destLang, Integer
             numberOfRandom) {
-        String tableName = tableList.get(new Pair<>(srcLang, destLang));
+        String tableName = tableList.get(new SimpleEntry<>(srcLang, destLang));
         if (tableName == null) {
             throw new RuntimeException("Table not found");
         }
@@ -181,7 +181,7 @@ public class Dictionary {
         }
 
         // Get the table name
-        String tableName = tableList.get(new Pair<>(srcLang, destLang));
+        String tableName = tableList.get(new SimpleEntry<>(srcLang, destLang));
         if (tableName == null) {
             throw new RuntimeException("Table not found");
         }
@@ -203,7 +203,7 @@ public class Dictionary {
     }
 
     public void removeWord(String srcLang, String destLang, String word) {
-        String tableName = tableList.get(new Pair<>(srcLang, destLang));
+        String tableName = tableList.get(new SimpleEntry<>(srcLang, destLang));
         if (tableName == null) {
             throw new RuntimeException("Table not found");
         }

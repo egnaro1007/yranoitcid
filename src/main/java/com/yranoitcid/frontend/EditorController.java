@@ -3,22 +3,16 @@ package com.yranoitcid.frontend;
 import com.yranoitcid.backend.dictionary.Dictionary;
 import com.yranoitcid.backend.dictionary.Word;
 import com.yranoitcid.backend.dictionary.WordEdit;
-import com.yranoitcid.backend.minigame.MultipleChoiceQuestion;
 import com.yranoitcid.backend.minigame.MultipleChoices;
 import com.yranoitcid.backend.util.HTMLConverter;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Objects;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.io.IOException;
-import java.net.URL;
-
-import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -29,20 +23,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Window;
 
 public class EditorController implements Initializable {
 

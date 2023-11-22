@@ -2,6 +2,7 @@ package com.yranoitcid.backend.minigame;
 
 import com.yranoitcid.backend.dictionary.GameDictionary;
 import com.yranoitcid.backend.dictionary.Word;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 

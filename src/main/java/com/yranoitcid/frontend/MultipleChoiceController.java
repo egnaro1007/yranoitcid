@@ -2,6 +2,7 @@ package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.minigame.MultipleChoiceQuestion;
 import com.yranoitcid.backend.minigame.MultipleChoices;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;

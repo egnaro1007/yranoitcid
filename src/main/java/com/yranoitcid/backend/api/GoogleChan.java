@@ -5,11 +5,8 @@ import com.yranoitcid.backend.util.TextProcess;
 
 import java.util.ArrayList;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class GoogleChan extends AbstractAPI {
 

@@ -1,6 +1,7 @@
 package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.dictionary.Word;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -8,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;

@@ -2,11 +2,10 @@ package com.yranoitcid.backend.api;
 
 import java.util.Arrays;
 import java.util.ArrayList;
-import javafx.util.Pair;
 import java.util.Iterator;
 import java.net.URL;
+import javafx.util.Pair;
 import javax.net.ssl.HttpsURLConnection;
-
 import static java.net.URLEncoder.encode;
 
 abstract public class AbstractAPI {

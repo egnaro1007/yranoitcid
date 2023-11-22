@@ -1,25 +1,21 @@
 package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.api.GoogleChan;
-
+import com.yranoitcid.backend.api.GoogleChanTTS;
 import com.yranoitcid.backend.dictionary.Word;
-import java.io.IOException;
+import com.yranoitcid.backend.util.ClipboardAccess;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import com.yranoitcid.backend.api.GoogleChanTTS;
-import com.yranoitcid.backend.util.ClipboardAccess;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 

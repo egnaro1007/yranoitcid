@@ -1,7 +1,7 @@
 package com.yranoitcid.backend.dictionary;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.StringReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

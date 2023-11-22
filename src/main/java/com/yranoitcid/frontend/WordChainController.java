@@ -1,17 +1,15 @@
 package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.minigame.WordChain;
+
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
 
 public class WordChainController {
   private WordChain game = new WordChain("en" ,"vi", 10);

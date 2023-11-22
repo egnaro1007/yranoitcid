@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+
 public class GoogleChanTTS extends AbstractAPI {
 
     String text = "Hello, World";

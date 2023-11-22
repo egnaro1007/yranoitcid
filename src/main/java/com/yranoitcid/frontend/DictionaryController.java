@@ -1,12 +1,12 @@
 package com.yranoitcid.frontend;
 
+import com.yranoitcid.backend.api.GoogleChanTTS;
+import com.yranoitcid.backend.dictionary.Dictionary;
+import com.yranoitcid.backend.dictionary.Word;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import com.yranoitcid.backend.dictionary.*;
-import com.yranoitcid.backend.api.GoogleChanTTS;
-
 import java.util.concurrent.ExecutionException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.web.WebView;
