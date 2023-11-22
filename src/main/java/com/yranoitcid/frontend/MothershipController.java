@@ -1,12 +1,12 @@
 package com.yranoitcid.frontend;
 
+import com.yranoitcid.backend.dictionary.Word;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
@@ -15,7 +15,6 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +31,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import com.yranoitcid.backend.dictionary.Dictionary;
 import com.yranoitcid.backend.util.BooleanExclusive;
 import com.yranoitcid.backend.util.ANSIColor;
 
@@ -63,7 +63,6 @@ public class MothershipController implements Initializable{
     private VBox leftSideBar;
     @FXML
     private VBox mainPane;
-
 
     @FXML
     private StackPane toDictionaryContainer;
@@ -100,6 +99,11 @@ public class MothershipController implements Initializable{
     @FXML
     private StackPane reloadCSSMask;
 
+    @FXML
+    private Label randomWord;
+    @FXML
+    private Label randomWordDescription;
+
     /**
      *  Initialize the app.
      *  Called whenever the app starts.
@@ -135,6 +139,17 @@ public class MothershipController implements Initializable{
         // Live clock
         Timeline clock = getTimeline();
         clock.play();
+
+        // Random word
+        Dictionary dictionary = Dictionary.getInstance("dict.db");
+        dictionary.initTable("en", "vi", "av");
+        Word random;
+        do {
+            random = dictionary.getRandomWord("en", "vi");
+        } while (random.getWord().isEmpty() || random.getDescription().isEmpty());
+        randomWord.setText(random.getWord());
+        randomWordDescription.setText(random.getDescription());
+
 
         // Add animation to the buttons
         addWipeEffect(toDictionaryContainer, toDictionaryMask);

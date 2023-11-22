@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
 <HBox fx:id="mothership" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.MothershipController">
    <children>
@@ -223,6 +229,29 @@
                   <String fx:value="welcome-screen" />
                </styleClass>
             </Label>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10" />
+               </VBox.margin>
+               <children>
+                  <Label text="Suprise Word !!!: " AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0">
+                     <styleClass>
+                        <String fx:value="welcome-screen" />
+                     </styleClass></Label>
+                  <Label fx:id="randomWord" text="Word" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="200.0">
+                     <styleClass>
+                        <String fx:value="welcome-screen-bold" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  ></Label>
+                  <Label fx:id="randomWordDescription" text="Description" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0">
+                     <styleClass>
+                        <String fx:value="welcome-screen" />
+                     </styleClass></Label>
+               </children>
+            </AnchorPane>
          </children>
          <opaqueInsets>
             <Insets />

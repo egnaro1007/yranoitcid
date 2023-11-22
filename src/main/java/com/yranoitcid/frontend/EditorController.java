@@ -41,6 +41,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 
 public class EditorController implements Initializable {
@@ -121,7 +122,16 @@ public class EditorController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().addAll(
+                        new ExtensionFilter("Json file", "*.json"),
+                        new ExtensionFilter("All file", "*.*")
+                );
+
                 File selectedFile = fileChooser.showOpenDialog(null);
+
+                if (selectedFile == null) {
+                    return;
+                }
 
                 try (InputStream quizFile = new FileInputStream(selectedFile)) {
                     multipleChoices.updateDatabase(quizFile);

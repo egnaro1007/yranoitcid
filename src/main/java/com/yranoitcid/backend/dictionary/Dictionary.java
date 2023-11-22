@@ -24,6 +24,15 @@ public class Dictionary {
         }
     }
 
+    /**
+     * Get the instance of the Dictionary. If the instance is not initialized, initialize it with
+     * dbPath. If the instance is already initialized, check if the dbPath is the same as the
+     * current one. If not, throw an exception.
+     *
+     * @param dbPath The path to the database file.
+     * @return The instance of the Dictionary.
+     * @throws RuntimeException If the Dictionary is already initialized with a different dbPath.
+     */
     public static Dictionary getInstance(String dbPath) {
         if (instance == null) {
             instance = new Dictionary(dbPath);
@@ -35,6 +44,13 @@ public class Dictionary {
         }
     }
 
+    /**
+     * Get the instance of the Dictionary. If the instance is not initialized, throw an exception.
+     * Use {@link #getInstance(String dbPath)} to initialize the Dictionary.
+     *
+     * @return The instance of the Dictionary.
+     * @throws RuntimeException If the Dictionary is not initialized.
+     */
     public static Dictionary getInstance() {
         if (instance == null) {
             throw new RuntimeException("Dictionary not initialized");

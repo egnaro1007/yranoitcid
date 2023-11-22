@@ -1,5 +1,6 @@
 package com.yranoitcid.frontend;
 
+import java.io.File;
 import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,8 +26,11 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+        // Load font
+        loadFontFromDirectory("/font");
+
         // Load data.
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
             "/fxml/mothership.fxml")
         );
         Scene scene = new Scene(fxmlLoader.load());
@@ -64,6 +69,35 @@ public class Application extends javafx.application.Application {
             stage.close();
         }
     }
+
+    /**
+     * Root folder is resource folder.
+     * @param folderPath Path to to font folder, start from "/resource".
+     */
+    private void loadFontFromDirectory(String folderPath) {
+        loadFontFromDirectory(new File(
+                Objects.requireNonNull(Application.class.getResource(folderPath)).getFile()));
+    }
+
+    private void loadFontFromDirectory(File folder) {
+        File[] files = folder.listFiles();
+
+        if (files == null) {
+            return;
+        }
+
+        for (File file : files) {
+            if (file.isDirectory()) {
+                loadFontFromDirectory(file);
+            } else if (file.getName().toLowerCase().endsWith("ttf")
+                    || file.getName().toLowerCase().endsWith("otf")) {
+//                System.out.println(file.toURI().toString());
+                Font.loadFont(getClass().getResourceAsStream(file.toURI().toString()),
+                        Font.getDefault().getSize());
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         launch();
