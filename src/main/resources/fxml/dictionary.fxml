@@ -19,14 +19,14 @@
    <children>
       <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="200.0">
          <children>
-            <TextField fx:id="searchInput" onAction="#chooseFirst" onKeyTyped="#getKeyword" prefHeight="26.0" prefWidth="180.0">
+            <TextField fx:id="searchInput" onAction="#chooseFirst" onKeyTyped="#getKeyword" prefHeight="26.0" prefWidth="180.0" styleClass="text-box">
                <HBox.margin>
                   <Insets left="22.0" right="22.0" />
                </HBox.margin>
             </TextField>
             <ImageView fitHeight="76.0" fitWidth="42.0" onMouseClicked="#playAudio" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../image/agdhhdhdjh.jpg" />
+                  <Image url="@../image/Ichika08.png" />
                </image>
             </ImageView>
          </children>
@@ -37,7 +37,7 @@
          </padding></Separator>
       <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <left>
-            <ListView fx:id="resultList" prefHeight="320.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <ListView fx:id="resultList" prefHeight="320.0" prefWidth="200.0" styleClass="result-list" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="30.0" left="12.0" top="12.0" />
                </BorderPane.margin></ListView>

@@ -27,7 +27,7 @@
                <children>
                   <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="1120.0">
                      <children>
-                        <TextField fx:id="wordSearchInput" alignment="TOP_LEFT" onKeyTyped="#getKeyword" prefHeight="26.0" prefWidth="180.0">
+                        <TextField fx:id="wordSearchInput" alignment="TOP_LEFT" onKeyTyped="#getKeyword" prefHeight="26.0" prefWidth="180.0" styleClass="text-box">
                            <HBox.margin>
                               <Insets left="22.0" right="22.0" />
                            </HBox.margin>
@@ -59,7 +59,7 @@
                   </Separator>
                   <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ListView fx:id="wordList" prefHeight="200.0" prefWidth="200.0">
+                        <ListView fx:id="wordList" prefHeight="200.0" prefWidth="200.0" styleClass="result-list">
                            <HBox.margin>
                               <Insets bottom="30.0" left="12.0" />
                            </HBox.margin>
@@ -71,7 +71,7 @@
                                     <Insets left="12.0" right="12.0" top="12.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="wordInput" onKeyTyped="#editInWordField">
+                              <TextField fx:id="wordInput" onKeyTyped="#editInWordField" styleClass="text-box">
                                  <VBox.margin>
                                     <Insets left="12.0" right="12.0" top="12.0" />
                                  </VBox.margin>
@@ -87,7 +87,7 @@
                                     <String fx:value="normal-light-text" />
                                  </styleClass>
                               </Label>
-                              <TextField fx:id="pronounInput" onKeyTyped="#editInPronounField">
+                              <TextField fx:id="pronounInput" onKeyTyped="#editInPronounField" styleClass="text-box">
                                  <VBox.margin>
                                     <Insets left="12.0" right="12.0" top="12.0" />
                                  </VBox.margin>
@@ -103,10 +103,13 @@
                                     <String fx:value="normal-light-text" />
                                  </styleClass>
                               </Label>
-                              <TextField fx:id="descInput">
+                              <TextField fx:id="descInput" styleClass="text-box">
                                  <VBox.margin>
                                     <Insets left="12.0" right="12.0" top="12.0" />
                                  </VBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="TEXT" />
+                                 </cursor>
                               </TextField>
                               <HBox fx:id="wordEditorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                  <children>
@@ -114,7 +117,7 @@
                                        <children>
                                           <HBox>
                                              <children>
-                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Text" HBox.hgrow="ALWAYS">
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Text" underline="true" HBox.hgrow="ALWAYS">
                                                    <styleClass>
                                                       <String fx:value="normal-light-text" />
                                                    </styleClass>
@@ -128,7 +131,7 @@
                                                 <Insets left="12.0" right="12.0" top="12.0" />
                                              </VBox.margin>
                                           </HBox>
-                                          <TextArea fx:id="textInput" onKeyTyped="#editInTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" VBox.vgrow="ALWAYS">
+                                          <TextArea fx:id="textInput" onKeyTyped="#editInTextField" prefHeight="200.0" prefWidth="200.0" styleClass="text-box" wrapText="true" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets bottom="30.0" left="12.0" right="12.0" top="12.0" />
                                              </VBox.margin>
@@ -142,7 +145,7 @@
                                        <children>
                                           <HBox alignment="CENTER_LEFT">
                                              <children>
-                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="HTML" HBox.hgrow="ALWAYS">
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="HTML" underline="true" HBox.hgrow="ALWAYS">
                                                    <styleClass>
                                                       <String fx:value="normal-light-text" />
                                                    </styleClass>
@@ -156,10 +159,13 @@
                                                 <Insets left="12.0" right="12.0" top="12.0" />
                                              </VBox.margin>
                                           </HBox>
-                                          <TextArea fx:id="htmlInput" onKeyTyped="#editInHtmlField" prefHeight="200.0" prefWidth="200.0" wrapText="true" VBox.vgrow="ALWAYS">
+                                          <TextArea fx:id="htmlInput" onKeyTyped="#editInHtmlField" prefHeight="200.0" prefWidth="200.0" styleClass="text-box" wrapText="true" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets bottom="30.0" left="12.0" right="12.0" top="12.0" />
                                              </VBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="TEXT" />
+                                             </cursor>
                                           </TextArea>
                                        </children>
                                     </VBox>

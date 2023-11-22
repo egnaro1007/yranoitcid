@@ -117,7 +117,11 @@ public class MultipleChoiceController implements Initializable {
         if (correctAnswerCount == currentQuestionList.size()) {
           loadQuestionSetToGame();
           correctAnswerCount = 0;
+          return;
         }
+
+        currentQuestion = currentQuestionList.get(index + 1);
+        currentQuestion.loadQuestion();
       } else {
         state = INCORRECT;
         this.answer = answer;

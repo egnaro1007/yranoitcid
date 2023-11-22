@@ -4,6 +4,7 @@
     primary-color: #27374D;
     accent-color: #526D82;
     neutral-color: #9DB2BF;
+    light-color: #EBF7FF;
     green-color: #20e170;
     red-color: #de3030;
     text-color: #DDE6ED;
@@ -57,8 +58,10 @@
     -fx-font-size: 20px;
 }
 
-#resultList {
-    -fx-font-size: 20px;
+.result-list {
+    -fx-font-size: 16px;
+    -fx-background-color: light-color;
+    -fx-background-radius: 3px;
 }
 
 #settingsPane:focused {
@@ -84,13 +87,6 @@
     -fx-font-size: 16px;
 }
 
-.text-box {
-    -fx-background-color: rgba(255, 255, 255, 0.5);
-    -fx-text-fill: text-color;
-    -fx-font-size: 16px;
-}
-
-
 /* 
 .button:hover {
     -fx-background-color: accent-color;
@@ -115,7 +111,22 @@
     -fx-text-fill: black;
 }
 
+.text-box {
+    -fx-background-color: light-color;
+    -fx-font-size: 16px;
+}
+
 .big-text-box {
+    -fx-background-color: light-color;
+    -fx-font-size: 20px;
+    -fx-padding: 10 10 10 10;
+}
+
+#resultTranslate {
+    -fx-background-radius: 5px;
+    -fx-border-color: light-color;
+    -fx-border-width: 10px;
+    -fx-border-radius: 5px;
     -fx-font-size: 20px;
     -fx-padding: 10 10 10 10;
 }
@@ -132,8 +143,6 @@
     -fx-background-color: transparent;
 }
 
-
-
 /* Button base */
 .btn {
     -fx-padding: 6px 12px;
@@ -147,9 +156,26 @@
     -fx-border-width: 3px;
     -fx-border-color: transparent;
     -fx-border-style: solid;
-    -fx-border-radius: 0px;
+    -fx-border-radius: 5px;
     -fx-background-style: solid;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 5px;
+}
+
+.btn:hover {
+    -fx-padding: 6px 12px;
+    -fx-font-family: 'Helvetica';
+    /*-fx-font-size: 16px;*/
+    -fx-font-weight: 400;
+    -fx-line-spacing: 1.5;
+    -fx-text-fill: #212529;
+    -fx-text-alignment: center;
+    -fx-cursor: hand;
+    -fx-border-width: 3px;
+    -fx-border-color: accent-color;
+    -fx-border-style: solid;
+    -fx-border-radius: 5px;
+    -fx-background-style: solid;
+    -fx-background-radius: 5px;
 }
 
 /* Quiz choice button */
@@ -161,6 +187,7 @@
   -fx-text-fill: text-color;
   -fx-border-color: accent-color;
   -fx-border-width: 10px;
+  -fx-cursor: hand;
 }
 
 .answer-btn:hover {
@@ -170,6 +197,7 @@
   -fx-text-fill: text-color;
   -fx-border-color: neutral-color;
   -fx-border-width: 12px;
+  -fx-cursor: hand;
 }
 
 .answer-btn-correct {

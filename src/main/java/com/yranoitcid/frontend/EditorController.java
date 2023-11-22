@@ -132,8 +132,14 @@ public class EditorController implements Initializable {
             }
         });
 
-        textInputHelp.setText("Can it\ndo this?\nnó nói tiếng vệt được không?");
-        htmlInputHelp.setText("Can it?????\nhehe");
+        textInputHelp.setText("For example:\n"
+            + "\"@This \\dis\\\n\""
+            + "\"regular text\""
+            + "@This will be the word\n"
+            + "\\dis\\ will be the pronunciation\n"
+            + "Anything below will be the definitions and extra information\n"
+            + "about the word.");
+        htmlInputHelp.setText("Paste your html here");
 
         System.out.println("Editor menu initialized successfully.");
     }

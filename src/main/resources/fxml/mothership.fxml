@@ -16,7 +16,7 @@
          <children>
             <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                <image>
-                  <Image url="@../image/agdhhdhdjh.jpg" />
+                  <Image url="@../image/Ichika04.png" />
                </image>
                <VBox.margin>
                   <Insets top="10.0" />
