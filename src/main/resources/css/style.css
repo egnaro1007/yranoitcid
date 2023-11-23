@@ -150,6 +150,54 @@
     -fx-background-color: transparent;
 }
 
+.dialog {
+  -fx-background-color: primary-color;
+}
+
+.dialog:header *.header-panel {
+  -fx-background-color: primary-color;
+}
+
+.dialog > *.content.label {
+  -fx-text-fill: text-color;
+}
+
+.dialog:header *.header-panel *.label {
+  -fx-text-fill: text-color;
+}
+
+.dialog > *.button-bar *.button {
+  -fx-padding: 6px 12px;
+  -fx-font-family: 'Helvetica';
+  -fx-font-weight: 400;
+  -fx-line-spacing: 1.5;
+  -fx-text-fill: #212529;
+  -fx-text-alignment: center;
+  -fx-cursor: hand;
+  -fx-border-width: 3px;
+  -fx-border-color: transparent;
+  -fx-border-style: solid;
+  -fx-border-radius: 5px;
+  -fx-background-style: solid;
+  -fx-background-radius: 5px;
+}
+
+.dialog > *.button-bar *.button:hover {
+  -fx-padding: 6px 12px;
+  -fx-font-family: 'Helvetica';
+  -fx-font-weight: 400;
+  -fx-line-spacing: 1.5;
+  -fx-text-fill: #212529;
+  -fx-text-alignment: center;
+  -fx-cursor: hand;
+  -fx-border-width: 3px;
+  -fx-border-color: accent-color;
+  -fx-border-style: solid;
+  -fx-border-radius: 5px;
+  -fx-background-style: solid;
+  -fx-background-radius: 5px;
+}
+
 /* Button base */
 .btn {
     -fx-padding: 6px 12px;

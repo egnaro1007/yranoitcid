@@ -1,6 +1,7 @@
 package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.minigame.WordChain;
+import com.yranoitcid.backend.util.ShowAlert;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-public class WordChainController {
+public class WordChainController implements ShowAlert {
   private WordChain game = new WordChain("en" ,"vi", 10);
   @FXML
   private TextField playerInput;
@@ -46,25 +47,17 @@ public class WordChainController {
     }
     switch (game.getState()) {
       case 1:
-        Alert win = new Alert(AlertType.INFORMATION);
-        win.setTitle("YOU WON!");
-        win.setHeaderText("You won against machine! Congratulation!");
-        win.setContentText("Your score is: " + currentScoreInt);
-        if (win.showAndWait().get() == ButtonType.OK) {
-          System.out.println("You won Word Chain!");
-        }
+        ShowAlert.showInformationAlert("YOU WON!",
+                "You won against machine! Congratulation!",
+                "Your score is: " + currentScoreInt);
         currentScoreInt = 0;
         clearLists();
         scoreUpdate();
         break;
       case 2:
-        Alert lose = new Alert(AlertType.WARNING);
-        lose.setTitle("YOU LOST...");
-        lose.setHeaderText("You lost against machine! Try harder next time!");
-        lose.setContentText("Your score is: " + currentScoreInt);
-        if (lose.showAndWait().get() == ButtonType.OK) {
-          System.out.println("You lost Word Chain!");
-        }
+        ShowAlert.showInformationAlert("YOU LOST...",
+                "You lost against machine! Try harder next time!",
+                "Your score is: " + currentScoreInt);
         currentScoreInt = 0;
         clearLists();
         scoreUpdate();

@@ -4,6 +4,7 @@ import com.yranoitcid.backend.api.GoogleChan;
 import com.yranoitcid.backend.api.GoogleChanTTS;
 import com.yranoitcid.backend.dictionary.Word;
 import com.yranoitcid.backend.util.ClipboardAccess;
+import com.yranoitcid.backend.util.ShowAlert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-public class TranslatorController implements Initializable{
+public class TranslatorController implements Initializable, ShowAlert {
     
     @FXML
     private TextArea translateInput;
@@ -146,11 +147,10 @@ public class TranslatorController implements Initializable{
         readyToSay = true;
 
         System.out.println("Connection fail.");
-        Alert connectionFail = new Alert(Alert.AlertType.ERROR);
-        connectionFail.setTitle("Connection fail");
-        connectionFail.setHeaderText("Connection time out!");
-        connectionFail.setContentText("Please check your internet connection and try again late.");
-        connectionFail.show();
+
+        ShowAlert.showErrorAlert("Connection fail",
+                "Connection time out!",
+                "Please check your internet connection and try again late.");
     }
 
     /**

@@ -1,6 +1,9 @@
 package com.yranoitcid.frontend;
 
+import com.yranoitcid.backend.util.ShowAlert;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,9 +16,10 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Application extends javafx.application.Application {
+
+    public static String styleSheets = Objects.requireNonNull(Application.class.getResource("/css/style.css")).toExternalForm();
+
     ObservableList<String> randomTitles = FXCollections.observableArrayList(
         "Yranoitcid!",
         "Hello Dictionary!",
@@ -27,18 +31,18 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
 
         // Load font
-        loadFontFromDirectory("/font");
+//        loadFontFromDirectory("/font");
 
-        // Load data.
+        // Load fxml
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
             "/fxml/mothership.fxml")
         );
         Scene scene = new Scene(fxmlLoader.load());
-        scene.getStylesheets().add(
-            Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm()
-        );
 
-        // Setting the stage for show.
+        // Load Stylesheets
+        scene.getStylesheets().add(Application.styleSheets);
+
+        // Setting the stage for show
         Image icon = new Image(
                 Objects.requireNonNull(getClass().getResourceAsStream("/image/icon.png")));
         stage.getIcons().add(icon);
@@ -60,14 +64,15 @@ public class Application extends javafx.application.Application {
      * @param stage
      */
     public void logout(Stage stage) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Really");
-        alert.setHeaderText("Did you just clicked the exit button??");
-        alert.setContentText("Do you want to exist?");
+        Alert alert = ShowAlert.getAlert(AlertType.CONFIRMATION,
+                "Really",
+                "Did you just clicked the exit button??",
+                "Do you want to exist?"
+        );
 
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            stage.close();
-        }
+        alert.showAndWait()
+                .filter(response -> response == ButtonType.OK)
+                .ifPresent(response -> stage.close());
     }
 
     /**
@@ -75,8 +80,8 @@ public class Application extends javafx.application.Application {
      * @param folderPath Path to to font folder, start from "/resource".
      */
     private void loadFontFromDirectory(String folderPath) {
-//        loadFontFromDirectory(new File(
-//                Objects.requireNonNull(Application.class.getResource(folderPath)).getFile()));
+        loadFontFromDirectory(new File(
+                Objects.requireNonNull(Application.class.getResource(folderPath)).getFile()));
     }
 
     private void loadFontFromDirectory(File folder) {

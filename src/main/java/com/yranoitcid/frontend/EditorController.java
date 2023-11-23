@@ -5,8 +5,8 @@ import com.yranoitcid.backend.dictionary.Word;
 import com.yranoitcid.backend.dictionary.WordEdit;
 import com.yranoitcid.backend.minigame.MultipleChoices;
 import com.yranoitcid.backend.util.HTMLConverter;
-
 import com.yranoitcid.frontend.DictionaryController.DictionaryThread;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
