@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -115,6 +116,7 @@ public class TranslatorController implements Initializable{
             }
         };
         translateTask.setOnSucceeded(workerStateEvent -> {
+            loadingBar.setVisible(false);
             resultTranslate.setText(result);
         });
 
@@ -142,7 +144,13 @@ public class TranslatorController implements Initializable{
         loadingBar.setVisible(false);
         resultTranslate.setText("");
         readyToSay = true;
+
         System.out.println("Connection fail.");
+        Alert connectionFail = new Alert(Alert.AlertType.ERROR);
+        connectionFail.setTitle("Connection fail");
+        connectionFail.setHeaderText("Connection time out!");
+        connectionFail.setContentText("Please check your internet connection and try again late.");
+        connectionFail.show();
     }
 
     /**
@@ -156,18 +164,14 @@ public class TranslatorController implements Initializable{
      * Play audio taken from the result box.
      */
     public void playAudio()  {
-        String langDes = languageSelectDes.getValue();
-        guuguruChan.setLanguage(langDes.substring(langDes.length() - 3, langDes.length() - 1));
         Task<Void> guuguruChanTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-//                guuguruChan.say(result);
-//                MediaPlayer mediaPlayer = new MediaPlayer(audio);
-//                mediaPlayer.setOnReady(mediaPlayer::play);
                 if (readyToSay) {
                     mediaPlayer.stop();
                     mediaPlayer.play();
                 } else {
+                    loadingBar.setVisible(true);
                     mediaPlayer.setOnReady(() -> {
                         readyToSay = true;
                         loadingBar.setVisible(false);

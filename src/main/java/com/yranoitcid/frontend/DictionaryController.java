@@ -6,6 +6,7 @@ import com.yranoitcid.backend.dictionary.Word;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import javafx.collections.FXCollections;
@@ -15,6 +16,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.web.WebView;
@@ -31,6 +34,12 @@ public class DictionaryController implements Initializable {
 
     @FXML
     private TextField searchInput;
+    @FXML
+    private ImageView audioButton;
+    private final Image loading = new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/image/wedges.gif")));
+    private final Image loaded = new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/image/Ichika08.png")));
     String keyword;
     String resultWord;
 
@@ -142,12 +151,14 @@ public class DictionaryController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 if (newWord) {
+                    audioButton.setImage(loading);
                     // Set to false when fetch audio completed.
                     newWord = false;
                     media = guuguruChan.say(resultWord);
 //                    media = guuguruChan.parse();
                     mediaPlayer = new MediaPlayer(media);
                     mediaPlayer.setOnReady(() -> {
+                    audioButton.setImage(loaded);
                         mediaPlayer.play();
                     });
                 }
