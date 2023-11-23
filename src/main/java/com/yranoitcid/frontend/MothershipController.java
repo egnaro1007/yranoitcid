@@ -94,10 +94,6 @@ public class MothershipController implements Initializable{
     private StackPane toQuizMask;
     @FXML
     private StackPane toQuizSelected;
-    @FXML
-    private StackPane reloadCSSContainer;
-    @FXML
-    private StackPane reloadCSSMask;
 
     @FXML
     private Label randomWord;
@@ -162,7 +158,6 @@ public class MothershipController implements Initializable{
         addSelectedFadeEffect(toWordChainSelected, selectedEffect);
         addWipeEffect(toQuizContainer, toQuizMask);
         addSelectedFadeEffect(toQuizSelected, selectedEffect);
-        addWipeEffect(reloadCSSContainer, reloadCSSMask);
     }
 
     public void switchToDictionary() {

@@ -131,14 +131,7 @@ public class MultipleChoiceController implements Initializable {
         markQuestionAsWrong();
 
         // "YOU LOST" popup.
-        System.out.println("You lost!");
-        Alert lost = new Alert(AlertType.INFORMATION);
-        lost.setTitle("YOU LOST!");
-        lost.setHeaderText("Your score is " + game.getScore());
-        lost.showAndWait();
-        game.setScore(0);
-        scoreUpdate();
-        game.setRunning(false);
+        lose();
       }
     }
 
@@ -325,6 +318,17 @@ public class MultipleChoiceController implements Initializable {
     win.setTitle("YOU WON");
     win.setHeaderText("You won hahahaha!");
     win.showAndWait();
+  }
+
+  private void lose() {
+    System.out.println("You lost!");
+    Alert lost = new Alert(AlertType.INFORMATION);
+    lost.setTitle("YOU LOST!");
+    lost.setHeaderText("Your score is " + game.getScore());
+    lost.showAndWait();
+    game.setScore(0);
+    scoreUpdate();
+    game.setRunning(false);
   }
 
   /**

@@ -37,28 +37,28 @@
             <String fx:value="big-light-text" />
          </styleClass>
       </Label>
-      <Button fx:id="answer1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer1Check" text="" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <Button fx:id="answer1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer1Check" styleClass="answer-btn" text="" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="30.0" top="30.0" />
          </GridPane.margin>
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="answer2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer2Check" text="" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+      <Button fx:id="answer2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer2Check" styleClass="answer-btn" text="" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="30.0" top="30.0" />
          </GridPane.margin>
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="answer3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer3Check" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <Button fx:id="answer3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer3Check" styleClass="answer-btn" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets bottom="30.0" top="30.0" />
          </GridPane.margin>
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="answer4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer4Check" text="" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
+      <Button fx:id="answer4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#answer4Check" styleClass="answer-btn" text="" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets bottom="30.0" top="30.0" />
          </GridPane.margin>

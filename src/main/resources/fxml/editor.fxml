@@ -12,6 +12,8 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -191,9 +193,42 @@
         </content>
       </Tab>
       <Tab closable="false" styleClass="main-pane-tab" text="About">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="background" />
-        </content>
+         <content>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="main-pane">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/touya.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" styleClass="welcome-screen-title" text="Yranoitcid Dictionary" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/kaito.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <Label styleClass="big-light-text" text="Copyright © 2023 Egnaro and Bob In Vietnam">
+                     <VBox.margin>
+                        <Insets top="14.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="big-light-text" text="Free stickers from https://st.ayaka.one. Very cool!">
+                     <VBox.margin>
+                        <Insets top="14.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" styleClass="big-light-text" text="Database Copyright © 1997-2004 Ho Ngoc Duc (software) and the Free Vietnamese Dictionary Project (databases). All Rights Reserved." textAlignment="CENTER" wrapText="true">
+                     <VBox.margin>
+                        <Insets top="14.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </content>
       </Tab>
    </tabs>
 </TabPane>

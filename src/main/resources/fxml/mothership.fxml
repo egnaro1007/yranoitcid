@@ -174,26 +174,6 @@
                   <String fx:value="background" />
                </styleClass>
             </Pane>
-            <StackPane fx:id="reloadCSSContainer" maxWidth="Infinity" minWidth="${leftSideBar.minWidth}" prefHeight="50.0">
-               <children>
-                  <Button fx:id="reloadCSSButton" maxWidth="Infinity" minWidth="${reloadCSSContainer.minWidth}" mnemonicParsing="false" onAction="#reloadCSS" prefHeight="50.0">
-                     <styleClass>
-                       <String fx:value="side-bar-button" />
-                     </styleClass>
-                  </Button>
-                  <StackPane fx:id="reloadCSSMask" prefHeight="${reloadCSSContainer.height}" prefWidth="${reloadCSSContainer.width}" translateX="Infinity" mouseTransparent="true">
-                    <styleClass>
-                      <String fx:value="side-bar-button-hover-overlay" />
-                    </styleClass>
-                  </StackPane>
-                  <Label text="Reload CSS" alignment="CENTER" prefHeight="${reloadCSSContainer.height}" prefWidth="${reloadCSSContainer.width}" mouseTransparent="true">
-                    <styleClass>
-                      <String fx:value="side-bar-button" />
-                      <String fx:value="transparent-background" />
-                    </styleClass>
-                  </Label>
-               </children>
-            </StackPane>
          </children>
       </VBox>
 
