@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.css.StyleClass?>
 <GridPane alignment="CENTER" hgap="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900" prefWidth="1120.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yranoitcid.frontend.TranslatorController">
   <styleClass>
     <String fx:value="main-pane" />
@@ -70,7 +71,17 @@
                </font>
             </Label>
             <ChoiceBox fx:id="languageSelectDes" prefWidth="150.0" />
-            <Button mnemonicParsing="false" onAction="#switchLanguage" text="Switch Language" />
+            <Button mnemonicParsing="false" onAction="#switchLanguage" text="Switch Language" >
+              <font>
+                <Font size="14.0" />
+              </font>
+              <VBox.margin>
+                <Insets bottom="10.0" top="10.0" />
+              </VBox.margin>
+              <styleClass>
+                  <String fx:value="btn" />
+              </styleClass>
+            </Button>
          </children>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
