@@ -51,7 +51,7 @@ public class DictionaryController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 System.out.println("Dictionary called.");
-                data = workingDictionary.searchContains("en", "vi", keyword);
+                if (!keyword.isEmpty()) data = workingDictionary.searchContains("en", "vi", keyword);
                 return null;
             }
         };
