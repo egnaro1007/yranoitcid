@@ -5,6 +5,7 @@ import com.yranoitcid.backend.dictionary.Word;
 import com.yranoitcid.backend.dictionary.WordEdit;
 import com.yranoitcid.backend.minigame.MultipleChoices;
 import com.yranoitcid.backend.util.HTMLConverter;
+import com.yranoitcid.backend.util.ShowAlert;
 import com.yranoitcid.frontend.DictionaryController.DictionaryThread;
 
 import java.io.File;
@@ -244,9 +245,9 @@ public class EditorController implements Initializable {
         // If word is blank or doesn't exist, abort.
         if (wordInput.getText().isBlank()
                 || workingDictionary.searchExact("en", "vi", wordInput.getText()) == null) {
-            Alert warning = new Alert(AlertType.ERROR);
-            warning.setTitle("Invalid Input");
-            warning.setHeaderText("Cannot delete word");
+            Alert warning = ShowAlert.getAlert(AlertType.ERROR,
+                    "Invalid Input",
+                    "Cannot delete word");
             if (warning.showAndWait().get() == ButtonType.OK) {
                 System.out.println("Hah");
                 return;
@@ -254,10 +255,10 @@ public class EditorController implements Initializable {
         }
 
         // Confirmation.
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Remove word");
-        alert.setHeaderText("Are you sure you want to delete the word from the database?");
-        alert.setContentText("Do you want to exist?");
+        Alert alert = ShowAlert.getAlert(AlertType.CONFIRMATION,
+                "Remove word",
+                "Are you sure you want to delete the word from the database?",
+                "Do you want to exist?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
             // Remove word.
@@ -276,9 +277,9 @@ public class EditorController implements Initializable {
         if (wordInput.getText().isBlank()
                 || pronounInput.getText().isBlank()
                 || htmlInput.getText().isBlank()) {
-            Alert warning = new Alert(AlertType.ERROR);
-            warning.setTitle("Invalid Input");
-            warning.setHeaderText("No input detected");
+            Alert warning = ShowAlert.getAlert(AlertType.ERROR,
+                    "Invalid Input",
+                    "No input detected");
             if (warning.showAndWait().get() == ButtonType.OK) {
                 System.out.println("Hah");
                 return;
@@ -287,9 +288,9 @@ public class EditorController implements Initializable {
 
         // If word doesn't exist, abort.
         if (workingDictionary.searchExact("en", "vi", wordInput.getText()) == null) {
-            Alert warning = new Alert(AlertType.ERROR);
-            warning.setTitle("Invalid Input");
-            warning.setHeaderText("Word doesn't exist");
+            Alert warning = ShowAlert.getAlert(AlertType.ERROR,
+                    "Invalid Input",
+                    "Word doesn't exist");
             if (warning.showAndWait().get() == ButtonType.OK) {
                 System.out.println("Hah");
                 return;
@@ -297,10 +298,10 @@ public class EditorController implements Initializable {
         }
 
         // Confirmation.
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Update word");
-        alert.setHeaderText("Are you sure you want to update word from the database?");
-        alert.setContentText("Do you want to exist?");
+        Alert alert = ShowAlert.getAlert(AlertType.CONFIRMATION,
+                "Update word",
+                "Are you sure you want to update word from the database?",
+                "Do you want to exist?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
             workingDictionary.removeWord("en", "vi", wordInput.getText());
@@ -323,9 +324,9 @@ public class EditorController implements Initializable {
         if (wordInput.getText().isBlank()
                 || pronounInput.getText().isBlank()
                 || htmlInput.getText().isBlank()) {
-            Alert warning = new Alert(AlertType.ERROR);
-            warning.setTitle("Invalid Input");
-            warning.setHeaderText("No input detected");
+            Alert warning = ShowAlert.getAlert(AlertType.ERROR,
+                    "Invalid Input",
+                    "No input detected");
             if (warning.showAndWait().get() == ButtonType.OK) {
                 System.out.println("Hah");
                 return;
@@ -338,9 +339,9 @@ public class EditorController implements Initializable {
                 "vi",
                 wordInput.getText()
         ) != null) {
-            Alert warning = new Alert(AlertType.ERROR);
-            warning.setTitle("Invalid Input");
-            warning.setHeaderText("Word already exist");
+            Alert warning = ShowAlert.getAlert(AlertType.ERROR,
+                    "Invalid Input",
+                    "Word already exist");
             if (warning.showAndWait().get() == ButtonType.OK) {
                 System.out.println("Hah");
                 return;
@@ -348,10 +349,10 @@ public class EditorController implements Initializable {
         }
 
         // Confirmation.
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Add word");
-        alert.setHeaderText("Are you sure you want to add this word to the database?");
-        alert.setContentText("Do you want to exist?");
+        Alert alert = ShowAlert.getAlert(AlertType.CONFIRMATION,
+                "Add word",
+                "Are you sure you want to add this word to the database?",
+                "Do you want to exist?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
             Word newWord = new Word(
@@ -425,9 +426,9 @@ public class EditorController implements Initializable {
             htmlInput.setText(temp);
         } catch (Exception e) {
             System.out.println("Bruh");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Input");
-            alert.setHeaderText("There are invalid texts in the box.");
+            Alert alert = ShowAlert.getAlert(AlertType.ERROR,
+                    "Invalid Input",
+                    "There are invalid texts in the box.");
             if (alert.showAndWait().get() == ButtonType.OK) {
                 System.out.println("Hah");
             }

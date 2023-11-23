@@ -2,6 +2,7 @@ package com.yranoitcid.frontend;
 
 import com.yranoitcid.backend.minigame.MultipleChoiceQuestion;
 import com.yranoitcid.backend.minigame.MultipleChoices;
+import com.yranoitcid.backend.util.ShowAlert;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class MultipleChoiceController implements Initializable {
+public class MultipleChoiceController implements Initializable, ShowAlert {
   @FXML
   private Label currentScore;
   private Integer currentScoreInt = 0;
@@ -187,9 +188,10 @@ public class MultipleChoiceController implements Initializable {
       reloadArray();
       loadQuestionSetToGame();
     } else {
-      Alert startNewGame = new Alert(AlertType.CONFIRMATION);
-      startNewGame.setTitle("NEW GAME");
-      startNewGame.setHeaderText("Do you want to start a new game?");
+      Alert startNewGame = ShowAlert.getAlert(AlertType.CONFIRMATION,
+              "NEW GAME",
+              "Do you want to start a new game?",
+              "");
       if (startNewGame.showAndWait().get() == ButtonType.OK) {
         game.setRunning(false);
         game.setScore(0);
@@ -314,9 +316,9 @@ public class MultipleChoiceController implements Initializable {
 
   private void win() {
     game.setRunning(false);
-    Alert win = new Alert(AlertType.INFORMATION);
-    win.setTitle("YOU WON");
-    win.setHeaderText("You won hahahaha!");
+    Alert win =  ShowAlert.getAlert(AlertType.INFORMATION,
+            "YOU WON",
+            "You won hahahaha!");
     win.showAndWait();
   }
 
