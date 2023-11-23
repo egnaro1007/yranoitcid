@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class MultipleChoiceController implements Initializable, ShowAlert {
+  private static final int NUM_OF_QUESTIONS = 10;
   @FXML
   private Label currentScore;
   private Integer currentScoreInt = 0;
@@ -47,7 +49,7 @@ public class MultipleChoiceController implements Initializable, ShowAlert {
   private int questionIdPointer = 0;
   private int correctAnswerCount = 0;
 
-  private List<QuizQuestion> currentQuestionList = new ArrayList<>(10);
+  private List<QuizQuestion> currentQuestionList = new ArrayList<>(NUM_OF_QUESTIONS);
   QuizQuestion currentQuestion = null;
 
   /**
@@ -234,7 +236,7 @@ public class MultipleChoiceController implements Initializable, ShowAlert {
     currentQuestionList.clear();
     int i = 0;
     int questionsArraySize = questionId.size();
-    while (i < 10 && questionIdPointer != questionsArraySize) {
+    while (i < NUM_OF_QUESTIONS && questionIdPointer != questionsArraySize) {
       currentQuestionList.add(new QuizQuestion(questionId.get(questionIdPointer), i));
       questionIdPointer++;
       i++;
