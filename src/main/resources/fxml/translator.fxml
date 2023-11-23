@@ -70,6 +70,7 @@
                </font>
             </Label>
             <ChoiceBox fx:id="languageSelectDes" prefWidth="150.0" />
+            <Button mnemonicParsing="false" onAction="#switchLanguage" text="Switch Language" />
          </children>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

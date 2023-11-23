@@ -160,6 +160,15 @@ public class TranslatorController implements Initializable, ShowAlert {
     }
 
     /**
+     * Swap source and destination language.
+     */
+    public void switchLanguage() {
+        String temp = languageSelectSrc.getValue();
+        languageSelectSrc.setValue(languageSelectDes.getValue());
+        languageSelectDes.setValue(temp);
+    }
+
+    /**
      * Play audio taken from the result box.
      */
     public void playAudio()  {
