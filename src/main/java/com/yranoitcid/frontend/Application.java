@@ -75,8 +75,8 @@ public class Application extends javafx.application.Application {
      * @param folderPath Path to to font folder, start from "/resource".
      */
     private void loadFontFromDirectory(String folderPath) {
-        loadFontFromDirectory(new File(
-                Objects.requireNonNull(Application.class.getResource(folderPath)).getFile()));
+//        loadFontFromDirectory(new File(
+//                Objects.requireNonNull(Application.class.getResource(folderPath)).getFile()));
     }
 
     private void loadFontFromDirectory(File folder) {

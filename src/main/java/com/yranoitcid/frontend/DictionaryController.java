@@ -43,6 +43,42 @@ public class DictionaryController implements Initializable {
     String keyword;
     String resultWord;
 
+    // Dictionary thread.
+    public class DictionaryThread extends Thread {
+        ArrayList<Word> data = new ArrayList<>();
+        boolean interrupted = false;
+        Task<Void> dictionaryTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("Dictionary called.");
+                data = workingDictionary.searchContains("en", "vi", keyword);
+                return null;
+            }
+        };
+        public DictionaryThread() {
+            dictionaryTask.setOnSucceeded(workerStateEvent -> {
+                if (!interrupted) {
+                    try {
+                        putDataHere = data;
+                        fetchResult();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void run() {
+            dictionaryTask.run();
+        }
+
+        public void setInterrupted() {
+            interrupted = true;
+        }
+    }
+    DictionaryThread dictionaryThread = null;
+
     // This boolean is used to check if the word is sayed for the first time.
     // Set to true when choose a word from resultList, set to false when playAudio() is called.
     private boolean newWord = true;
@@ -95,22 +131,11 @@ public class DictionaryController implements Initializable {
      */
     public void getKeyword() throws ExecutionException, InterruptedException {
         keyword = searchInput.getText();
-        Task<Void> dictionaryTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                System.out.println("Dictionary called.");
-                putDataHere = workingDictionary.searchContains("en", "vi", keyword);
-                return null;
-            }
-        };
-        dictionaryTask.setOnSucceeded(workerStateEvent -> {
-            try {
-                fetchResult();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        Thread dictionaryThread = new Thread(dictionaryTask);
+
+        if (dictionaryThread != null) {
+            dictionaryThread.setInterrupted();
+        }
+        dictionaryThread = new DictionaryThread();
         dictionaryThread.start();
         System.out.println("Text: " + keyword);
     }

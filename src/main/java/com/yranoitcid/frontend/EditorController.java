@@ -6,6 +6,7 @@ import com.yranoitcid.backend.dictionary.WordEdit;
 import com.yranoitcid.backend.minigame.MultipleChoices;
 import com.yranoitcid.backend.util.HTMLConverter;
 
+import com.yranoitcid.frontend.DictionaryController.DictionaryThread;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -70,6 +72,42 @@ public class EditorController implements Initializable {
     ArrayList<Word> putDataHere = new ArrayList<>();
     String keyword;
     WordEdit wordEdit = new WordEdit();
+
+    // Editor thread.
+    public class EditorThread extends Thread {
+        ArrayList<Word> data = new ArrayList<>();
+        boolean interrupted = false;
+        Task<Void> editorTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("Dictionary called.");
+                data = workingDictionary.searchContains("en", "vi", keyword);
+                return null;
+            }
+        };
+        public EditorThread() {
+            editorTask.setOnSucceeded(workerStateEvent -> {
+                if (!interrupted) {
+                    try {
+                        putDataHere = data;
+                        fetchResult();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void run() {
+            editorTask.run();
+        }
+
+        public void setInterrupted() {
+            interrupted = true;
+        }
+    }
+    EditorThread editorThread = null;
 
     @FXML
     private HBox wordEditorPane;
@@ -135,13 +173,22 @@ public class EditorController implements Initializable {
         });
 
         textInputHelp.setText("For example:\n"
-            + "\"@This \\dis\\\n\""
-            + "\"regular text\""
-            + "@This will be the word\n"
-            + "\\dis\\ will be the pronunciation\n"
-            + "Anything below will be the definitions and extra information\n"
-            + "about the word.");
-        htmlInputHelp.setText("Paste your html here");
+            + "\"@This \\dis\\\"\n"
+            + "\"*Description level 1:\"\n"
+            + "\"-Description level 2\"\n"
+            + "\"=Description level 3\"\n\n"
+            + "@This: the word (required)\n"
+            + "\\dis\\: the pronunciation of the word (required)\n"
+            + "\"*\", \"-\", \"=\": corresponds to 3 list levels.");
+        htmlInputHelp.setText("Paste your customized HTML text here.\n"
+            + "For example:\n"
+            + "\"<h1>This</h1> <h3><i>dis</i></h3>\"\n"
+            + "\"<h2>Description:</h2>\"\n"
+            + "\"<ul><li>More description</li></ul>\"\n"
+            + "\"<i>Even more description</i>\"\n\n"
+            + "<h1> tag: the word (required)\n"
+            + "<h3><i> tag: the pronunciation (required)\n"
+            + "Other tags work just like in a normal HTML web.");
 
         System.out.println("Editor menu initialized successfully.");
     }
@@ -150,27 +197,16 @@ public class EditorController implements Initializable {
      * Get the keyword from text field immediately after input is detected and fetch results
      * directly into the list.
      */
-    @FXML
-    private void getKeyword() {
+
+    public void getKeyword() throws ExecutionException {
         keyword = wordSearchInput.getText();
-        Task<Void> editorTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                System.out.println("Dictionary called.");
-                putDataHere = workingDictionary.searchContains("en", "vi", keyword);
-                return null;
-            }
-        };
-        editorTask.setOnSucceeded(workerStateEvent -> {
-            try {
-                fetchResult();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        Thread editorThread = new Thread(editorTask);
+
+        if (editorThread != null) {
+            editorThread.setInterrupted();
+        }
+        editorThread = new EditorThread();
         editorThread.start();
-        System.out.println(keyword);
+        System.out.println("Text: " + keyword);
     }
 
     /**
